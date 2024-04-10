@@ -1,11 +1,12 @@
 /* eslint-disable */
 export default {
-  displayName: 'cms-api-library',
-  preset: '../../jest.preset.js',
+  displayName: 'api',
+  preset: '../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/libs/cms-api-library',
+  coverageDirectory:
+    '../../../../coverage/libs/cms-api-library/authentication/api',
 };

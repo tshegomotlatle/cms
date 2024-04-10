@@ -15,7 +15,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cms/cms-api-library": ["libs/cms-api-library/src/index.ts"]
+      "@cms/api": ["libs/cms-api-library/authentication/api/src/index.ts"],
+      "@cms/cms-api-library": ["libs/cms-api-library/src/index.ts"],
+      "@cms/repository": [
+        "libs/cms-api-library/authentication/repository/src/index.ts"
+      ],
+      "@cms/service": [
+        "libs/cms-api-library/authentication/service/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
