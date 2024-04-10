@@ -1,4 +1,35 @@
-import { Controller } from '@nestjs/common';
+import { CourtCase } from '@cms-models';
+import { Body, Controller, Post } from '@nestjs/common';
+import { CourtCasesService } from '@cms-court-cases-service'
 
 @Controller('court-cases-api')
-export class CourtCasesApiController {}
+export class CourtCasesApiController {
+    constructor(private _courtCaseService: CourtCasesService) { }
+
+    @Post('add')
+    add(@Body() courtCase: CourtCase): Promise<CourtCase | null> {
+        return this._courtCaseService.AddCase(courtCase);
+    }
+
+    @Post('delete')
+    delete(@Body() body: { caseNumber: string, userId: string }): Promise<CourtCase | null> {
+        return this._courtCaseService.DeleteCase(body.caseNumber, body.userId);
+    }
+
+    //@UseGuards(AuthenticationGuard)
+    @Post('getAllCases')
+    getAllCases(@Body() body: { userId: string }): Promise<CourtCase[]> {
+        return this._courtCaseService.GetAllCases(body.userId);
+    }
+
+    @Post('edit')
+    edit(@Body() courtCase: CourtCase): Promise<CourtCase | null> {
+        return this._courtCaseService.EditCase(courtCase);
+    }
+
+    //@UseGuards(AuthenticationGuard)
+    @Post('getCaseById')
+    getCaseById(@Body() body: { id: string, userId: string }): Promise<CourtCase | null> {
+        return this._courtCaseService.GetCaseById(body.id, body.userId);
+    }
+}

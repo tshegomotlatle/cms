@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthenticationRepositoryModule, AutheticationRepostiory } from '@cms-authentication-repository';
+import { AuthenticationRepositoryModule } from '@cms-authentication-repository';
 
 @Module({
   controllers: [],

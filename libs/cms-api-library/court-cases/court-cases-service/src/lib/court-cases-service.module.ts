@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { CourtCasesServiceService } from './court-cases-service.service';
+import { CourtCaseRepository, CourtCasesRepositoryModule } from '@cms-court-cases-repository';
 
 @Module({
   controllers: [],
-  providers: [CourtCasesServiceService],
-  exports: [CourtCasesServiceService],
+  providers: [],
+  exports: [],
+  imports: [CourtCasesRepositoryModule]
 })
 export class CourtCasesServiceModule {}
