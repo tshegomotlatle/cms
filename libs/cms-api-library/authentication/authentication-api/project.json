@@ -1,0 +1,22 @@
+{
+  "name": "authentication-api",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/cms-api-library/authentication/authentication-api/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/cms-api-library/authentication/authentication-api",
+        "tsConfig": "libs/cms-api-library/authentication/authentication-api/tsconfig.lib.json",
+        "packageJson": "libs/cms-api-library/authentication/authentication-api/package.json",
+        "main": "libs/cms-api-library/authentication/authentication-api/src/index.ts",
+        "assets": [
+          "libs/cms-api-library/authentication/authentication-api/*.md"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
