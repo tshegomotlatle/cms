@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AuthenticationServiceService } from './authentication-service.service';
+import { AuthenticationRepositoryModule, AutheticationRepostiory } from '@cms-authentication-repository';
 
 @Module({
   controllers: [],
-  providers: [AuthenticationServiceService],
-  exports: [AuthenticationServiceService],
+  providers: [],
+  exports: [],
+  imports: [AuthenticationRepositoryModule]
 })
 export class AuthenticationServiceModule {}

@@ -1,5 +1,5 @@
 {
-  "name": "@cms-authentication-service",
+  "name": "@cms-authentication-repository",
   "version": "0.0.1",
   "dependencies": {
     "tslib": "^2.3.0"
