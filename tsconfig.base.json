@@ -24,6 +24,15 @@
       "@cms-authetication-api": [
         "libs/cms-api-library/authentication/authentication-api/src/index.ts"
       ],
+      "@cms-court-cases-api": [
+        "libs/cms-api-library/court-cases/court-cases-api/src/index.ts"
+      ],
+      "@cms-court-cases-repository": [
+        "libs/cms-api-library/court-cases/court-cases-repository/src/index.ts"
+      ],
+      "@cms-court-cases-service": [
+        "libs/cms-api-library/court-cases/court-cases-service/src/index.ts"
+      ],
       "@cms-models": ["libs/models/src/index.ts"]
     }
   },

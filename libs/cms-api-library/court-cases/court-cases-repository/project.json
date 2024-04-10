@@ -1,0 +1,22 @@
+{
+  "name": "court-cases-repository",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/cms-api-library/court-cases/court-cases-repository/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/cms-api-library/court-cases/court-cases-repository",
+        "tsConfig": "libs/cms-api-library/court-cases/court-cases-repository/tsconfig.lib.json",
+        "packageJson": "libs/cms-api-library/court-cases/court-cases-repository/package.json",
+        "main": "libs/cms-api-library/court-cases/court-cases-repository/src/index.ts",
+        "assets": [
+          "libs/cms-api-library/court-cases/court-cases-repository/*.md"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
