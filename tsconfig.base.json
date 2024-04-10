@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@cms-authentication-service": [
+        "libs/cms-api-library/authentication/authentication-service/src/index.ts"
+      ],
       "@cms-authetication-api": [
         "libs/cms-api-library/authentication/authentication-api/src/index.ts"
       ]
