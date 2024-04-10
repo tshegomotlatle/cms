@@ -1,0 +1,14 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;    
+}
+
+.login-container{
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+    padding: 10vh 10vw;
+}

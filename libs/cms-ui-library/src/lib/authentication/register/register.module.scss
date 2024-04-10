@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+}
+
+.register-container {
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+    padding: 10vh 10vw;
+}

@@ -1,0 +1,9 @@
+{
+  "name": "cms-ui-library",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/cms-ui-library/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project cms-ui-library --web",
+  "targets": {}
+}

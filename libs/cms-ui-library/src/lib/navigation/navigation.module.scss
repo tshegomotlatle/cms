@@ -1,0 +1,62 @@
+@import url(../../../../../apps/case-management-system/src/styles.scss);
+
+.container{
+    display: flex;
+}
+
+.navigation-container{
+    background-color: var(--quad);
+    width: 5vw;
+    height: 100vh;
+    color: white;
+}
+
+.navigation-container:hover{
+    width: 15vw;
+    transition: width 0.5s;
+    .naviagtion-item-text{
+        display: flex;
+        text-wrap: nowrap;
+    }
+    .navigation-item{
+        justify-content: start;
+        padding-left: 1vw;
+    }
+    .navigation-item:last-child {
+        width: 15vw;
+        transition: width 0.5s;
+    }
+}
+
+.navigation-item-container{
+    padding-top: 5vh;
+    height: 70vh;
+}
+
+.navigation-item{
+    padding:1vh 0;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.navigation-item:last-child {
+    position: absolute;
+    bottom: 0;
+    justify-content: center;
+    width: 5vw;
+}
+
+.navigation-item:hover {
+    padding: 1vh 0;
+    background-color: var(--fifth);
+}
+
+.material-symbols-outlined{
+    padding-right: 1vw;
+    font-size: 50px;
+}
+
+.naviagtion-item-text{
+    display: none;
+}

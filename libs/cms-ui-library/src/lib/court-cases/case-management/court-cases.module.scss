@@ -1,0 +1,79 @@
+@import url(//apps/case-management-system/src/styles.scss);
+
+.courtCaseTable
+{
+    width: 100vw;
+}
+
+.container{
+    width: 100%;
+}
+
+.courtCasesHeader{
+    height: 5vh;
+    display: flex;
+    width: 100%;
+}
+
+.sort{
+    flex: 5%;
+    border: 1px solid blue;
+}
+
+.sort:hover{
+    background-color: var(--primary);
+}
+
+.addCase:hover{
+    background-color: var(--primary);
+}
+
+.filter:hover{
+    background-color: var(--primary);
+}
+
+.search{
+    flex: 85%;
+}
+
+.filter{
+    flex: 5%;
+    border: 1px solid black;
+}
+
+.addCase{
+    flex: 5%;
+    border: 1px solid black;
+}
+
+span#sortButton {
+    height: 100%;
+    width: 100%;
+    font-size: 3.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+span#filterButton{
+    height: 100%;
+    width: 100%;
+    font-size: 3.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+span#addButton{
+    height: 100%;
+    width: 100%;
+    font-size: 3.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type="text"] {
+    width: 100%;
+    height: 100%;
+}

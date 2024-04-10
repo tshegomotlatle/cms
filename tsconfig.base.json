@@ -33,7 +33,8 @@
       "@cms-court-cases-service": [
         "libs/cms-api-library/court-cases/court-cases-service/src/index.ts"
       ],
-      "@cms-models": ["libs/models/src/index.ts"]
+      "@cms-models": ["libs/models/src/index.ts"],
+      "@cms-ui-library": ["libs/cms-ui-library/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,0 +1,41 @@
+
+.container {
+    border: 1px solid red;
+    width: 100vw;
+}
+
+.icon-container{
+    width: 80vw;
+    border: 1px solid blue;
+    height: 10vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+.icon{
+    border: 1px solid black;
+    height: 3vh;
+    width: 3vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+}
+
+.line
+{
+    border-top: 2px solid black;
+    width: 40%;
+    position: relative;
+    top: 1.45vh;
+}
+
+.stepper-1{
+    
+}
+
+.stepper-2{
+}
+
+.stepper-3{
+}
