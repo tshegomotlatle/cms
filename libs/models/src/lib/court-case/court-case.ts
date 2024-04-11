@@ -1,14 +1,14 @@
 export class CourtCase {
-    id!: string;
+    id?: string;
     caseNumber!: string;
-    date!: Date;
+    date?: Date;
     location!: string;
     plaintiff!: string;
     defendant!: string;
     status!: string;
     type!: string | null;
-    outcome!: string | null;
+    outcome?: string | null;
     lawyerId!: string;
     userId!: string;
-    dateCreated!: Date;
+    dateCreated?: Date;
 }

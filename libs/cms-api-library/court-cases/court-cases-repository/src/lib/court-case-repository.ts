@@ -21,8 +21,8 @@ export class CourtCaseRepository {
                 plaintiff: courtCase.plaintiff,
                 location: courtCase.location,
                 outcome: courtCase.outcome,
-                date: courtCase.date,
-                dateCreated: courtCase.dateCreated,
+                date: courtCase.date!,
+                dateCreated: courtCase.dateCreated!,
                 lawyerId: courtCase.lawyerId,
                 userId: courtCase.userId,
             }

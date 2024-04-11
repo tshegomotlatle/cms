@@ -1,6 +1,7 @@
 import { AuthenticationService } from '@cms-authentication-service';
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { User } from '@cms-models';
+import { AuthenticationGuard } from './Guard/authentication.guard';
 
 @Controller('authentication')
 export class AuthenticationApiController {
@@ -22,7 +23,7 @@ export class AuthenticationApiController {
         return await this.authenticationService.CheckEmailExists(body.email);
     }
 
-    //@UseGuards(AuthenticationGuard)
+    @UseGuards(AuthenticationGuard)
     @Post('getUser')
     async getUser(@Body() body: { email: string }): Promise<User | null> {
         return await this.authenticationService.GetUser(body.email);

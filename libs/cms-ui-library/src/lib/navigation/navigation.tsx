@@ -4,6 +4,7 @@ import Login from '../authentication/login/login';
 import Register from '../authentication/register/register';
 import CourtCases from '../court-cases/case-management/court-cases';
 import AddCourtCase from '../court-cases/add-court-case/add-court-case';
+import CalendarUi from '../calendar/calendar-ui';
 
 /* eslint-disable-next-line */
 export interface NavigationProps {}
@@ -41,7 +42,9 @@ export function Navigation(props: NavigationProps) {
             >
               calendar_month
             </span>
-            <div className={styles['naviagtion-item-text']}>Calendar</div>
+            <div className={styles['naviagtion-item-text']}>
+              <a href="/calendar">Calendar</a>
+            </div>
           </div>
           <div className={styles['navigation-item']}>
             <span
@@ -79,6 +82,7 @@ export function Navigation(props: NavigationProps) {
         <Route path="/register" element={<Register />} />
         <Route path="/court-cases" element={<CourtCases />} />
         <Route path="/add-court-case" element={<AddCourtCase />} />
+        <Route path="/calendar" element={<CalendarUi />} />
       </Routes>
     </div>
   );

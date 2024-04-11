@@ -1,13 +1,8 @@
-import { CourtCase } from 'libs/cms-api/src/lib/court-cases/Models/court-case.interface';
+import { CourtCase } from '@cms-models';
 import styles from './court-cases.module.scss';
 import { log } from 'console';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Login from '../../authentication/login/login';
-import Register from '../../authentication/register/register';
-import AddCourtCase from '../add-court-case/add-court-case';
-
 /* eslint-disable-next-line */
 export interface CourtCasesProps {}
 
@@ -32,8 +27,8 @@ export function CourtCases(this: any, props: CourtCasesProps) {
     .then((res) => res.json())
     .then((json : CourtCase []) => {
       json.forEach((courtCase, index) =>{
-        courtCase.date = new Date(courtCase.date);
-        courtCase.dateCreated = new Date(courtCase.dateCreated);
+        courtCase.date = courtCase.date;
+        courtCase.dateCreated = courtCase.dateCreated;
       })
       setCourtCases(json);
       return;
@@ -106,8 +101,8 @@ export function CourtCases(this: any, props: CourtCasesProps) {
               <td>{courtCase.plaintiff}</td>
               <td>{courtCase.status}</td>
               <td>{courtCase.type}</td>
-              <td>{courtCase.date.toLocaleString()}</td>
-              <td>{courtCase.dateCreated.toLocaleString().split(',')[0]}</td>
+              <td>{courtCase.date!.toLocaleString()}</td>
+              <td>{courtCase.dateCreated!.toLocaleString().split(',')[0]}</td>
               <td>{courtCase.outcome}</td>
             </tr>
           ))}

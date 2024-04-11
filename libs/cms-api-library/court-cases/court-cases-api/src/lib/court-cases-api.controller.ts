@@ -2,7 +2,7 @@ import { CourtCase } from '@cms-models';
 import { Body, Controller, Post } from '@nestjs/common';
 import { CourtCasesService } from '@cms-court-cases-service'
 
-@Controller('court-cases-api')
+@Controller('court-cases')
 export class CourtCasesApiController {
     constructor(private _courtCaseService: CourtCasesService) { }
 
