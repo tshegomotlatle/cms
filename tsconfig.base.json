@@ -33,6 +33,15 @@
       "@cms-court-cases-service": [
         "libs/cms-api-library/court-cases/court-cases-service/src/index.ts"
       ],
+      "@cms-documents-api": [
+        "libs/cms-api-library/documents/documents-api/src/index.ts"
+      ],
+      "@cms-documents-repository": [
+        "libs/cms-api-library/documents/documents-repository/src/index.ts"
+      ],
+      "@cms-documents-service": [
+        "libs/cms-api-library/documents/documents-service/src/index.ts"
+      ],
       "@cms-models": ["libs/models/src/index.ts"],
       "@cms-ui-library": ["libs/cms-ui-library/src/index.ts"]
     }
