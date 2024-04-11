@@ -16,3 +16,7 @@ export * from './lib/contracts/requests/authentication/user-login-request/user-l
 export * from './lib/contracts/requests/authentication/user-edit-request/user-edit-request'
 
 export * from './lib/contracts/requests/authentication/user-register-request/user-register-request'
+
+export * from './lib/contracts/requests/documents/get-document-request/get-document-request'
+
+export * from './lib/contracts/requests/documents/upload-document-request/upload-document-request'
