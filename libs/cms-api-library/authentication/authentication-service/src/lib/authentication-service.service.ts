@@ -1,4 +1,4 @@
-import { User } from '@cms-models';
+import { User, UserEditRequest, UserRegisterRequest } from '@cms-models';
 import { Injectable, Logger } from '@nestjs/common';
 import * as bcrypt from "bcrypt";
 import {AutheticationRepostiory} from "@cms-authentication-repository";
@@ -10,7 +10,7 @@ export class AuthenticationService {
         private authenticationRepository: AutheticationRepostiory,
         private jwtService: JwtService) { }
 
-    async RegisterUser(user: User): Promise<User> {
+    async RegisterUser(user: UserRegisterRequest): Promise<User> {
         return await this.authenticationRepository.RegisterUser(user);
     }
 
@@ -45,7 +45,7 @@ export class AuthenticationService {
         }
     }
 
-    async EditUser(user: User): Promise<boolean> {
+    async EditUser(user: UserEditRequest): Promise<boolean> {
 
         let result = await this.authenticationRepository.EditUser(user);
 

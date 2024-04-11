@@ -1,11 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class User {
+export class UserEditRequest {
     @ApiProperty()
-    id?: string;
-
-    @ApiProperty()
-    email!: string;
+    id!: string;
 
     @ApiProperty()
     name!: string;
@@ -15,10 +12,4 @@ export class User {
 
     @ApiProperty()
     mobileNumber!: string;
-
-    @ApiProperty()
-    password!: string;
-
-    @ApiProperty()
-    passwordSalt!: string;
 }

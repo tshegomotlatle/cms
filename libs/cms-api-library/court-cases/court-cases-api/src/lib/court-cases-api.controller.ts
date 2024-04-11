@@ -1,7 +1,9 @@
 import { CourtCase } from '@cms-models';
 import { Body, Controller, Post } from '@nestjs/common';
 import { CourtCasesService } from '@cms-court-cases-service'
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("court-cases")
 @Controller('court-cases')
 export class CourtCasesApiController {
     constructor(private _courtCaseService: CourtCasesService) { }

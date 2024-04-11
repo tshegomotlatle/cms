@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { User } from "@cms-models";
+import { User, UserEditRequest, UserRegisterRequest } from "@cms-models";
 import * as bcrypt from "bcrypt";
 import { Injectable } from "@nestjs/common";
 
@@ -9,7 +9,7 @@ export class AutheticationRepostiory {
     constructor(private prisma : PrismaClient) {
     }
 
-    async RegisterUser(user: User): Promise<User> {
+    async RegisterUser(user: UserRegisterRequest): Promise<User> {
 
         const salt = await bcrypt.genSalt();
         const hashPassword = await bcrypt.hash(user.password, salt);
@@ -41,7 +41,7 @@ export class AutheticationRepostiory {
         return user;
     }
 
-    async EditUser(user: User): Promise<User> {
+    async EditUser(user: UserEditRequest): Promise<User> {
         this.prisma.$connect();
         let result = await this.prisma.user.update({
             where: {
