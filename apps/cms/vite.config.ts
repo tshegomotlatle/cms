@@ -24,6 +24,8 @@ export default defineConfig({
   //  plugins: [ nxViteTsPaths() ],
   // },
 
+  define: { global: 'window' },
+
   build: {
     outDir: '../../dist/apps/cms',
     reportCompressedSize: true,
@@ -46,4 +48,5 @@ export default defineConfig({
       provider: 'v8',
     },
   },
+  
 });

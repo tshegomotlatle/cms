@@ -1,10 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
-
-export class UpdatePasswordRequest {
-    
-    @ApiProperty()
+export class UpdatePasswordRequest { 
     password!: string;
-
-    @ApiProperty()
     userId!: string ;
 }

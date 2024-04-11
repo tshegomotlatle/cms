@@ -5,6 +5,8 @@ export * from './lib/user/user'
 
 export * from './lib/court-case/court-case'
 
+export * from './lib/documents/documents'
+
 export * from './lib/constants/constants'
 
 export * from './lib/contracts/requests/authentication/user-email-request/user-email-request'

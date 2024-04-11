@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { DocumentsServiceService } from './documents-service.service';
+import { DocumentsService } from './documents-service.service';
+import { DocumentsRepositoryModule } from '@cms-documents-repository';
 
 @Module({
   controllers: [],
-  providers: [DocumentsServiceService],
-  exports: [DocumentsServiceService],
+  providers: [],
+  exports: [],
+  imports: [DocumentsRepositoryModule]
 })
 export class DocumentsServiceModule {}

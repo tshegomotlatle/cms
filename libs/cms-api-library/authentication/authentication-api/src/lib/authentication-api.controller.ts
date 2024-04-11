@@ -2,7 +2,7 @@ import { AuthenticationService } from '@cms-authentication-service';
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { UpdatePasswordRequest, User, UserEditRequest, UserEmailRequest, UserLoginRequest, UserRegisterRequest } from '@cms-models';
 import { AuthenticationGuard } from './Guard/authentication.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("authentication")
 @Controller('authentication')
@@ -11,6 +11,7 @@ export class AuthenticationApiController {
     constructor(private authenticationService: AuthenticationService) { }
 
     @Post('login')
+    @ApiBody({type: UserLoginRequest})
     async login(@Body() user: UserLoginRequest): Promise<{ access_token: string }> {
         return await this.authenticationService.UserLogin(user.email, user.password);
     }

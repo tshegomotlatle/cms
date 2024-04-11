@@ -1,1 +1,3 @@
-export class GetDocumentRequest {}
+export class GetDocumentRequest {
+    caseNumber!: string;
+}

@@ -39,3 +39,11 @@ model User {
   password     String
   passwordSalt String
 }
+
+model Documents {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  path         String      @unique
+  fileName     String
+  caseNumber   String      
+  dateCreated  DateTime
+}
