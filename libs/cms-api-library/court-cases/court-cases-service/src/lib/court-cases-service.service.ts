@@ -38,4 +38,22 @@ export class CourtCasesService {
     public async DeleteCase(caseNumber: string, userId: string): Promise<CourtCase> {
         return this.courtCaseRepository.DeleteCase(caseNumber, userId);
     }
+
+    public async GetAllCaseNumbers(userId: string): Promise<{ caseNumbers: string[] }>
+    {
+        const courtCases = await this.courtCaseRepository.GetAllCases(userId);
+
+        const caseNumbers = courtCases.map((courtCase) => {
+            return courtCase.caseNumber;
+        })
+
+        if (caseNumbers)
+        {
+            return {caseNumbers : caseNumbers};
+        }
+        else
+        {
+            return {caseNumbers: []};
+        }
+    }
 }

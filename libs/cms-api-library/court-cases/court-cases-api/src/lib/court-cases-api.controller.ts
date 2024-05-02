@@ -34,4 +34,10 @@ export class CourtCasesApiController {
     getCaseById(@Body() body: { id: string, userId: string }): Promise<CourtCase | null> {
         return this._courtCaseService.GetCaseById(body.id, body.userId);
     }
+
+    @Post('getAllCaseNumbers')
+    getAllCaseNumbers(@Body() body: { userId: string }) : Promise<{ caseNumbers : string []}>
+    {
+        return this._courtCaseService.GetAllCaseNumbers(body.userId);
+    }
 }
