@@ -1,6 +1,6 @@
 import { DocumentsService } from '@cms-documents-service';
 import { Documents, GetDocumentRequest, UploadDocumentRequest } from '@cms-models';
-import { Body, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Logger, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
@@ -31,6 +31,7 @@ export class DocumentsApiController {
     @Post('UploadDocuments')
     UploadDocuments(@UploadedFile() file: Express.Multer.File, @Body() body: {caseNumber: string}) {
         //return this._documentsService.UploadDocument(file);
+        Logger.log(body);
         const uploadFileRequest : UploadDocumentRequest = {
             caseNumber : body.caseNumber,
             fileName: file.originalname,

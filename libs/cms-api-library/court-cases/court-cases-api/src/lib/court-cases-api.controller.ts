@@ -1,8 +1,8 @@
 import { CourtCase } from '@cms-models';
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { CourtCasesService } from '@cms-court-cases-service'
 import { ApiTags } from '@nestjs/swagger';
-
+import { AuthenticationGuard } from '@cms-authetication-api'
 @ApiTags("court-cases")
 @Controller('court-cases')
 export class CourtCasesApiController {
@@ -18,7 +18,7 @@ export class CourtCasesApiController {
         return this._courtCaseService.DeleteCase(body.caseNumber, body.userId);
     }
 
-    //@UseGuards(AuthenticationGuard)
+    @UseGuards(AuthenticationGuard)
     @Post('getAllCases')
     getAllCases(@Body() body: { userId: string }): Promise<CourtCase[]> {
         return this._courtCaseService.GetAllCases(body.userId);
