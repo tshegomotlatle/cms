@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './add-court-case.module.scss';
 import { CourtCase, GetCaseOutcomes, GetCaseTypes } from '@cms-models';
 /* eslint-disable-next-line */
@@ -20,6 +20,7 @@ export function AddCourtCase(props: AddCourtCaseProps) {
   const [date, setDate] = useState('');
 
   const addCase = async () => {
+    const accessToken: string = sessionStorage.getItem('access_token') || '';
     const courtCase: CourtCase = {
       caseNumber: caseNumber,
       plaintiff: plaintiff,
@@ -28,7 +29,7 @@ export function AddCourtCase(props: AddCourtCaseProps) {
       status: status,
       type: type,
       lawyerId: lawyerId,
-      userId: sessionStorage.getItem('access_token')!,
+      userId: accessToken,
       date: new Date(date),
       dateCreated: new Date(),
       outcome: null,
@@ -49,35 +50,35 @@ export function AddCourtCase(props: AddCourtCaseProps) {
       });
   };
 
-  const handleCaseNumberChange = (event: any) => {
+  const handleCaseNumberChange = (event: { target: { value: string } }) => {
     setCaseNumber(event.target.value);
   };
 
-  const handlePlaintiffChange = (event: any) => {
+  const handlePlaintiffChange = (event: { target: { value: string } }) => {
     setPlaintiff(event.target.value);
   };
 
-  const handleDefendantChange = (event: any) => {
+  const handleDefendantChange = (event: { target: { value: string } }) => {
     setDefendant(event.target.value);
   };
 
-  const handleLocationChange = (event: any) => {
+  const handleLocationChange = (event: { target: { value: string } }) => {
     setLocation(event.target.value);
   };
 
-  const handleStatusChange = (event: any) => {
+  const handleStatusChange = (event: { target: { value: string } }) => {
     setStatus(event.target.value);
   };
 
-  const handleTypeChange = (event: any) => {
+  const handleTypeChange = (event: { target: { value: string } }) => {
     setType(event.target.value);
   };
 
-  const handleLawyerIdChange = (event: any) => {
+  const handleLawyerIdChange = (event: { target: { value: string } }) => {
     setLaywerId(event.target.value);
   };
 
-  const handleDateChange = (event: any) => {
+  const handleDateChange = (event: { target: { value: string } }) => {
     setDate(event.target.value);
     console.log(date);
   };

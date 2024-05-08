@@ -15,7 +15,7 @@ export class AutheticationRepostiory {
         const hashPassword = await bcrypt.hash(user.password, salt);
 
         this.prisma.$connect();
-        let result = await this.prisma.user.create({
+        const result = await this.prisma.user.create({
             data: {
                 email: user.email,
                 name: user.name,
@@ -45,7 +45,7 @@ export class AutheticationRepostiory {
 
     async EditUser(user: UserEditRequest): Promise<User> {
         this.prisma.$connect();
-        let result = await this.prisma.user.update({
+        const result = await this.prisma.user.update({
             where: {
                 id: user.id,
             },
@@ -65,7 +65,7 @@ export class AutheticationRepostiory {
         const hashPassword = await bcrypt.hash(password, salt);
 
         this.prisma.$connect();
-        let result = await this.prisma.user.update({
+        const result = await this.prisma.user.update({
             where: {
                 id: userId,
             },
@@ -82,7 +82,7 @@ export class AutheticationRepostiory {
     async UpdateRefreshToken(email:string, refreshToken: string) : Promise<User>
     {
         this.prisma.$connect()
-        let result = await this.prisma.user.update({
+        const result = await this.prisma.user.update({
             where: {
                 email : email,
             },

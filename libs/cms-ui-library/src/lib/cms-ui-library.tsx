@@ -1,10 +1,6 @@
-import { Route, Link } from 'react-router-dom';
-
 import styles from './cms-ui-library.module.scss';
 import Navigation from './navigation/navigation';
 import axios, { AxiosRequestConfig } from 'axios';
-import { log } from 'console';
-import { rejects } from 'assert';
 import { jwtDecode } from 'jwt-decode';
 
 /* eslint-disable-next-line */
@@ -45,7 +41,7 @@ export function CmsUiLibrary(props: CmsUiLibraryProps) {
     // Get refresh token on request fail with error status 401 unauthorized
     console.log(error.config);
     if (
-      error.response.status == 401 &&
+      error.response.status === 401 &&
       error.config &&
       !error.config.__isRetryRequest
     ) {
@@ -58,7 +54,7 @@ export function CmsUiLibrary(props: CmsUiLibraryProps) {
       if (!isRefreshing) {
         isRefreshing = true;
         if (token) {
-          const user: { userId: string; username: string } = jwtDecode(token!);
+          const user: { userId: string; username: string } = jwtDecode(token);
           console.log(user);
           await axios
             .post(
@@ -75,7 +71,7 @@ export function CmsUiLibrary(props: CmsUiLibraryProps) {
             )
             .then((response) => {
               isRefreshing = false;
-              if (response.data.accessToken != '') {
+              if (response.data.accessToken !== '') {
                 sessionStorage.setItem(
                   'access_token',
                   response.data.accessToken

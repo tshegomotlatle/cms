@@ -2,7 +2,11 @@
   "name": "@cms-authentication-repository",
   "version": "0.0.1",
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@nestjs/common": "^10.0.2",
+    "@prisma/client": "^5.12.1",
+    "@cms-models": "0.0.1",
+    "bcrypt": "^5.1.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",

@@ -1,7 +1,7 @@
 export class CourtCase {
     id?: string;
     caseNumber!: string;
-    date?: Date;
+    date!: Date | null;
     location!: string;
     plaintiff!: string;
     defendant!: string;
@@ -10,5 +10,5 @@ export class CourtCase {
     outcome?: string | null;
     lawyerId!: string;
     userId!: string;
-    dateCreated?: Date;
+    dateCreated!: Date;
 }

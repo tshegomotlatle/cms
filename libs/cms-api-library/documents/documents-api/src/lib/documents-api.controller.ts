@@ -2,7 +2,7 @@ import { DocumentsService } from '@cms-documents-service';
 import { Documents, GetDocumentRequest, UploadDocumentRequest } from '@cms-models';
 import { Body, Controller, Logger, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
@@ -38,7 +38,7 @@ export class DocumentsApiController {
             path: file.path,
             dateCreated: new Date()
         };
-        return this._documentsService.UploadDocument(uploadFileRequest);;
+        return this._documentsService.UploadDocument(uploadFileRequest);
 
     }
 

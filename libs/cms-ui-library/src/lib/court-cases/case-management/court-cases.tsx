@@ -1,22 +1,21 @@
 import { CourtCase } from '@cms-models';
 import styles from './court-cases.module.scss';
-import { log } from 'console';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 /* eslint-disable-next-line */
 export interface CourtCasesProps {}
 
 export function CourtCases(this: any, props: CourtCasesProps) {
 
-  const API_URL = import.meta.env.VITE_API_URL;
   const [courtCases, setCourtCases] = useState<CourtCase[]>([]);
   const [searchBarInput, setSearchBarInput] = useState('');
 
   useEffect(() =>
   {
-    axios.interceptors
+    const user : {userId: string, email: string} = jwtDecode(sessionStorage.getItem("access_token") || "");
     axios.post('/court-cases/getAllCases', {
-      userId: '1',
+      userId: user.userId,
     }).then((response) => {
       setCourtCases(response.data);
       return;
@@ -25,14 +24,10 @@ export function CourtCases(this: any, props: CourtCasesProps) {
     });
   },[])
 
-  const formatDate = (date : Date) : string => {
-    return "" //`${date.getDay()-date.tol}`
-  };
-
-  const searchCases = (e : any) =>{
+  const searchCases = (e: { target: { value: string } }) => {
     setSearchBarInput(e.target.value);
-    console.log(searchBarInput)
-  }
+    console.log(searchBarInput);
+  };
   
   return (
     <div className={styles['container']}>
@@ -91,8 +86,8 @@ export function CourtCases(this: any, props: CourtCasesProps) {
               <td>{courtCase.plaintiff}</td>
               <td>{courtCase.status}</td>
               <td>{courtCase.type}</td>
-              <td>{courtCase.date!.toLocaleString()}</td>
-              <td>{courtCase.dateCreated!.toLocaleString().split(',')[0]}</td>
+              <td>{courtCase.date?.toLocaleString()}</td>
+              <td>{courtCase.dateCreated.toLocaleString().split(',')[0]}</td>
               <td>{courtCase.outcome}</td>
             </tr>
           ))}

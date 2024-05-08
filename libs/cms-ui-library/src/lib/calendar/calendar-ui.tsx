@@ -13,13 +13,12 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { CourtCase } from '@cms-models';
 import { log } from 'console';
+import axios, { AxiosResponse } from 'axios';
 
 /* eslint-disable-next-line */
 export interface CalendarUiProps {}
 
 export function CalendarUi(props: CalendarUiProps) {
-
-  const API_URL = import.meta.env.VITE_API_URL;
 
   // events that an individual has
   const events = [{ title: 'Meeting', start: new Date() }];
@@ -74,21 +73,10 @@ export function CalendarUi(props: CalendarUiProps) {
   }
 
   useEffect(() => {
-    fetch(API_URL + 'api/court-cases/getAllCases', {
-      method: 'POST',
-      body: JSON.stringify({
+      axios.post('api/court-cases/getAllCases', {
         userId: '1',
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-        Authorization: 'Bearer ' + sessionStorage.getItem('access_token'),
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        //setCourtCase(json);
-        return;
+      }).then((response : AxiosResponse) =>{
+        console.log(response)
       });
   }, [])
 

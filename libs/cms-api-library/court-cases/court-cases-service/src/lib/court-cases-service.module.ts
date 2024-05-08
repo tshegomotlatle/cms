@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CourtCaseRepository, CourtCasesRepositoryModule } from '@cms-court-cases-repository';
+import { CourtCasesRepositoryModule } from '@cms-court-cases-repository';
 
 @Module({
   controllers: [],

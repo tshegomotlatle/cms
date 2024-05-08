@@ -10,7 +10,7 @@ generator client {
 model CourtCase {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   caseNumber  String   @unique
-  date        DateTime
+  date        DateTime?
   location    String
   plaintiff   String
   defendant   String

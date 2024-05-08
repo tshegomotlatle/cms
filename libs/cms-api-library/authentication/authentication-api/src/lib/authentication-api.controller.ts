@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@cms-authentication-service';
-import { Body, Controller, Get, Logger, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { UpdatePasswordRequest, User, UserEditRequest, UserEmailRequest, UserLoginRequest, UserRegisterRequest } from '@cms-models';
 import { AuthenticationGuard } from './Guard/authentication.guard';
 import { ApiBody, ApiTags } from '@nestjs/swagger';

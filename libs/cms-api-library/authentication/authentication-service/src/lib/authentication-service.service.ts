@@ -17,10 +17,10 @@ export class AuthenticationService {
 
     async UserLogin(email: string, password: string): Promise<{ accessToken: string, refreshToken: string }> {
 
-        let user = await this.authenticationRepository.GetUser(email);
+        const user = await this.authenticationRepository.GetUser(email);
         Logger.log(user);
         if (user) {
-            var passwordHash = await bcrypt.hash(password, user?.password);
+            const passwordHash = await bcrypt.hash(password, user?.password);
             if (passwordHash == user?.password) {
                 const payload = { userId: user.id, username: user.email };
                 const accessToken = await this.jwtService.signAsync(payload, {
@@ -47,7 +47,7 @@ export class AuthenticationService {
 
     async CheckEmailExists(email: string): Promise<boolean> {
 
-        let user = await this.authenticationRepository.GetUser(email);
+        const user = await this.authenticationRepository.GetUser(email);
 
         if (user) {
             return true;
@@ -59,7 +59,7 @@ export class AuthenticationService {
 
     async EditUser(user: UserEditRequest): Promise<boolean> {
 
-        let result = await this.authenticationRepository.EditUser(user);
+        const result = await this.authenticationRepository.EditUser(user);
 
         if (result) {
             return true;
@@ -71,7 +71,7 @@ export class AuthenticationService {
 
     async UpdatePassword(password: string, userId: string): Promise<boolean> {
 
-        let result = await this.authenticationRepository.UpdatePassword(password, userId)
+        const result = await this.authenticationRepository.UpdatePassword(password, userId)
 
         if (result) {
             return true;

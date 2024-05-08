@@ -1,7 +1,8 @@
 import { SetStateAction, useEffect, useState } from 'react';
 import styles from './test-component.module.scss';
-import { extname } from 'path';
 import { CourtCase } from '@cms-models';
+import axios, { AxiosResponse } from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 /* eslint-disable-next-line */
 export interface TestComponentProps {}
@@ -13,27 +14,15 @@ export function TestComponent(props: TestComponentProps) {
   const [courtCases, setCourtCases] = useState<CourtCase[]>([]);
 
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
-    fetch(API_URL + 'api/court-cases/getAllCases', {
-      method: 'POST',
-      body: JSON.stringify({
-        userId: '1',
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-        Authorization: 'Bearer ' + sessionStorage.getItem('access_token'),
-      },
-    })
-      .then((res) => res.json())
-      .then((json: CourtCase[]) => {
-        json.forEach((courtCase, index) => {
-          courtCase.date = courtCase.date;
-          courtCase.dateCreated = courtCase.dateCreated;
-        });
-        setCourtCases(json);
-        return;
+      const user: { userId: string; email: string } = jwtDecode(
+        sessionStorage.getItem('access_token') || ''
+      );
+
+      axios.post('api/court-cases/getAllCases', {
+        userId: user.userId,
+      }).then((response : AxiosResponse) =>{
+        setCourtCases(response.data)
       });
   }, []);
 
@@ -43,14 +32,16 @@ export function TestComponent(props: TestComponentProps) {
     setFileName(event?.target.value);
   };
 
-  const handleCaseNumberChange = (event: any) => {
+  const handleCaseNumberChange = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
     setCaseNumber(event.target.value);
-  }
+  };
 
   const handleFileUpload = (event: {
     target: {
       files: any;
-      value: any;
+      value: string;
     };
   }) => {
     setFile(event?.target.files[0]);
@@ -62,17 +53,14 @@ export function TestComponent(props: TestComponentProps) {
       const newName = `${fileName}.${fileExtension}`;
 
       const formData = new FormData();
-      formData.append('file', file!, newName);
+      formData.append('file', file, newName);
       formData.append('caseNumber', caseNumber);
 
-      await fetch(API_URL + 'api/documents/UploadDocuments', {
-        method: 'POST',
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((res: any) => {
-          console.log(res);
-        });
+      axios.post('api/documents/UploadDocuments', formData).then(
+        (response) =>{
+          console.log(response);
+        }
+      );
     }
   };
 

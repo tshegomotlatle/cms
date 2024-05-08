@@ -23,7 +23,7 @@ export class DocumentsRepository {
 
     public async GetDocumentsForCaseId(document: GetDocumentRequest): Promise<Documents[] | null>
     {
-        var cases = await this._prisma.documents.findMany({
+        const cases = await this._prisma.documents.findMany({
             where: {
                 caseNumber: document.caseNumber
             }

@@ -12,7 +12,7 @@ export class CourtCaseRepository {
         this.prisma.$connect();
         Logger.log(courtCase);
 
-        let result = await this.prisma.courtCase.create({
+        const result = await this.prisma.courtCase.create({
             data: {
                 caseNumber: courtCase.caseNumber,
                 status: courtCase.status,
@@ -21,8 +21,8 @@ export class CourtCaseRepository {
                 plaintiff: courtCase.plaintiff,
                 location: courtCase.location,
                 outcome: courtCase.outcome,
-                date: courtCase.date!,
-                dateCreated: courtCase.dateCreated!,
+                date: courtCase.date,
+                dateCreated: courtCase.dateCreated,
                 lawyerId: courtCase.lawyerId,
                 userId: courtCase.userId,
             }
@@ -35,7 +35,7 @@ export class CourtCaseRepository {
     public async EditCase(courtCase: CourtCase): Promise<CourtCase> {
         this.prisma.$connect();
 
-        let result = await this.prisma.courtCase.update({
+        const result = await this.prisma.courtCase.update({
             where: {
                 id: courtCase.id,
             },
@@ -61,7 +61,7 @@ export class CourtCaseRepository {
     public async GetCaseById(id: string, userId: string): Promise<CourtCase | null> {
         this.prisma.$connect();
 
-        let result = await this.prisma.courtCase.findUnique({
+        const result = await this.prisma.courtCase.findUnique({
             where: {
                 id: id,
                 userId: userId
@@ -75,7 +75,7 @@ export class CourtCaseRepository {
     public async GetAllCases(userId: string): Promise<CourtCase[]> {
         this.prisma.$connect();
 
-        let result = await this.prisma.courtCase.findMany({
+        const result = await this.prisma.courtCase.findMany({
             where: {
                 userId: userId,
             }
@@ -88,7 +88,7 @@ export class CourtCaseRepository {
     public async DeleteCase(caseNumber: string, userId: string): Promise<CourtCase> {
         this.prisma.$connect();
 
-        let result = await this.prisma.courtCase.delete({
+        const result = await this.prisma.courtCase.delete({
             where: {
                 caseNumber: caseNumber,
                 userId: userId

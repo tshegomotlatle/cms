@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import styles from './register.module.scss';
-import { User } from '@prisma/client';
+import axios, { AxiosResponse } from 'axios';
 
 /* eslint-disable-next-line */
 export interface RegisterProps {}
 
 export function Register(props: RegisterProps) {
-
-  const API_URL = import.meta.env.VITE_API_URL;
-
   const [user, setUser] = useState({
     email: '',
     name: '',
@@ -18,43 +15,42 @@ export function Register(props: RegisterProps) {
     passwordConfirm: '',
   });
 
-  const handleNameChange = (e: { target: { value: any; }; }) => {
+  const handleNameChange = (e: { target: { value: string } }) => {
     setUser({
       ...user,
       name: e.target.value,
     });
   };
-  
 
-  const handleEmailChange = (e: { target: { value: any; }; }) => {
+  const handleEmailChange = (e: { target: { value: string } }) => {
     setUser({
       ...user,
       email: e.target.value,
     });
   };
 
-  const handlePasswordChange = (e: { target: { value: any; }; }) => {
+  const handlePasswordChange = (e: { target: { value: string } }) => {
     setUser({
       ...user,
       password: e.target.value,
     });
   };
 
-  const handleSurnameChange = (e: { target: { value: any } }) => {
+  const handleSurnameChange = (e: { target: { value: string } }) => {
     setUser({
       ...user,
       surname: e.target.value,
     });
   };
 
-  const handleMobileChange = (e: { target: { value: any } }) => {
+  const handleMobileChange = (e: { target: { value: string } }) => {
     setUser({
       ...user,
       mobileNumber: e.target.value,
     });
   };
 
-  const handlePasswordConfirmChange = (e: { target: { value: any } }) => {
+  const handlePasswordConfirmChange = (e: { target: { value: string } }) => {
     setUser({
       ...user,
       passwordConfirm: e.target.value,
@@ -62,16 +58,11 @@ export function Register(props: RegisterProps) {
   };
 
   const LoginHandler = async () => {
-    console.log(user);
-    await fetch(API_URL + 'api/authentication/register', {
-      method: 'POST',
-      body: JSON.stringify(user),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    }).then((response: any) => {
-      console.log(response);
-    });
+    axios
+      .post('api/authentication/register', user)
+      .then((response: AxiosResponse<any, any>) => {
+        console.log(response);
+      });
   };
 
   return (

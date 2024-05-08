@@ -6,7 +6,6 @@ import axios from 'axios';
 export interface LoginProps {}
 
 export function Login(props: LoginProps) {
-  const API_URL = import.meta.env.VITE_API_URL;
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
