@@ -6,13 +6,8 @@ import { CmsUiLibrary } from '@cms-ui-library';
 
 export function App() {
   return (
-    <BrowserRouter>
       <div>
-        <Routes>
-          <Route path="/*" element={<CmsUiLibrary />} />
-        </Routes>
       </div>
-    </BrowserRouter>
   );
 }
 
