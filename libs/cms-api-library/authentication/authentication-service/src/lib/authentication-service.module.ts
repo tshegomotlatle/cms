@@ -3,7 +3,7 @@ import { AuthenticationRepositoryModule } from '@cms-authentication-repository';
 
 @Module({
   controllers: [],
-  providers: [],
+  providers: [AuthenticationRepositoryModule],
   exports: [],
   imports: [AuthenticationRepositoryModule]
 })

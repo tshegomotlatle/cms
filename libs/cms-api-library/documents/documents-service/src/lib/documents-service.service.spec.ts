@@ -1,15 +1,18 @@
 import { Test } from '@nestjs/testing';
-import { DocumentsServiceService } from './documents-service.service';
+import { DocumentsService } from './documents-service.service';
+import { Prisma, PrismaClient } from '@prisma/client';
+import { DocumentsRepository } from '@cms-documents-repository';
 
 describe('DocumentsServiceService', () => {
-  let service: DocumentsServiceService;
+  let service: DocumentsService;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [DocumentsServiceService],
+      providers: [DocumentsService, DocumentsRepository, PrismaClient],
+      imports: [PrismaClient]
     }).compile();
 
-    service = module.get(DocumentsServiceService);
+    service = module.get(DocumentsService);
   });
 
   it('should be defined', () => {
