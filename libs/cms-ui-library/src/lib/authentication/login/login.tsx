@@ -1,39 +1,41 @@
 import { SetStateAction, useState } from 'react';
 import styles from './login.module.scss';
+import axios from 'axios';
 
 /* eslint-disable-next-line */
 export interface LoginProps {}
 
 export function Login(props: LoginProps) {
-
-    const API_URL = import.meta.env.VITE_API_URL;
-
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleEmailChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+  const handleEmailChange = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
     setEmail(e.target.value);
   };
-  const handlePasswordChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+  const handlePasswordChange = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
     setPassword(e.target.value);
   };
 
   const LoginHandler = async () => {
-    await fetch(API_URL + 'api/authentication/login', {
-      method: 'POST',
-      body: JSON.stringify({
+
+    axios
+      .post('/authentication/login', {
         email: email,
         password: password,
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((res: { access_token: string }) => {
-        console.log(res);
-        sessionStorage.setItem('access_token', res.access_token);
+      })
+      .then(function (response) {
+        console.log(response.data);
+        sessionStorage.setItem('access_token', response.data.accessToken);
+        sessionStorage.setItem('refresh_token', response.data.refreshToken);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
   };
 

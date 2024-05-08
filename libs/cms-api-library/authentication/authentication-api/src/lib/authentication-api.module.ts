@@ -4,16 +4,15 @@ import { AuthenticationService, AuthenticationServiceModule } from '@cms-authent
 import { AuthenticationRepositoryModule } from '@cms-authentication-repository';
 import { env } from 'process';
 import { JwtModule } from '@nestjs/jwt';
+import { AccessTokenStrategy } from './Strategy/access-token.strategy';
+import { RefreshTokenStrategy } from './Strategy/refresh-token.strategy';
 
 @Module({
   controllers: [AuthenticationApiController],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService, AccessTokenStrategy, RefreshTokenStrategy],
   exports: [],
   imports: [AuthenticationServiceModule, AuthenticationRepositoryModule, JwtModule.register({
-    global: true,
-    secret: env['JWT_SECRET'],
-    signOptions: { expiresIn: '1h' },
-
+    global: true
   }),]
 })
-export class AuthenticationApiModule {}
+export class AuthenticationApiModule { }

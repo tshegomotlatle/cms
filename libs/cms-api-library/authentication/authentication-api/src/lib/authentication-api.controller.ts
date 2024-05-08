@@ -1,8 +1,9 @@
 import { AuthenticationService } from '@cms-authentication-service';
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, UseGuards } from '@nestjs/common';
 import { UpdatePasswordRequest, User, UserEditRequest, UserEmailRequest, UserLoginRequest, UserRegisterRequest } from '@cms-models';
 import { AuthenticationGuard } from './Guard/authentication.guard';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { RefreshTokenGuard } from './Guard/refresh-token.guard';
 
 @ApiTags("authentication")
 @Controller('authentication')
@@ -11,8 +12,8 @@ export class AuthenticationApiController {
     constructor(private authenticationService: AuthenticationService) { }
 
     @Post('login')
-    @ApiBody({type: UserLoginRequest})
-    async login(@Body() user: UserLoginRequest): Promise<{ access_token: string }> {
+    @ApiBody({ type: UserLoginRequest })
+    async login(@Body() user: UserLoginRequest): Promise<{ accessToken: string, refreshToken: string }> {
         return await this.authenticationService.UserLogin(user.email, user.password);
     }
 
@@ -40,5 +41,11 @@ export class AuthenticationApiController {
     @Post('updatePassword')
     async updatePassword(@Body() body: UpdatePasswordRequest): Promise<boolean> {
         return await this.authenticationService.UpdatePassword(body.password, body.userId);
+    }
+
+    @UseGuards(RefreshTokenGuard)
+    @Post('refreshToken')
+    async refreshToken(@Body() body: { email: string, refreshToken: string }): Promise<{ accessToken: string }> {
+        return await this.authenticationService.RefreshToken(body.email, body.refreshToken);
     }
 }

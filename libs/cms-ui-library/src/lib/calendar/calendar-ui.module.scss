@@ -1,3 +1,28 @@
+@import url(//apps/case-management-system/src/styles.scss);
+
 .container{
+    width: 100%;
+    padding: 1vh 1vw;
+}
+
+.calendarHeader {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.addButton {
+    border: 1px solid var(--primary);
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.addButton:hover{
+     background-color: var(--primary);
+}
+
+.caseNumberSelect {
     width: 100%;
 }

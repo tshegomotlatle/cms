@@ -14,25 +14,15 @@ export function CourtCases(this: any, props: CourtCasesProps) {
 
   useEffect(() =>
   {
-    fetch(API_URL + 'api/court-cases/getAllCases', {
-      method: 'POST',
-      body: JSON.stringify({
-        userId: '1',
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + sessionStorage.getItem('access_token')
-      },
-    })
-    .then((res) => res.json())
-    .then((json : CourtCase []) => {
-      json.forEach((courtCase, index) =>{
-        courtCase.date = courtCase.date;
-        courtCase.dateCreated = courtCase.dateCreated;
-      })
-      setCourtCases(json);
+    axios.interceptors
+    axios.post('/court-cases/getAllCases', {
+      userId: '1',
+    }).then((response) => {
+      setCourtCases(response.data);
       return;
-    },);
+    }).catch((response) =>{
+      console.log(response);
+    });
   },[])
 
   const formatDate = (date : Date) : string => {

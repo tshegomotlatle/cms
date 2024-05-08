@@ -7,4 +7,5 @@ export class User {
     mobileNumber!: string;
     password!: string;
     passwordSalt!: string;
+    refreshToken! : string | null;
 }

@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { User, UserEditRequest, UserRegisterRequest } from "@cms-models";
 import * as bcrypt from "bcrypt";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 
 @Injectable()
 export class AutheticationRepostiory {
@@ -22,7 +22,8 @@ export class AutheticationRepostiory {
                 surname: user.surname,
                 mobileNumber: user.mobileNumber,
                 password: hashPassword,
-                passwordSalt: salt
+                passwordSalt: salt,
+                refreshToken: ""
             }
         });
 
@@ -37,6 +38,7 @@ export class AutheticationRepostiory {
                 email: email
             }
         })
+        Logger.log(user)
         this.prisma.$disconnect();
         return user;
     }
@@ -72,6 +74,22 @@ export class AutheticationRepostiory {
                 passwordSalt: salt
             }
         });
+
+        this.prisma.$disconnect();
+        return result;
+    }
+
+    async UpdateRefreshToken(email:string, refreshToken: string) : Promise<User>
+    {
+        this.prisma.$connect()
+        let result = await this.prisma.user.update({
+            where: {
+                email : email,
+            },
+            data:{
+                refreshToken : refreshToken,
+            },
+        })
 
         this.prisma.$disconnect();
         return result;

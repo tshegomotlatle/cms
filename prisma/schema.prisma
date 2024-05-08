@@ -38,6 +38,7 @@ model User {
   mobileNumber String
   password     String
   passwordSalt String
+  refreshToken String
 }
 
 model Documents {
