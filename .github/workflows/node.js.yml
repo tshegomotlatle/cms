@@ -57,17 +57,17 @@ jobs:
       - name: Installing nx
         run: npm add --global nx@latest
 
-      - name: Running nx affected lint
-        run: npx nx affected --target=lint
+      - name: Running nx run-many lint
+        run: npx nx run-many --target=lint
 
-      - name: Running nx affected test
-        run: npx nx affected --target=test 
+      - name: Running nx run-many test
+        run: npx nx run-many --target=test 
 
-      - name: Running nx affected build
-        run: npx nx affected --target=build
+      - name: Running nx run-many build
+        run: npx nx run-many --target=build
 
-      - name: Running nx affected e2e
-        run: npx nx affected --target=e2e
+      - name: Running nx run-many e2e
+        run: npx nx run-many --target=e2e
 
       - name: Running nx run-many
         run: npx nx run-many --target=build
