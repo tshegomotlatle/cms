@@ -42,6 +42,15 @@
       "@cms-documents-service": [
         "libs/cms-api-library/documents/documents-service/src/index.ts"
       ],
+      "@cms-invoices-api": [
+        "libs/cms-api-library/invoices/invoices-api/src/index.ts"
+      ],
+      "@cms-invoices-repository": [
+        "libs/cms-api-library/invoices/invoices-repository/src/index.ts"
+      ],
+      "@cms-invoices-service": [
+        "libs/cms-api-library/invoices/invoices-service/src/index.ts"
+      ],
       "@cms-models": ["libs/models/src/index.ts"],
       "@cms-ui-library": ["libs/cms-ui-library/src/index.ts"]
     }
