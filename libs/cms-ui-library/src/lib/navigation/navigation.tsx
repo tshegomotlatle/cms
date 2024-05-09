@@ -6,6 +6,7 @@ import CourtCases from '../court-cases/case-management/court-cases';
 import AddCourtCase from '../court-cases/add-court-case/add-court-case';
 import CalendarUi from '../calendar/calendar-ui';
 import TestComponent from '../test-component/test-component';
+import Invoice from '../Invoices/invoice';
 
 /* eslint-disable-next-line */
 export interface NavigationProps {}
@@ -65,7 +66,9 @@ export function Navigation(props: NavigationProps) {
             >
               payments
             </span>
-            <div className={styles['naviagtion-item-text']}>Invoices</div>
+            <div className={styles['naviagtion-item-text']}>
+              <a href="invoices">Invoices</a>
+            </div>
           </div>
           <div className={styles['navigation-item']}>
             <span
@@ -85,6 +88,7 @@ export function Navigation(props: NavigationProps) {
         <Route path="/add-court-case" element={<AddCourtCase />} />
         <Route path="/calendar" element={<CalendarUi />} />
         <Route path="/test" element={<TestComponent />} />
+        <Route path="/invoices" element={<Invoice />} />
       </Routes>
     </div>
   );

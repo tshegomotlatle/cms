@@ -1,0 +1,33 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    
+    align-items: center;
+}
+
+.contactNumbers{
+    display: flex;
+}
+
+.personalInformation {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.divider{
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.recipentContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    justify-items: start;
+    width: 100%;
+}

@@ -48,3 +48,13 @@ model Documents {
   caseNumber   String      
   dateCreated  DateTime
 }
+
+model InvoiceItems{
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  invoiceNumber String
+  name          String
+  date          DateTime
+  hours         Int
+  costPerHour   Float
+  caseNumber    String
+}

@@ -1,0 +1,23 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid red;
+    width: 100%;
+}
+
+.table{
+    width: 100%;
+}
+
+.date{
+    width: 15%;
+}
+
+.particulars{
+    width: 50%;
+}
+
+.amount{
+    width: 25%;
+}
