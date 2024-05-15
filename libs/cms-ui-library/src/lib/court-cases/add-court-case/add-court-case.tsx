@@ -1,86 +1,87 @@
 import { useState } from 'react';
 import styles from './add-court-case.module.scss';
-import { CourtCase, GetCaseOutcomes, GetCaseTypes } from '@cms-models';
+
+import { CourtCaseDto } from '../../data-transfer-object/court-case/court-case.dto'
+
+import axios from 'axios';
+import { GetCaseOutcomes, GetCaseTypes } from '../../data-transfer-object/constants/constants';
+
+import { jwtDecode } from 'jwt-decode';
 /* eslint-disable-next-line */
 export interface AddCourtCaseProps {}
 
 export function AddCourtCase(props: AddCourtCaseProps) {
-  const API_URL = import.meta.env.VITE_API_URL;
 
   const caseOutcomes = GetCaseOutcomes();
   const caseTypes = GetCaseTypes();
 
-  const [caseNumber, setCaseNumber] = useState('');
-  const [plaintiff, setPlaintiff] = useState('');
-  const [defendant, setDefendant] = useState('');
-  const [location, setLocation] = useState('');
-  const [status, setStatus] = useState('');
-  const [type, setType] = useState('');
-  const [lawyerId, setLaywerId] = useState('');
-  const [date, setDate] = useState('');
+  const [courtCase, setCourtCase] = useState(new CourtCaseDto());
 
   const addCase = async () => {
-    const accessToken: string = sessionStorage.getItem('access_token') || '';
-    const courtCase: CourtCase = {
-      caseNumber: caseNumber,
-      plaintiff: plaintiff,
-      defendant: defendant,
-      location: location,
-      status: status,
-      type: type,
-      lawyerId: lawyerId,
-      userId: accessToken,
-      date: new Date(date),
-      dateCreated: new Date(),
-      outcome: null,
-    };
-
-    console.log(courtCase);
-
-    await fetch(API_URL + 'api/court-cases/add', {
-      method: 'POST',
-      body: JSON.stringify(courtCase),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-      });
+    
+    const user: { userId: string; email: string } = jwtDecode(
+      sessionStorage.getItem('access_token') || ''
+    );
+    courtCase.userId = user.userId;
+    await axios.post('/court-cases/add', courtCase).then((response) => {
+      console.log(response);
+    });
   };
 
   const handleCaseNumberChange = (event: { target: { value: string } }) => {
-    setCaseNumber(event.target.value);
+    setCourtCase({
+      ...courtCase,
+      caseNumber: event.target.value,
+    });
   };
 
   const handlePlaintiffChange = (event: { target: { value: string } }) => {
-    setPlaintiff(event.target.value);
+    setCourtCase({
+      ...courtCase,
+      plaintiff: event.target.value,
+    });
   };
 
   const handleDefendantChange = (event: { target: { value: string } }) => {
-    setDefendant(event.target.value);
+    setCourtCase({
+      ...courtCase,
+      defendant: event.target.value,
+    });
   };
 
   const handleLocationChange = (event: { target: { value: string } }) => {
-    setLocation(event.target.value);
+    setCourtCase({
+      ...courtCase,
+      location: event.target.value,
+    });
   };
 
   const handleStatusChange = (event: { target: { value: string } }) => {
-    setStatus(event.target.value);
+    setCourtCase({
+      ...courtCase,
+      status: event.target.value,
+    });
   };
 
   const handleTypeChange = (event: { target: { value: string } }) => {
-    setType(event.target.value);
+    setCourtCase({
+      ...courtCase,
+      type: event.target.value,
+    });
   };
 
   const handleLawyerIdChange = (event: { target: { value: string } }) => {
-    setLaywerId(event.target.value);
+    setCourtCase({
+      ...courtCase,
+      lawyerId: event.target.value,
+    });
   };
 
   const handleDateChange = (event: { target: { value: string } }) => {
-    setDate(event.target.value);
-    console.log(date);
+    setCourtCase({
+      ...courtCase,
+      date: new Date(event.target.value),
+    });
   };
 
   return (

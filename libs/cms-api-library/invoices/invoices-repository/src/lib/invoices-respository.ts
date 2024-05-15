@@ -1,1 +1,106 @@
-export class InvoicesRespository {}
+import { Invoice } from "@cms-models";
+import { Injectable } from "@nestjs/common";
+import { PrismaClient } from "@prisma/client";
+
+@Injectable()
+export class InvoicesRespository {
+
+    constructor(private prisma: PrismaClient) {
+    }
+
+    public async AddInvoice(invoice: Invoice): Promise<Invoice | null> {
+        this.prisma.$connect();
+
+        const result = await this.prisma.invoiceItems.create({
+            data: {
+                caseNumber: invoice.caseNumber,
+                costPerHour: invoice.costPerHour,
+                date: invoice.date,
+                hours: invoice.hours,
+                invoiceNumber: invoice.invoiceNumber,
+                name: invoice.name,
+                userId: invoice.userId,
+            }
+        })
+
+        this.prisma.$disconnect();
+        return result;
+    }
+
+    public async EditInvoice(invoice: Invoice): Promise<Invoice | null> {
+        this.prisma.$connect();
+
+        const result = await this.prisma.invoiceItems.update({
+            where : {
+                id : invoice.id
+            },
+            data: {
+                costPerHour: invoice.costPerHour,
+                date: invoice.date,
+                hours: invoice.hours,
+                name: invoice.name,
+            }
+        })
+
+        this.prisma.$disconnect();
+        return result;
+    }
+
+    public async GetInvoiceById(id: string, userId: string): Promise<Invoice | null> {
+        this.prisma.$connect();
+
+        const result = await this.prisma.invoiceItems.findUnique({
+            where: {
+                id: id,
+                userId: userId
+            }
+        })
+
+        this.prisma.$disconnect();
+        return result;
+    }
+
+    public async GetInvoiceByInvoiceNumber(invoiceNumber: string, userId: string): Promise<Invoice[] | null> {
+        this.prisma.$connect();
+
+        const result = await this.prisma.invoiceItems.findMany({
+            where: {
+                invoiceNumber: invoiceNumber,
+                userId: userId
+            }
+        })
+
+        this.prisma.$disconnect();
+        return result;
+    }
+
+    public async GetInvoiceByCaseNumber(caseNumber: string, userId: string): Promise<Invoice[] | null> {
+        this.prisma.$connect();
+
+        const result = await this.prisma.invoiceItems.findMany({
+            where: {
+                caseNumber: caseNumber,
+                userId: userId
+            }
+        })
+
+        this.prisma.$disconnect();
+        return result;
+    }
+
+    public async DeleteInvoice(id: string, userId: string): Promise<Invoice | null> {
+        this.prisma.$connect();
+
+        const result = await this.prisma.invoiceItems.delete({
+            where: {
+                id: id,
+                userId: userId
+            }
+        })
+
+        this.prisma.$disconnect();
+        return result;
+    }
+
+    
+}

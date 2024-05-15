@@ -1,33 +1,36 @@
-import { SetStateAction, useState } from 'react';
+import {useState } from 'react';
 import styles from './login.module.scss';
 import axios from 'axios';
+import { UserLoginRequestDto } from '../../data-transfer-object/user/user-login-request/user-login-request.dto';
 
 /* eslint-disable-next-line */
 export interface LoginProps {}
 
 export function Login(props: LoginProps) {
+  const [userLoginRequest, setUserLoginRequest] = useState<UserLoginRequestDto>(
+    new UserLoginRequestDto()
+  );
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleEmailChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setEmail(e.target.value);
-  };
-  const handlePasswordChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setPassword(e.target.value);
+  // handle changes in the ui for the email field
+  const handleEmailChange = (e: { target: { value: string } }) => {
+    setUserLoginRequest({
+      ...userLoginRequest,
+      email: e.target.value,
+    });
   };
 
+  // handle changes in the ui for the password field
+  const handlePasswordChange = (e: { target: { value: string } }) => {
+    setUserLoginRequest({
+      ...userLoginRequest,
+      password: e.target.value,
+    });
+  };
+
+  // handle login button being clicked
   const LoginHandler = async () => {
-
     axios
-      .post('/authentication/login', {
-        email: email,
-        password: password,
-      })
+      .post('/authentication/login', userLoginRequest)
       .then(function (response) {
         console.log(response.data);
         sessionStorage.setItem('access_token', response.data.accessToken);
@@ -51,7 +54,7 @@ export function Login(props: LoginProps) {
             id="email"
             placeholder="Enter email"
             name="email"
-            value={email}
+            value={userLoginRequest.email}
             onChange={handleEmailChange}
           />
         </div>
@@ -65,7 +68,7 @@ export function Login(props: LoginProps) {
             id="pwd"
             placeholder="Enter password"
             name="pswd"
-            value={password}
+            value={userLoginRequest.password}
             onChange={handlePasswordChange}
           />
         </div>

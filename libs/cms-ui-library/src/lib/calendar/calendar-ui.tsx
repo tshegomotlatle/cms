@@ -11,9 +11,10 @@ import {
 } from 'react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { CourtCase } from '@cms-models';
 import { log } from 'console';
 import axios, { AxiosResponse } from 'axios';
+import { CourtCaseDto } from '../data-transfer-object/court-case/court-case.dto';
+import { jwtDecode } from 'jwt-decode';
 
 /* eslint-disable-next-line */
 export interface CalendarUiProps {}
@@ -35,7 +36,7 @@ export function CalendarUi(props: CalendarUiProps) {
   };
 
   // case numbers to pre-populate add calendar event select
-  const [courtCases, setCourtCase] = useState<CourtCase[]>([]);
+  const [courtCases, setCourtCase] = useState<CourtCaseDto[]>([]);
 
   // a custom render function
   function renderEventContent(eventInfo: {
@@ -73,10 +74,23 @@ export function CalendarUi(props: CalendarUiProps) {
   }
 
   useEffect(() => {
+      
+    const user: { userId: string; email: string } = jwtDecode(
+      sessionStorage.getItem('access_token') || ''
+    );
+
       axios.post('api/court-cases/getAllCases', {
-        userId: '1',
+        userId: user.userId,
       }).then((response : AxiosResponse) =>{
         console.log(response)
+        setCourtCase(response.data)
+        courtCases.forEach((courtCase, index) => {
+          if (courtCase.date)
+            events.push({
+              title: courtCase.caseNumber + ' ' + courtCase.defendant,
+              start: courtCase.date,
+            });
+        })
       });
   }, [])
 

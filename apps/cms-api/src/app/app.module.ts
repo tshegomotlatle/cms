@@ -5,9 +5,10 @@ import { AppService } from './app.service';
 import { AuthenticationApiModule } from '@cms-authetication-api';
 import { CourtCasesApiModule } from '@cms-court-cases-api';
 import { DocumentsApiModule } from '@cms-documents-api';
+import { InvoicesApiModule } from '@cms-invoices-api';
 
 @Module({
-  imports: [AuthenticationApiModule, CourtCasesApiModule, DocumentsApiModule],
+  imports: [AuthenticationApiModule, CourtCasesApiModule, DocumentsApiModule, InvoicesApiModule],
   controllers: [AppController],
   providers: [AppService],
 })

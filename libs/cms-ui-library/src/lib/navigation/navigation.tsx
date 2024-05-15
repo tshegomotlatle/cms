@@ -7,6 +7,7 @@ import AddCourtCase from '../court-cases/add-court-case/add-court-case';
 import CalendarUi from '../calendar/calendar-ui';
 import TestComponent from '../test-component/test-component';
 import Invoice from '../Invoices/invoice';
+import AddInvoice from '../Invoices/add-invoice/add-invoice';
 
 /* eslint-disable-next-line */
 export interface NavigationProps {}
@@ -89,6 +90,7 @@ export function Navigation(props: NavigationProps) {
         <Route path="/calendar" element={<CalendarUi />} />
         <Route path="/test" element={<TestComponent />} />
         <Route path="/invoices" element={<Invoice />} />
+        <Route path="/add-invoices" element={<AddInvoice />} />
       </Routes>
     </div>
   );

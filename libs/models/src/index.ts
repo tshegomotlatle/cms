@@ -7,7 +7,7 @@ export * from './lib/court-case/court-case'
 
 export * from './lib/documents/documents'
 
-export * from './lib/constants/constants'
+export * from './lib/invoice/invoice'
 
 export * from './lib/contracts/requests/authentication/user-email-request/user-email-request'
 
@@ -22,3 +22,9 @@ export * from './lib/contracts/requests/authentication/user-register-request/use
 export * from './lib/contracts/requests/documents/get-document-request/get-document-request'
 
 export * from './lib/contracts/requests/documents/upload-document-request/upload-document-request'
+
+export * from './lib/contracts/requests/invoices/get-invoices-by-id/get-invoices-by-id-request'
+
+export * from './lib/contracts/requests/invoices/get-invoices-by-invoice-number-request/get-invoices-by-invoice-number-request'
+
+export * from './lib/contracts/requests/invoices/get-invoices-by-case-number-request/get-invoices-by-case-number-request'

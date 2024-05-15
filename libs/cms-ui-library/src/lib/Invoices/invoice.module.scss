@@ -1,9 +1,8 @@
-.container{
+.invoice-container{
     display: flex;
     flex-direction: column;
     align-items: center;
     border: 1px solid red;
-    width: 100%;
 }
 
 .table{
@@ -21,3 +20,17 @@
 .amount{
     width: 25%;
 }
+
+.container{
+    display: flex;
+    width: 100%;
+}
+
+.invoice-menu{
+    flex: 30%;
+}
+
+.invoice{
+    flex: 70%;
+}
+

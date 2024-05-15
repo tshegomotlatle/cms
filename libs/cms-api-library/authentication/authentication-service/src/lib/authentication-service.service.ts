@@ -17,6 +17,16 @@ export class AuthenticationService {
 
     async UserLogin(email: string, password: string): Promise<{ accessToken: string, refreshToken: string }> {
 
+        Logger.log(email);
+        Logger.log(password);
+        if (email === "" || email === undefined || password === "" || password === undefined)
+        {
+            return {
+                accessToken: "",
+                refreshToken: ""
+            };
+        }
+
         const user = await this.authenticationRepository.GetUser(email);
         Logger.log(user);
         if (user) {

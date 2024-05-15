@@ -11,6 +11,6 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/lib/court-case/court-case.dto.ts", "../data-transfer-objects/src/lib/documents/documents.dto.ts", "../data-transfer-objects/src/lib/invoice/invoice.dto.ts", "../data-transfer-objectst/user.dto.ts", "../data-transfer-objects/src/lib/update-password-request/update-password-request.dto.ts", "../data-transfer-objects/src/lib/user-edit-request/user-edit-request.dto.ts", "../data-transfer-objects/src/lib/user-email-request/user-email-request.dto.ts", "../data-transfer-objects/src/lib/user-login-request/user-login-request.dto.ts", "../data-transfer-objects/src/lib/user-register-request/user-register-request.dto.ts", "../data-transfer-objects/src/lib/get-document-request.dto/get-document-request.dto.ts", "../data-transfer-objects/src/lib/upload-document-request/upload-document-request.dto.ts", "../data-transfer-objects/src/lib/get-invoices-by-case-number-request/get-invoices-by-case-number-request.dto.ts", "../data-transfer-objects/src/lib/get-invoices-by-id-request/get-invoices-by-id-request.dto.ts", "../data-transfer-objects/src/lib/get-invoices-by-invoice-number-request/get-invoices-by-invoice-number-request.dto.ts"],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

@@ -33,6 +33,7 @@
       "@cms-court-cases-service": [
         "libs/cms-api-library/court-cases/court-cases-service/src/index.ts"
       ],
+      "@cms-data-transfer-objects": ["libs/data-transfer-object/index.ts"],
       "@cms-documents-api": [
         "libs/cms-api-library/documents/documents-api/src/index.ts"
       ],
@@ -42,6 +43,7 @@
       "@cms-documents-service": [
         "libs/cms-api-library/documents/documents-service/src/index.ts"
       ],
+      "@cms-dtos": ["libs/data-transfer-object/src/index.ts"],
       "@cms-invoices-api": [
         "libs/cms-api-library/invoices/invoices-api/src/index.ts"
       ],

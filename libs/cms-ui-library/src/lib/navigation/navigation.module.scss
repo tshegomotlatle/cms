@@ -23,8 +23,8 @@
         padding-left: 1vw;
     }
     .navigation-item:last-child {
-        width: 15vw;
-        transition: width 0.5s;
+        width: 13vw;
+        transition: width 1s;
     }
 }
 
@@ -44,7 +44,7 @@
     position: absolute;
     bottom: 0;
     justify-content: center;
-    width: 5vw;
+    width: inherit;
 }
 
 .navigation-item:hover {
@@ -59,4 +59,8 @@
 
 .naviagtion-item-text{
     display: none;
+}
+
+a {
+  color: white;
 }

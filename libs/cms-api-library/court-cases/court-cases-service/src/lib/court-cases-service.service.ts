@@ -7,6 +7,7 @@ export class CourtCasesService {
     constructor(private courtCaseRepository: CourtCaseRepository) { }
 
     public async AddCase(courtCase: CourtCase): Promise<CourtCase | null> {
+        courtCase.dateCreated = new Date();
         if (courtCase) {
             return this.courtCaseRepository.AddCase(courtCase);
         }

@@ -1,4 +1,4 @@
-import { CourtCase } from '@cms-models';
+import { CourtCaseDto } from '../../data-transfer-object/court-case/court-case.dto';
 import styles from './court-cases.module.scss';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ export interface CourtCasesProps {}
 
 export function CourtCases(this: any, props: CourtCasesProps) {
 
-  const [courtCases, setCourtCases] = useState<CourtCase[]>([]);
+  const [courtCases, setCourtCases] = useState<CourtCaseDto[]>([]);
   const [searchBarInput, setSearchBarInput] = useState('');
 
   useEffect(() =>
@@ -79,7 +79,7 @@ export function CourtCases(this: any, props: CourtCasesProps) {
           </tr>
         </thead>
         <tbody>
-          {courtCases.map((courtCase: CourtCase, i) => (
+          {courtCases.map((courtCase: CourtCaseDto, i) => (
             <tr key={i}>
               <th scope="row">{courtCase.caseNumber}</th>
               <td>{courtCase.defendant}</td>

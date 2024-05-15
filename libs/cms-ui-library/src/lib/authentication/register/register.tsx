@@ -1,19 +1,14 @@
 import { useState } from 'react';
 import styles from './register.module.scss';
 import axios, { AxiosResponse } from 'axios';
+import { UserDto } from '../../data-transfer-object/user/user.dto';
 
 /* eslint-disable-next-line */
 export interface RegisterProps {}
 
 export function Register(props: RegisterProps) {
-  const [user, setUser] = useState({
-    email: '',
-    name: '',
-    surname: '',
-    mobileNumber: '',
-    password: '',
-    passwordConfirm: '',
-  });
+  const [user, setUser] = useState<UserDto>(new UserDto());
+  const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const handleNameChange = (e: { target: { value: string } }) => {
     setUser({
@@ -51,19 +46,23 @@ export function Register(props: RegisterProps) {
   };
 
   const handlePasswordConfirmChange = (e: { target: { value: string } }) => {
-    setUser({
-      ...user,
-      passwordConfirm: e.target.value,
-    });
+    setPasswordConfirm(e.target.value);
   };
 
   const LoginHandler = async () => {
+    if (passwordConfirm !== user.password)
+      return showError("Passwords do not match");
+
     axios
-      .post('api/authentication/register', user)
-      .then((response: AxiosResponse<any, any>) => {
+      .post('/authentication/register', user)
+      .then((response: AxiosResponse) => {
         console.log(response);
       });
   };
+
+  const showError = (error : string) =>{
+    alert(error)
+  }
 
   return (
     <div className={styles['container']}>
@@ -148,7 +147,7 @@ export function Register(props: RegisterProps) {
             id="passwordConfirm"
             placeholder="Confirm password"
             name="pswd"
-            value={user.passwordConfirm}
+            value={passwordConfirm}
             onChange={handlePasswordConfirmChange}
           />
         </div>
