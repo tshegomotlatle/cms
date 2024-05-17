@@ -77,13 +77,6 @@ export function AddCourtCase(props: AddCourtCaseProps) {
     });
   };
 
-  const handleDateChange = (event: { target: { value: string } }) => {
-    setCourtCase({
-      ...courtCase,
-      date: new Date(event.target.value),
-    });
-  };
-
   return (
     <div className={styles['add-case-container']}>
       <div className="card">
@@ -160,15 +153,6 @@ export function AddCourtCase(props: AddCourtCaseProps) {
                 <option value="2">TEST 2</option>
                 <option value="3">TEST 3</option>
               </select>
-            </div>
-            <div className="form-group mt-2">
-              <label htmlFor="lawyer">Next Important Date</label>
-              <input
-                id="startDate"
-                className="form-control mt-2"
-                type="datetime-local"
-                onChange={handleDateChange}
-              />
             </div>
             <div className="mt-3">
               <button

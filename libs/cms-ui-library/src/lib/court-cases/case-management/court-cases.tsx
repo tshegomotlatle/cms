@@ -87,8 +87,8 @@ export function CourtCases(this: any, props: CourtCasesProps) {
               <td>{courtCase.plaintiff}</td>
               <td>{courtCase.status}</td>
               <td>{courtCase.type}</td>
-              <td>{courtCase.date?.toLocaleString()}</td>
-              <td>{courtCase.dateCreated.toLocaleString().split(',')[0]}</td>
+              <td>{"INSERT NEXT DATE HERE"}</td>
+              <td>{courtCase.dateCreated.toLocaleString().split('T')[0]}</td>
               <td>{courtCase.outcome}</td>
             </tr>
           ))}

@@ -1,7 +1,6 @@
 export class CourtCaseDto {
     id?: string;
     caseNumber!: string;
-    date!: Date | null;
     location!: string;
     plaintiff!: string;
     defendant!: string;

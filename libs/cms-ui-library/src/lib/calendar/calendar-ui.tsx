@@ -13,19 +13,28 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import axios, { AxiosResponse } from 'axios';
 import { CourtCaseDto } from '../data-transfer-object/court-case/court-case.dto';
+import { CourtCasesDatesDto } from '../data-transfer-object/court-case-dates/court-case-dates-dto';
 
 /* eslint-disable-next-line */
 export interface CalendarUiProps {}
 
 export interface CalendarEventInterface {
-   title: string;
-   start: Date;
+  title: string;
+  start: Date;
 }
 
 export function CalendarUi(props: CalendarUiProps) {
-
   // events that an individual has
-  const [events, setEvents] = useState<CalendarEventInterface[]>([{ title: 'Meeting', start: new Date() }]);
+  const [events, setEvents] = useState<CalendarEventInterface[]>([
+    { title: 'Meeting', start: new Date() },
+  ]);
+  const [newEvent, setNewEvent] = useState<CourtCasesDatesDto>(
+    {
+      caseNumber: "",
+      title: "",
+      lawyerIds: []
+    }
+  );
 
   //configuration for event format like '14:30'
   const eventTimeFormat: {
@@ -77,26 +86,58 @@ export function CalendarUi(props: CalendarUiProps) {
   }
 
   useEffect(() => {
-      axios
-        .post('/court-cases/getAllCases', {
-          accessToken: sessionStorage.getItem('access_token') || '',
-        })
-        .then((response: AxiosResponse) => {
-          console.log(response);
-          setCourtCase(response.data);
-          const tempEvents: CalendarEventInterface[] = []
-          courtCases.forEach((courtCase: CourtCaseDto) => {
-            if (courtCase.date)
-            {
-              tempEvents.push({
-                title: courtCase.caseNumber + ' ' + courtCase.defendant + " vs " + courtCase.plaintiff,
-                start: courtCase.date,
-              });
-            }
-          });
-          setEvents(tempEvents);
+    axios
+      .post('/court-cases/getAllCases', {
+        accessToken: sessionStorage.getItem('access_token') || '',
+      })
+      .then((response: AxiosResponse) => {
+        console.log(response);
+        setCourtCase(response.data);
+        const tempEvents: CalendarEventInterface[] = [];
+        courtCases.forEach((courtCase: CourtCaseDto) => {
+          // if (courtCase.date)
+          // {
+          //   tempEvents.push({
+          //     title: courtCase.caseNumber + ' ' + courtCase.defendant + " vs " + courtCase.plaintiff,
+          //     start: courtCase.date,
+          //   });
+          // }
         });
-  }, [])
+        setEvents(tempEvents);
+      });
+  }, []);
+
+  const handleTitleChange = (event: { target: { value: string } }) => {
+    setNewEvent({
+      ...newEvent,
+      title: event.target.value,
+    });
+  };
+
+  const handleDateChange = (event: { target: { value: string } }) => {
+    setNewEvent({
+      ...newEvent,
+      date: new Date(event.target.value),
+    });
+  };
+
+  const handleCaseNumberChange = (event: { target: { value: string } }) => {
+    setNewEvent({
+      ...newEvent,
+      caseNumber: event.target.value,
+    });
+  };
+
+  const handleInviteChange = (event: { target: { value: string } }) => {
+      setNewEvent({
+        ...newEvent,
+        lawyerIds: newEvent.lawyerIds?.concat([event.target.value]),
+      });
+  };
+
+  const AddEvent = () =>{
+    console.log(newEvent);
+  }
 
   return (
     <div className={styles['container']}>
@@ -148,12 +189,77 @@ export function CalendarUi(props: CalendarUiProps) {
             <select
               name="caseNumber"
               id="caseNumber"
-              className={styles['caseNumberSelect']}
+              className="form-control"
+              onChange={handleCaseNumberChange}
             >
-              {courtCases.map((courtCase, index) =>{
-                return <option key={index} value={courtCase.caseNumber}>{courtCase.caseNumber} - {courtCase.plaintiff} vs {courtCase.defendant}</option>
+              <option defaultChecked>---Select option---</option>
+              {courtCases.map((courtCase, index) => {
+                return (
+                  <option key={index} value={courtCase.caseNumber}>
+                    {courtCase.caseNumber} - {courtCase.plaintiff} vs{' '}
+                    {courtCase.defendant}
+                  </option>
+                );
               })}
             </select>
+          </div>
+          <div className="form-group mt-2">
+            <label htmlFor="plaintiff">Title</label>
+            <input
+              type="text"
+              className="form-control"
+              id="eventTitle"
+              placeholder="Enter event title"
+              onChange={handleTitleChange}
+            />
+          </div>
+          <div className="form-group mt-2">
+            <label htmlFor="lawyer">Date</label>
+            <input
+              id="startDate"
+              className="form-control mt-2"
+              type="datetime-local"
+              onChange={handleDateChange}
+            />
+          </div>
+          <div className="form-group mt-2">
+            <label htmlFor="invites">Invite</label>
+            <select
+              name="invites"
+              id="invites"
+              className="form-control"
+              onChange={handleInviteChange}
+            >
+              <option defaultChecked>---Select option---</option>
+              <option value="test1">Test 1</option>
+              <option value="test2">Test 2</option>
+              <option value="test3">Test 3</option>
+              {courtCases.map((courtCase, index) => {
+                return (
+                  <option key={index} value={courtCase.caseNumber}>
+                    {courtCase.caseNumber} - {courtCase.plaintiff} vs{' '}
+                    {courtCase.defendant}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className={styles['InvitesBadgesContainer']}>
+            <div>
+            <span className="badge rounded-pill bg-primary">Primary</span>
+            </div>
+            {newEvent.lawyerIds?.map((lawyerId) => {
+              return (
+                <div>
+                  <span className="badge rounded-pill bg-primary">{lawyerId}</span>
+                </div>
+              );
+            })}
+          </div>
+          <div className="form-group mt-4">
+            <button className="btn btn-outline-dark" onClick={AddEvent}>
+              Add Event
+            </button>
           </div>
         </div>
       </div>

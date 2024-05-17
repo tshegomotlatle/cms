@@ -26,7 +26,8 @@ model Lawyer {
   email        String      @unique
   name         String
   surname      String
-  mobileNumber String
+  mobileNumber String      @unique
+  userId       String
 }
 
 model User {
@@ -57,4 +58,12 @@ model InvoiceItems{
   costPerHour   Float
   caseNumber    String
   userId        String  
+}
+
+model CourtCasesDates{
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  caseNumber    String
+  date          String
+  title         String
+  lawyersIds    String[]
 }

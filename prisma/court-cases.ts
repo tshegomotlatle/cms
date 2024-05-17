@@ -2,7 +2,6 @@ export const CourtCases =
     [
         {
             "caseNumber": "2024-001",
-            "date": "2024-02-18T12:00:00Z",
             "location": "New York",
             "plaintiff": "John Doe",
             "defendant": "Jane Smith",
@@ -15,7 +14,6 @@ export const CourtCases =
         },
         {
             "caseNumber": "2024-002",
-            "date": "2024-02-19T12:00:00Z",
             "location": "Los Angeles",
             "plaintiff": "Alice Johnson",
             "defendant": "Bob Brown",
@@ -28,7 +26,6 @@ export const CourtCases =
         },
         {
             "caseNumber": "2024-003",
-            "date": "2024-02-20T12:00:00Z",
             "location": "Chicago",
             "plaintiff": "Mary White",
             "defendant": "David Black",

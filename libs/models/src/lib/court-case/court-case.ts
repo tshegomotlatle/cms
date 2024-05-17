@@ -8,9 +8,6 @@ export class CourtCase {
     caseNumber!: string;
     
     @ApiProperty()
-    date?: Date | null;
-    
-    @ApiProperty()
     location!: string;
     
     @ApiProperty()
