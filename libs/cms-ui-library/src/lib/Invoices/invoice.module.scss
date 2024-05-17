@@ -140,3 +140,52 @@ input[type='text'] {
     display: flex;
     justify-content: space-between;
 }
+
+.container-footer{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    padding: 2vw 12vh;
+}
+
+.signatureLine{
+    width: 15vw;
+    border-bottom: 3px solid black;
+}
+
+.container-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    
+    align-items: center;
+}
+
+.contactNumbers{
+    display: flex;
+    flex-direction: column;
+}
+
+.personalInformation {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.divider{
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.recipentContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    justify-items: start;
+    width: 100%;
+}

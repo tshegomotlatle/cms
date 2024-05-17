@@ -72,6 +72,30 @@ export function Invoice() {
     console.log(event?.target.value);
   };
 
+  const invoiceFooter = () =>{
+    return (
+      <div className={styles['container-footer']}>
+        <div className={styles['signature']}>
+          <div>Yours Faithfully</div>
+          <div className="mt-5">
+            <div className={styles['signatureLine']}></div>
+            <div className={styles['information']}>
+              Adv T.P Motlatle <br />
+              Date: {new Date().toLocaleDateString()}
+            </div>
+          </div>
+        </div>
+        <div className={styles['bankingDetails']}>
+          Banking Details <br />
+          Account Name: Adv TP Motlatle <br />
+          Bank: FNB <br />
+          Branch Code: 260 147 <br />
+          Account No: 62655759185
+        </div>
+      </div>
+    );
+  }
+
   const handleCaseNumberClick = async (value: string) => {
     console.log(value);
     const getInvoiceByCaseNumber: GetInvoicesByCaseNumberRequestDto = {
@@ -224,6 +248,55 @@ export function Invoice() {
     return formatter.format(money);
   };
 
+  const invoiceHeader = (
+    representing: string,
+    to: string,
+    reference: string,
+    type: string | null
+  ) => {
+    return (
+      <div className={styles['container-header']}>
+        <div>
+          <h1>ADV. T.P Motlatle</h1>
+          <h6>Date of admission as an Attorney: 19th May 1993</h6>
+          <h6>Date of admission as an Advocate: 25th February 2016</h6>
+        </div>
+        <div className={styles['personalInformation']}>
+          <div className={styles['address']}>
+            25 Spirngbok Street <br />
+            Groblersdal <br />
+            0470
+          </div>
+          <div className={styles['email']}>tumelom@lantic.net</div>
+          <div className={styles['contactNumbers']}>
+            <div>
+              <b>Tel: </b> 015 291 2116 <br />
+            </div>
+            <div>
+              <b>Fax: </b> 086 616 9792 <br />
+            </div>
+            <div>
+              <b>Mobile: </b> 082 803 4402
+            </div>
+          </div>
+        </div>
+        <div>Invoice No: 003/2022</div>
+        <div className={styles['divider']}></div>
+        <div className={styles['recipentContainer']}>
+          <div className={styles['recipient']}>TO: {to}</div>
+          <div className={styles['reference']}>REF:{reference}</div>
+        </div>
+        <div className={styles['divider']}></div>
+        <div className={styles['recipentContainer']}>
+          <h3>
+            RE: {representing} / {type}
+          </h3>
+        </div>
+        <div className={styles['divider']}></div>
+      </div>
+    );
+  };
+
   return (
     <div className={styles['container']}>
       <div className={styles['invoice-menu']}>
@@ -271,12 +344,12 @@ export function Invoice() {
       </div>
       <div className={styles['invoice']}>
         <div className={styles['invoice-container']}>
-          <InvoiceHeader
-            representing={courtCase?.defendant}
-            to={courtCase?.plaintiff}
-            reference={courtCase.caseNumber}
-            type={courtCase.type}
-          />
+          {invoiceHeader(
+            courtCase?.defendant,
+            courtCase?.plaintiff,
+            courtCase.caseNumber,
+            courtCase.type
+          )}
           <div className={styles['table']}>
             <table className="table">
               <thead>
@@ -318,7 +391,7 @@ export function Invoice() {
               </tbody>
             </table>
           </div>
-          <InvoiceFooter />
+          {invoiceFooter()}
         </div>
       </div>
     </div>
