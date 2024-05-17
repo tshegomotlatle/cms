@@ -3,6 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/cms-api-library/court-cases/court-cases-repository/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -17,6 +18,5 @@
         ]
       }
     }
-  },
-  "tags": []
+  }
 }

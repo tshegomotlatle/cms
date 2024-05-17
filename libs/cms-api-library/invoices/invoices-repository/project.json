@@ -3,6 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/cms-api-library/invoices/invoices-repository/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -15,6 +16,5 @@
         "assets": ["libs/cms-api-library/invoices/invoices-repository/*.md"]
       }
     }
-  },
-  "tags": []
+  }
 }
