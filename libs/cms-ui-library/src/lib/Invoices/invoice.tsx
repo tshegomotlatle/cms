@@ -28,8 +28,6 @@ export function Invoice() {
       });
   }, []);
 
-  useEffect(() => {}, [isAddInvoice]);
-
   // Input change handlers
   const handleDateChange = (event: { target: { value: string } }) => {
     setInvoice({
@@ -76,7 +74,7 @@ export function Invoice() {
 
   const handleCaseNumberClick = async (value: string) => {
     console.log(value);
-    let getInvoiceByCaseNumber: GetInvoicesByCaseNumberRequestDto = {
+    const getInvoiceByCaseNumber: GetInvoicesByCaseNumberRequestDto = {
       accessToken: sessionStorage.getItem('access_token') || '',
       caseNumber: value,
     };
@@ -107,7 +105,6 @@ export function Invoice() {
 
   const showCourtCasesComponent = () => {
     return (
-      <>
         <div>
           {courtCases?.map((courtCase: CourtCaseDto) => {
             return (
@@ -123,7 +120,6 @@ export function Invoice() {
             );
           })}
         </div>
-      </>
     );
   };
 

@@ -1,5 +1,4 @@
-import { AccessTokenGuard } from '@cms-authetication-api';
-import { InvoicesRepositoryModule, InvoicesRespository } from '@cms-invoices-repository';
+import { InvoicesRespository } from '@cms-invoices-repository';
 import { Invoice } from '@cms-models';
 import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -33,18 +32,18 @@ export class InvoicesService {
         if (accessToken === "" || id === "")
             return null
 
-        const [userId, _] = this.jwtService.decode(accessToken);
+        const user: { userId: string, email: string } = this.jwtService.decode(accessToken);
 
-        return this.invoiceRepository.GetInvoiceById(id, userId);
+        return this.invoiceRepository.GetInvoiceById(id, user.userId);
     }
 
     public async GetInvoiceByInvoiceNumber(invoiceNumber: string, accessToken: string): Promise<Invoice[] | null> {
         if (accessToken === "" || invoiceNumber === "")
             return null
 
-        const [userId, _] = this.jwtService.decode(accessToken);
+        const user: { userId: string, email: string } = this.jwtService.decode(accessToken);
 
-        return this.invoiceRepository.GetInvoiceByInvoiceNumber(invoiceNumber, userId);
+        return this.invoiceRepository.GetInvoiceByInvoiceNumber(invoiceNumber, user.userId);
     }
 
     public async GetInvoiceByCaseNumber(caseNumber: string, accessToken: string): Promise<Invoice[] | null> {
@@ -60,9 +59,9 @@ export class InvoicesService {
         if (id === "" || accessToken === "")
             return null
 
-        const [userId, _] = this.jwtService.decode(accessToken);
+        const user: { userId: string, email: string } = this.jwtService.decode(accessToken);
 
-        return this.invoiceRepository.DeleteInvoice(id, userId);
+        return this.invoiceRepository.DeleteInvoice(id, user.userId);
     }
 
 

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 /* eslint-disable-next-line */
 export interface CourtCasesProps {}
 
-export function CourtCases(this: any, props: CourtCasesProps) {
+export function CourtCases(props: CourtCasesProps) {
 
   const [courtCases, setCourtCases] = useState<CourtCaseDto[]>([]);
   const [searchBarInput, setSearchBarInput] = useState('');

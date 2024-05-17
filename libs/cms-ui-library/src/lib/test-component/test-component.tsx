@@ -40,7 +40,7 @@ export function TestComponent(props: TestComponentProps) {
 
   const handleFileUpload = (event: {
     target: {
-      files: any;
+      files: Blob[];
       value: string;
     };
   }) => {
