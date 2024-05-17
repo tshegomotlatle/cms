@@ -7,7 +7,6 @@ import AddCourtCase from '../court-cases/add-court-case/add-court-case';
 import CalendarUi from '../calendar/calendar-ui';
 import TestComponent from '../test-component/test-component';
 import Invoice from '../Invoices/invoice';
-import AddInvoice from '../Invoices/add-invoice/add-invoice';
 
 /* eslint-disable-next-line */
 export interface NavigationProps {}
@@ -16,8 +15,8 @@ export function Navigation(props: NavigationProps) {
   return (
     <div className={styles['container']}>
       <div className={styles['navigation-container']}>
-        <div className="display-5">CMS</div>
         <div className={styles['navigation-item-container']}>
+        <div className="display-5">CMS</div>
           <div className={styles['navigation-item']}>
             <span
               className="material-symbols-outlined"
@@ -76,6 +75,17 @@ export function Navigation(props: NavigationProps) {
               className="material-symbols-outlined"
               style={{ fontSize: '50px', paddingRight: '1vw' }}
             >
+              person
+            </span>
+            <div className={styles['naviagtion-item-text']}>
+              <a href="invoices">Profile</a>
+            </div>
+          </div>
+          <div className={styles['navigation-item']}>
+            <span
+              className="material-symbols-outlined"
+              style={{ fontSize: '50px', paddingRight: '1vw' }}
+            >
               <a href="/login">Logout</a>
             </span>
             <div className={styles['naviagtion-item-text']}>Logout</div>
@@ -90,7 +100,6 @@ export function Navigation(props: NavigationProps) {
         <Route path="/calendar" element={<CalendarUi />} />
         <Route path="/test" element={<TestComponent />} />
         <Route path="/invoices" element={<Invoice />} />
-        <Route path="/add-invoices" element={<AddInvoice />} />
       </Routes>
     </div>
   );

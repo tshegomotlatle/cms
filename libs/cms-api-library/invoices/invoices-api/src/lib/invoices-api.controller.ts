@@ -1,6 +1,6 @@
 import { InvoicesService } from '@cms-invoices-service';
 import { GetInvoicesByCaseNumberRequest, GetInvoicesByIdRequest, GetInvoicesByInvoiceNumberRequest, Invoice } from '@cms-models';
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Logger, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 @ApiTags("invoices")
 @Controller('invoices')
@@ -35,6 +35,7 @@ export class InvoicesApiController {
 
     @Post('getInvoiceByCaseNumber')
     getInvoiceByCaseNumber(@Body() body: GetInvoicesByCaseNumberRequest) : Promise<Invoice[] | null>{
+        Logger.log(body);
         return this.invoiceService.GetInvoiceByCaseNumber(body.caseNumber, body.accessToken);
     }
 }

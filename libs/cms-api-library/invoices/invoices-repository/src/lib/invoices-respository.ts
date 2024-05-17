@@ -17,7 +17,6 @@ export class InvoicesRespository {
                 costPerHour: invoice.costPerHour,
                 date: invoice.date,
                 hours: invoice.hours,
-                invoiceNumber: invoice.invoiceNumber,
                 name: invoice.name,
                 userId: invoice.userId,
             }

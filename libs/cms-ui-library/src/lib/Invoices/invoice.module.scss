@@ -3,6 +3,9 @@
     flex-direction: column;
     align-items: center;
     border: 1px solid red;
+    height: -webkit-fill-available;
+    position: relative;
+    padding: 2vw 12vh;
 }
 
 .table{
@@ -34,3 +37,106 @@
     flex: 70%;
 }
 
+.courtCasesHeader {
+  height: 5vh;
+  display: flex;
+  width: 100%;
+}
+
+.sort {
+  flex: 5%;
+  border: 1px solid blue;
+}
+
+.sort:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.addCase:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.filter:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.search {
+  flex: 85%;
+}
+
+.filter {
+  flex: 5%;
+  border: 1px solid black;
+}
+
+.addCase {
+  flex: 5%;
+  border: 1px solid black;
+}
+
+span#sortButton {
+  height: 100%;
+  width: 100%;
+  font-size: 3.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+span#filterButton {
+  height: 100%;
+  width: 100%;
+  font-size: 3.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+span#addButton {
+  height: 100%;
+  width: 100%;
+  font-size: 3.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type='text'] {
+  width: 100%;
+  height: 100%;
+}
+
+.invoice-menus {
+  border-bottom: 1px solid black;
+  padding: 10px;
+}
+
+.invoice-menus:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+
+.addInvoiceButton{
+    
+  color: black;
+      height: 100%;
+}
+
+.addInvoiceButton:hover{
+    
+  color: white;
+}
+
+.add-invoice-container{
+    padding: 1vh 2vw;
+}
+
+.add-invoice-button-container{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+}

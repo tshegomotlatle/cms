@@ -2,7 +2,6 @@ import { CourtCaseDto } from '../../data-transfer-object/court-case/court-case.d
 import styles from './court-cases.module.scss';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
 /* eslint-disable-next-line */
 export interface CourtCasesProps {}
 
@@ -13,15 +12,17 @@ export function CourtCases(this: any, props: CourtCasesProps) {
 
   useEffect(() =>
   {
-    const user : {userId: string, email: string} = jwtDecode(sessionStorage.getItem("access_token") || "");
-    axios.post('/court-cases/getAllCases', {
-      userId: user.userId,
-    }).then((response) => {
-      setCourtCases(response.data);
-      return;
-    }).catch((response) =>{
-      console.log(response);
-    });
+    axios
+      .post('/court-cases/getAllCases', {
+        accessToken: sessionStorage.getItem('access_token') || '',
+      })
+      .then((response) => {
+        setCourtCases(response.data);
+        return;
+      })
+      .catch((response) => {
+        console.log(response);
+      });
   },[])
 
   const searchCases = (e: { target: { value: string } }) => {

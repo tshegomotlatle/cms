@@ -1,21 +1,286 @@
+import axios, { AxiosResponse } from 'axios';
+import { useState, useEffect } from 'react';
+import { CourtCaseDto } from '../data-transfer-object/court-case/court-case.dto';
 import InvoiceFooter from './footer/invoice-footer';
 import InvoiceHeader from './header/invoice-header';
-import InvoiceMenu from './invoice-menu/invoice-menu';
 import styles from './invoice.module.scss';
+import { InvoiceDto } from '../data-transfer-object/invoice/invoice.dto';
+import { jwtDecode } from 'jwt-decode';
+import { GetInvoicesByCaseNumberRequestDto } from '../data-transfer-object/documents/get-invoices-by-case-number-request/get-invoices-by-case-number-request.dto';
 
 /* eslint-disable-next-line */
-export interface InvoiceProps {}
 
-export function Invoice(props: InvoiceProps) {
+export function Invoice() {
+  const [courtCases, setCourtCases] = useState<CourtCaseDto[]>([]);
+  const [courtCase, setCourtCase] = useState<CourtCaseDto>(new CourtCaseDto());
+  const [invoice, setInvoice] = useState<InvoiceDto>(new InvoiceDto());
+  const [invoices, setInvoices] = useState<InvoiceDto[]>([]);
+  const [isAddInvoice, setIsAddInvoice] = useState<boolean>(false);
+  let sum = 0;
+
+  useEffect(() => {
+    axios
+      .post('/court-cases/getAllCases', {
+        accessToken: sessionStorage.getItem('access_token') || '',
+      })
+      .then((response: AxiosResponse) => {
+        setCourtCases(response.data);
+      });
+  }, []);
+
+  useEffect(() => {}, [isAddInvoice]);
+
+  // Input change handlers
+  const handleDateChange = (event: { target: { value: string } }) => {
+    setInvoice({
+      ...invoice,
+      date: new Date(event.target.value),
+    });
+  };
+
+  const handleCaseNumberChange = (event: { target: { value: string } }) => {
+    setInvoice({
+      ...invoice,
+      caseNumber: event.target.value,
+    });
+  };
+
+  const handleDescriptionChange = (event: { target: { value: string } }) => {
+    setInvoice({
+      ...invoice,
+      name: event.target.value,
+    });
+  };
+
+  const handleHoursChange = (event: { target: { value: string } }) => {
+    setInvoice({
+      ...invoice,
+      hours: parseFloat(event.target.value),
+    });
+  };
+
+  const handleFeeChange = (event: { target: { value: string } }) => {
+    setInvoice({
+      ...invoice,
+      costPerHour: parseFloat(event.target.value),
+    });
+  };
+
+  const handleChangeView = () => {
+    setIsAddInvoice(!isAddInvoice);
+  };
+
+  const handleSearchBarInputChange = (event: { target: { value: string } }) => {
+    console.log(event?.target.value);
+  };
+
+  const handleCaseNumberClick = async (value: string) => {
+    console.log(value);
+    let getInvoiceByCaseNumber: GetInvoicesByCaseNumberRequestDto = {
+      accessToken: sessionStorage.getItem('access_token') || '',
+      caseNumber: value,
+    };
+    await axios
+      .post('/invoices/getInvoiceByCaseNumber', getInvoiceByCaseNumber)
+      .then(async (response: AxiosResponse) => {
+        console.log(response);
+        setInvoices(response.data);
+        await setCourtCaseObject(value);
+      })
+      .catch((response) => {
+        console.log(response);
+      });
+  };
+  /////////////////////////////////
+
+  const setCourtCaseObject = async (value: string) => {
+    await axios
+      .post('/court-cases/getCaseByCaseNumber', {
+        caseNumber: value,
+        accessToken: sessionStorage.getItem('access_token') || '',
+      })
+      .then((response: AxiosResponse) => {
+        console.log(response);
+        setCourtCase(response.data);
+      });
+  };
+
+  const showCourtCasesComponent = () => {
+    return (
+      <>
+        <div>
+          {courtCases?.map((courtCase: CourtCaseDto) => {
+            return (
+              <div
+                className={styles['invoice-menus']}
+                onClick={() => {
+                  handleCaseNumberClick(courtCase.caseNumber);
+                }}
+              >
+                {courtCase.caseNumber} - {courtCase.plaintiff} vs{' '}
+                {courtCase.defendant}
+              </div>
+            );
+          })}
+        </div>
+      </>
+    );
+  };
+
+  const showAddInvoiceComponent = () => {
+    return (
+      <div className={styles['add-invoice-container']}>
+        <div className="form-group mt-2">
+          <label htmlFor="lawyer">Date</label>
+          <input
+            id="startDate"
+            className="form-control mt-2"
+            type="date"
+            onChange={handleDateChange}
+          />
+        </div>
+        <div className="form-group mt-2">
+          <label htmlFor="caseNumber">Case Number</label>
+          <select
+            className="form-control mt-2"
+            onChange={handleCaseNumberChange}
+          >
+            <option defaultChecked >---Select a Case Number---</option>
+            {courtCases?.map((courtCase, index) => {
+              return (
+                <option key={index} value={courtCase.caseNumber}>
+                  {courtCase.caseNumber} - {courtCase.plaintiff} vs{' '}
+                  {courtCase.defendant}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+        <div className="form-group mt-2">
+          <label htmlFor="defendant">Description</label>
+          <input
+            type="text"
+            className="form-control"
+            id="description"
+            placeholder="Enter description"
+            onChange={handleDescriptionChange}
+          />
+        </div>
+        <div className="form-group mt-2">
+          <label htmlFor="defendant">Hours worked</label>
+          <input
+            type="text"
+            className="form-control"
+            id="hours"
+            placeholder="Enter hours worked"
+            onChange={handleHoursChange}
+          />
+        </div>
+        <div className="form-group mt-2">
+          <label htmlFor="defendant">Fee Per Hour</label>
+          <input
+            type="text"
+            className="form-control"
+            id="fee"
+            placeholder="Enter fee"
+            onChange={handleFeeChange}
+          />
+        </div>
+        <div className={styles['add-invoice-button-container']}>
+          <button className="btn btn-outline-dark" onClick={addCourtCasesButtonClick}>
+            Add Invoice Item
+          </button>
+          <button className="btn btn-outline-dark" onClick={handleChangeView}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const showMenuComponent = () => {
+    if (isAddInvoice) return showAddInvoiceComponent();
+    else return showCourtCasesComponent();
+  };
+
+  const addCourtCasesButtonClick = async () => {
+    const user: { userId: string; email: string } = jwtDecode(
+      sessionStorage.getItem('access_token') || ''
+    );
+    invoice.userId = user.userId;
+    await axios
+      .post('/invoices/add', invoice)
+      .then((response: AxiosResponse) => {
+        console.log(response);
+      });
+  };
+
+  const formatMoney = (money: number): string => {
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'ZAR',
+      currencyDisplay: 'narrowSymbol',
+      // These options are needed to round to whole numbers if that's what you want.
+      //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+      //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+    });
+
+    return formatter.format(money);
+  };
 
   return (
     <div className={styles['container']}>
       <div className={styles['invoice-menu']}>
-        <InvoiceMenu/>
+        <div className={styles['courtCasesHeader']}>
+          <div className={styles['search']}>
+            <input
+              type="text"
+              className={styles['searchInput']}
+              name="searchInput"
+              onChange={handleSearchBarInputChange}
+              placeholder="Search cases"
+            />
+          </div>
+          <div className={styles['addCase']}>
+            <div
+              className={styles['addInvoiceButton']}
+              onClick={handleChangeView}
+            >
+              <span
+                className="material-symbols-outlined"
+                id={styles['addButton']}
+              >
+                add
+              </span>
+            </div>
+          </div>
+          <div className={styles['filter']}>
+            <span
+              className="material-symbols-outlined"
+              id={styles['filterButton']}
+            >
+              filter_alt
+            </span>
+          </div>
+          <div className={styles['sort']}>
+            <span
+              className="material-symbols-outlined"
+              id={styles['sortButton']}
+            >
+              sort
+            </span>
+          </div>
+        </div>
+        {showMenuComponent()}
       </div>
       <div className={styles['invoice']}>
         <div className={styles['invoice-container']}>
-          <InvoiceHeader />
+          <InvoiceHeader
+            representing={courtCase?.defendant}
+            to={courtCase?.plaintiff}
+            reference={courtCase.caseNumber}
+            type={courtCase.type}
+          />
           <div className={styles['table']}>
             <table className="table">
               <thead>
@@ -33,27 +298,26 @@ export function Invoice(props: InvoiceProps) {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                </tr>
+                {invoices.map((invoice, index) => {
+                  sum += invoice.hours * invoice.costPerHour;
+                  return (
+                    <tr>
+                      <th scope="row">{index + 1}</th>
+                      <td>{invoice.date.toString().split('T')[0]}</td>
+                      <td>
+                        {invoice.name} <br />
+                        {invoice.hours} hours @{' '}
+                        {formatMoney(invoice.costPerHour)} p/h
+                      </td>
+                      <td>
+                        {formatMoney(invoice.hours * invoice.costPerHour)}
+                      </td>
+                    </tr>
+                  );
+                })}
                 <tr>
                   <td colSpan={3}>Total</td>
-                  <td>R80 000</td>
+                  <td>{formatMoney(sum)}</td>
                 </tr>
               </tbody>
             </table>

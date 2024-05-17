@@ -10,7 +10,6 @@ generator client {
 model CourtCase {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   caseNumber  String   @unique
-  date        DateTime?
   location    String
   plaintiff   String
   defendant   String
@@ -51,7 +50,7 @@ model Documents {
 
 model InvoiceItems{
   id            String @id @default(auto()) @map("_id") @db.ObjectId
-  invoiceNumber String
+  invoiceNumber String?
   name          String
   date          DateTime
   hours         Int

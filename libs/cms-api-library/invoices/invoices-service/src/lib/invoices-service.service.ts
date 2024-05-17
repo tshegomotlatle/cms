@@ -1,7 +1,7 @@
 import { AccessTokenGuard } from '@cms-authetication-api';
 import { InvoicesRepositoryModule, InvoicesRespository } from '@cms-invoices-repository';
 import { Invoice } from '@cms-models';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -18,6 +18,7 @@ export class InvoicesService {
         if (!this.ValidateInvoice(invoice))
             return null;
 
+        Logger.log(invoice);
         return await this.invoiceRepository.AddInvoice(invoice);
     }
 
@@ -50,9 +51,9 @@ export class InvoicesService {
         if (accessToken === "" || caseNumber === "")
             return null
 
-        const [userId, _] = this.jwtService.decode(accessToken);
+        const user: {userId:string, email:string} = this.jwtService.decode(accessToken);
 
-        return this.invoiceRepository.GetInvoiceByCaseNumber(caseNumber, userId);
+        return this.invoiceRepository.GetInvoiceByCaseNumber(caseNumber, user.userId);
     }
 
     public async DeleteInvoice(id: string, accessToken: string): Promise<Invoice | null> {

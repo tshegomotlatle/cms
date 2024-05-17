@@ -11,18 +11,21 @@ import {
 } from 'react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { log } from 'console';
 import axios, { AxiosResponse } from 'axios';
 import { CourtCaseDto } from '../data-transfer-object/court-case/court-case.dto';
-import { jwtDecode } from 'jwt-decode';
 
 /* eslint-disable-next-line */
 export interface CalendarUiProps {}
 
+export interface CalendarEventInterface {
+   title: string;
+   start: Date;
+}
+
 export function CalendarUi(props: CalendarUiProps) {
 
   // events that an individual has
-  const events = [{ title: 'Meeting', start: new Date() }];
+  const [events, setEvents] = useState<CalendarEventInterface[]>([{ title: 'Meeting', start: new Date() }]);
 
   //configuration for event format like '14:30'
   const eventTimeFormat: {
@@ -74,24 +77,25 @@ export function CalendarUi(props: CalendarUiProps) {
   }
 
   useEffect(() => {
-      
-    const user: { userId: string; email: string } = jwtDecode(
-      sessionStorage.getItem('access_token') || ''
-    );
-
-      axios.post('api/court-cases/getAllCases', {
-        userId: user.userId,
-      }).then((response : AxiosResponse) =>{
-        console.log(response)
-        setCourtCase(response.data)
-        courtCases.forEach((courtCase, index) => {
-          if (courtCase.date)
-            events.push({
-              title: courtCase.caseNumber + ' ' + courtCase.defendant,
-              start: courtCase.date,
-            });
+      axios
+        .post('/court-cases/getAllCases', {
+          accessToken: sessionStorage.getItem('access_token') || '',
         })
-      });
+        .then((response: AxiosResponse) => {
+          console.log(response);
+          setCourtCase(response.data);
+          const tempEvents: CalendarEventInterface[] = []
+          courtCases.forEach((courtCase: CourtCaseDto) => {
+            if (courtCase.date)
+            {
+              tempEvents.push({
+                title: courtCase.caseNumber + ' ' + courtCase.defendant + " vs " + courtCase.plaintiff,
+                start: courtCase.date,
+              });
+            }
+          });
+          setEvents(tempEvents);
+        });
   }, [])
 
   return (
@@ -118,7 +122,7 @@ export function CalendarUi(props: CalendarUiProps) {
           events={events}
           eventContent={renderEventContent}
           eventTimeFormat={eventTimeFormat}
-          height={'93vh'}
+          height={'92vh'}
         />
       </div>
       <div
@@ -146,8 +150,8 @@ export function CalendarUi(props: CalendarUiProps) {
               id="caseNumber"
               className={styles['caseNumberSelect']}
             >
-              {courtCases.map((courtCase) =>{
-                return <option value={courtCase.caseNumber}>{courtCase.caseNumber} - {courtCase.plaintiff} vs {courtCase.defendant}</option>
+              {courtCases.map((courtCase, index) =>{
+                return <option key={index} value={courtCase.caseNumber}>{courtCase.caseNumber} - {courtCase.plaintiff} vs {courtCase.defendant}</option>
               })}
             </select>
           </div>

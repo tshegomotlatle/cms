@@ -6,7 +6,7 @@ export class Invoice {
     id?: string;
     
     @ApiProperty()
-    invoiceNumber!: string;
+    invoiceNumber!: string | null;
     
     @ApiProperty()
     name!: string;

@@ -85,6 +85,20 @@ export class CourtCaseRepository {
         return result;
     }
 
+    public async GetAllCasesByCaseNumber(caseNumber: string, userId: string): Promise<CourtCase | null> {
+        this.prisma.$connect();
+
+        const result = await this.prisma.courtCase.findUnique({
+            where: {
+                userId: userId,
+                caseNumber: caseNumber
+            }
+        });
+
+        this.prisma.$disconnect();
+        return result;
+    }
+
     public async DeleteCase(caseNumber: string, userId: string): Promise<CourtCase> {
         this.prisma.$connect();
 
