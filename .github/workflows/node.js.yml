@@ -44,6 +44,8 @@ jobs:
   Test-All:
     if: ${{ github.event_name == 'push'}}
     runs-on: ubuntu-latest
+    environment:
+      name: development
     steps:
       - uses: actions/checkout@v2
         with:
