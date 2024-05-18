@@ -25,7 +25,7 @@ describe('AutheticationRepostiory', () => {
 
   it('should register a new user', async () => {
     const authRepo = new AutheticationRepostiory(new PrismaClient());
-    const newUser : UserRegisterRequest = {
+    const newUser: UserRegisterRequest = {
       email: "mokgethwamatlala@gmail.com",
       mobileNumber: "0844121245",
       name: "Mokgethwa",
@@ -44,7 +44,7 @@ describe('AutheticationRepostiory', () => {
 
   it('should edit a new user', async () => {
     const authRepo = new AutheticationRepostiory(new PrismaClient());
-    const newUser : UserRegisterRequest = {
+    const newUser: UserRegisterRequest = {
       email: "mokgethwamatlala@gmail.com",
       mobileNumber: "0844121245",
       name: "Mokgethwa",
@@ -53,9 +53,9 @@ describe('AutheticationRepostiory', () => {
     }
     await authRepo.DeleteUser("mokgethwamatlala@gmail.com")
     const user = await authRepo.RegisterUser(newUser);
-    const editUserRequest : UserEditRequest = {
+    const editUserRequest: UserEditRequest = {
       mobileNumber: "0855569856",
-      id : user.id!,
+      id: user.id!,
       name: "Tshego",
       surname: "Motlatle",
     }
@@ -69,7 +69,7 @@ describe('AutheticationRepostiory', () => {
 
   it('should update a users password', async () => {
     const authRepo = new AutheticationRepostiory(new PrismaClient());
-    const newUser : UserRegisterRequest = {
+    const newUser: UserRegisterRequest = {
       email: "mokgethwamatlala@gmail.com",
       mobileNumber: "0844121245",
       name: "Mokgethwa",
@@ -89,7 +89,7 @@ describe('AutheticationRepostiory', () => {
 
   it('should update a users refresh token', async () => {
     const authRepo = new AutheticationRepostiory(new PrismaClient());
-    const newUser : UserRegisterRequest = {
+    const newUser: UserRegisterRequest = {
       email: "mokgethwamatlala@gmail.com",
       mobileNumber: "0844121245",
       name: "Mokgethwa",
@@ -110,7 +110,7 @@ describe('AutheticationRepostiory', () => {
 
   it('should update a delete a user', async () => {
     const authRepo = new AutheticationRepostiory(new PrismaClient());
-    
+
     await authRepo.DeleteUser("mokgethwamatlala@gmail.com")
 
     const user = await authRepo.GetUser("mokgethwamatlala@gmail.com");
