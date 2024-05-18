@@ -19,8 +19,7 @@ export class AuthenticationService {
 
         Logger.log(email);
         Logger.log(password);
-        if (email === "" || email === undefined || password === "" || password === undefined)
-        {
+        if (email === "" || email === undefined || password === "" || password === undefined) {
             return {
                 accessToken: "",
                 refreshToken: ""
@@ -91,11 +90,11 @@ export class AuthenticationService {
         }
     }
 
-    async GetUser(email: string): Promise<User | null> {        
+    async GetUser(email: string): Promise<User | null> {
         return await this.authenticationRepository.GetUser(email);
     }
 
-    async RefreshToken(email: string, refreshToken: string): Promise<{ accessToken: string}> {
+    async RefreshToken(email: string, refreshToken: string): Promise<{ accessToken: string }> {
         const user = await this.GetUser(email);
 
         if (!user || !user.refreshToken) {
@@ -104,8 +103,7 @@ export class AuthenticationService {
             };
         }
 
-        if (refreshToken != user.refreshToken)
-        {
+        if (refreshToken != user.refreshToken) {
             return {
                 accessToken: "",
             };
