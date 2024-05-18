@@ -94,4 +94,16 @@ export class AutheticationRepostiory {
         this.prisma.$disconnect();
         return result;
     }
+
+    async DeleteUser(email:string) : Promise<User>{
+        this.prisma.$connect()
+        const result = await this.prisma.user.delete({
+            where: {
+                email: email,
+            }
+        })
+
+        this.prisma.$disconnect();
+        return result;
+    }
 }

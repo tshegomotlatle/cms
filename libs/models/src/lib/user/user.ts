@@ -17,11 +17,11 @@ export class User {
     mobileNumber!: string;
 
     @ApiProperty()
-    password!: string;
+    password?: string;
 
     @ApiProperty()
-    passwordSalt!: string;
+    passwordSalt?: string;
 
     @ApiProperty()
-    refreshToken!: string | null;
+    refreshToken?: string | null;
 }
