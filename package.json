@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "migrate": "npx prisma db push",
-    "seed-db": "ts-node prisma/seed.ts"
+    "seed-db": "ts-node prisma/seed.ts",
+    "build": "npx nx run cms:build & npx nx run cms-api:build"
   },
   "private": true,
   "dependencies": {
