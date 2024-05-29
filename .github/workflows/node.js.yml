@@ -26,6 +26,9 @@ jobs:
       - name: Installing Dependencies
         run: npm install
 
+      - name: Installing nx
+        run: npm add --global nx@latest
+
       - name: Running nx affected lint
         run: npm nx affected --target=lint --parallel=3
 
