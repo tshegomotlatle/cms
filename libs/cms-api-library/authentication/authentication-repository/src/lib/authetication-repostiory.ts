@@ -6,7 +6,7 @@ import { Injectable, Logger } from "@nestjs/common";
 @Injectable()
 export class AutheticationRepostiory {
 
-    constructor(private prisma : PrismaClient) {
+    constructor(private prisma: PrismaClient) {
     }
 
     async RegisterUser(user: UserRegisterRequest): Promise<User> {
@@ -79,16 +79,27 @@ export class AutheticationRepostiory {
         return result;
     }
 
-    async UpdateRefreshToken(email:string, refreshToken: string) : Promise<User>
-    {
+    async UpdateRefreshToken(email: string, refreshToken: string): Promise<User> {
         this.prisma.$connect()
         const result = await this.prisma.user.update({
             where: {
-                email : email,
+                email: email,
             },
-            data:{
-                refreshToken : refreshToken,
+            data: {
+                refreshToken: refreshToken,
             },
+        })
+
+        this.prisma.$disconnect();
+        return result;
+    }
+
+    async DeleteUser(email: string): Promise<User> {
+        this.prisma.$connect()
+        const result = await this.prisma.user.delete({
+            where: {
+                email: email,
+            }
         })
 
         this.prisma.$disconnect();

@@ -44,6 +44,10 @@ jobs:
   Test-All:
     if: ${{ github.event_name == 'push'}}
     runs-on: ubuntu-latest
+    environment:
+      name: development
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v2
         with:
