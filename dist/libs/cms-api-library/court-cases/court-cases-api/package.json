@@ -1,0 +1,17 @@
+{
+  "name": "@cms-court-cases-api",
+  "version": "0.0.1",
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@cms-models": "0.0.1",
+    "@nestjs/common": "^10.0.2",
+    "@cms-court-cases-service": "0.0.1",
+    "@nestjs/swagger": "^7.3.1",
+    "@cms-authetication-api": "0.0.1",
+    "@cms-court-cases-repository": "0.0.1"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "private": true
+}
