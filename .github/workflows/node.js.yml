@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Installing nx
-        run: npm i -g @nrwl/cli 
+        run: npm add @nx --global
 
       - name: Running nx affected lint
         run: npm nx affected --target=lint --parallel=3
@@ -62,7 +62,7 @@ jobs:
         run: npm install
 
       - name: Installing nx
-        run: npm i -g @nrwl/cli
+        run: npm add @nx --global
 
       - name: Running nx run-many lint
         run: npx nx run-many --target=lint
