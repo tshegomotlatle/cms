@@ -1,19 +1,9 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "main.ts",
-      "use": "@vercel/node"
-    }
-  ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "main.ts"
     }
-  ],
-  "devCommand": "cd ../../ && npx nx run cms-api:serve --configuration=production",
-  "buildCommand": "cd ../../ && npx nx run cms-api:build",
-  "outputDirectory": "../../dist/apps/cms-api",
-  "installCommand": "npm install"
+  ]
 }
