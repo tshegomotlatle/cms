@@ -1,10 +1,15 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "apps/cms-api/main.ts",
+      "use": "@vercel/node"
+    }
+  ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "main.js",
-      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
+      "dest": "apps/cms-api/main.ts"
     }
   ]
 }
