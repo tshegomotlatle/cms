@@ -11,5 +11,10 @@
       "src": "/(.*)",
       "dest": "apps/cms-api/main.ts"
     }
-  ]
+  ],
+  "devCommand": "cd ../../ && npx nx run cms-api:serve --configuration=production",
+  "buildCommand": "cd ../../ && npx nx run cms-api:build",
+  "outputDirectory": "../../dist/apps/cms-api",
+  "installCommand": "npm install"
+
 }
