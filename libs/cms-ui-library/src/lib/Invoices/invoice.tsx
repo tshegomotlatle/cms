@@ -1,8 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { useState, useEffect } from 'react';
 import { CourtCaseDto } from '../data-transfer-object/court-case/court-case.dto';
-import InvoiceFooter from './footer/invoice-footer';
-import InvoiceHeader from './header/invoice-header';
 import styles from './invoice.module.scss';
 import { InvoiceDto } from '../data-transfer-object/invoice/invoice.dto';
 import { jwtDecode } from 'jwt-decode';
