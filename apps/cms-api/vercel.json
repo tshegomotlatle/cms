@@ -1,14 +1,5 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "apps/cms-api/src/main.ts",
-      "use": "@vercel/node",
-      "config": {
-        "outputDirectory": "dist/apps/cms-api"
-      }
-    }
-  ],
   "routes": [
     {
       "src": "/(.*)",
