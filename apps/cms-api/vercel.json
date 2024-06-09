@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "apps/cms-api/main.ts",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["../../dist/apps/cms-api"]
+      }
     }
   ],
   "routes": [
