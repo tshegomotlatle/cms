@@ -9,6 +9,7 @@
   },
   "private": true,
   "dependencies": {
+    "@cms-authentication-api": "0.0.1",
     "@fullcalendar/core": "^6.1.11",
     "@fullcalendar/daygrid": "^6.1.11",
     "@fullcalendar/interaction": "^6.1.11",
