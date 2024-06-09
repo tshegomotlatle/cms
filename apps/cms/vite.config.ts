@@ -20,7 +20,7 @@ export default defineConfig({
 
   plugins: [react(), nxViteTsPaths(), codecovVitePlugin({
     enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
-    bundleName: "<bundle project name>",
+    bundleName: "Case-Management-System",
     uploadToken: process.env.CODECOV_TOKEN,
   }),],
 
