@@ -14,6 +14,8 @@ module.exports = {
       assets: ['./src/assets'],
       optimization: false,
       outputHashing: 'none',
+      outputPath: '../../dist/apps/cms-api',
+      outputFileName: 'main.js',
     }),
   ],
 };
