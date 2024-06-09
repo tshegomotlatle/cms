@@ -9,7 +9,6 @@
   },
   "private": true,
   "dependencies": {
-    "@cms-authentication-api": "0.0.1",
     "@fullcalendar/core": "^6.1.11",
     "@fullcalendar/daygrid": "^6.1.11",
     "@fullcalendar/interaction": "^6.1.11",
@@ -93,5 +92,6 @@
     "vite-plugin-dts": "~3.8.1",
     "vitest": "^1.3.1",
     "webpack-cli": "^5.1.4"
-  }
+  },
+  
 }
