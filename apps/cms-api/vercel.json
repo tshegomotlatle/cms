@@ -1,3 +1,19 @@
 {
-  "version": 2
+  "version": 2,
+  "builds": [
+    {
+      "src": "apps/cms-api/src/main.ts",
+      "use": "@nestjs/cli",
+      "config": {
+        "outputDirectory": "dist/apps/cms-api"
+      },
+      "routes": [
+        {
+          "src": "/(.*)",
+          "dest": "/",
+          "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
+        }
+      ]
+    }
+  ]
 }
