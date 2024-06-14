@@ -29,7 +29,7 @@ export class AuthenticationService {
         const user = await this.authenticationRepository.GetUser(email);
         Logger.log(user);
         if (user) {
-            const passwordHash = await bcrypt.hash(password, user.password || "");
+            const passwordHash = await bcrypt.hash(password, user.passwordSalt || "");
             if (passwordHash == user?.password) {
                 const payload = { userId: user.id, username: user.email };
                 const accessToken = await this.jwtService.signAsync(payload, {

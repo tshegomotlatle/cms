@@ -29,6 +29,7 @@ export function Login(props: LoginProps) {
 
   // handle login button being clicked
   const LoginHandler = async () => {
+    console.log(userLoginRequest);
     axios
       .post('/authentication/login', userLoginRequest)
       .then(function (response) {
@@ -54,7 +55,6 @@ export function Login(props: LoginProps) {
             id="email"
             placeholder="Enter email"
             name="email"
-            value={userLoginRequest.email}
             onChange={handleEmailChange}
           />
         </div>
@@ -68,7 +68,6 @@ export function Login(props: LoginProps) {
             id="pwd"
             placeholder="Enter password"
             name="pswd"
-            value={userLoginRequest.password}
             onChange={handlePasswordChange}
           />
         </div>

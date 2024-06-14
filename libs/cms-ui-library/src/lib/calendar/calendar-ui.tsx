@@ -105,7 +105,7 @@ export function CalendarUi(props: CalendarUiProps) {
         });
         setEvents(tempEvents);
       });
-  });
+  }, []);
 
   const handleTitleChange = (event: { target: { value: string } }) => {
     setNewEvent({
