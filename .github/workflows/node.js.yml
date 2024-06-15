@@ -83,8 +83,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           no-coverage-ran: false
           coverage-folder: ./coverage
-          coverage-base-folder: ./coverage-base
-          # gist-processing: true
+          gist-processing: false
+          # coverage-base-folder: ./coverage-base
           # gist-token: ${{ secrets.COVERAGE_BADGES_GIST_TOKEN }}
           # gist-id: d7e6b443a01eba615fd2a7c1215aec91
           # color: green
