@@ -51,7 +51,7 @@ export default defineConfig({
 
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../coverage',
+      reportsDirectory: '../../coverage/libs/cms-api-library',
       provider: 'v8',
     },
   },
