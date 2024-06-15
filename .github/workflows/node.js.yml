@@ -30,16 +30,16 @@ jobs:
         run: npm add nx --global
 
       - name: Running nx affected lint
-        run: npm nx affected --target=lint --parallel=3
+        run: npm nx affected --base=master --head=HEAD --target=lint --parallel=3
 
       - name: Running nx affected test
-        run: npm nx affected --target=test --parallel=3 
+        run: npm nx affected --base=master --head=HEAD --target=test --parallel=3 
 
       - name: Running nx affected build
-        run: npm nx affected --target=build --parallel=3
+        run: npx nx run-many --target=build --parallel=3
 
       - name: Running nx affected e2e
-        run: npm nx affected --target=e2e
+        run: npm nx affected --base=master --head=HEAD --target=e2e
 
   Test-All:
     if: ${{ github.event_name == 'push'}}
@@ -78,6 +78,21 @@ jobs:
 
       - name: Running nx run-many
         run: npx nx run-many --target=build
+
+      - name: Combine coverage reports
+        uses: dkhunt27/nx-code-coverage@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          no-coverage-ran: false
+          coverage-folder: ./coverage
+          coverage-base-folder: ./coverage-base
+          # gist-processing: true
+          # gist-token: ${{ secrets.COVERAGE_BADGES_GIST_TOKEN }}
+          # gist-id: d7e6b443a01eba615fd2a7c1215aec91
+          # color: green
+          # named-logo: jest
+          hide-coverage-reports: false
+          hide-unchanged: false
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
