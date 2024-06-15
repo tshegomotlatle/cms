@@ -81,16 +81,16 @@ jobs:
         uses: dkhunt27/nx-code-coverage@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          no-coverage-ran: false
           coverage-folder: ./coverage
-          gist-processing: false
+          #no-coverage-ran: false
+          #gist-processing: false
           # coverage-base-folder: ./coverage-base
           # gist-token: ${{ secrets.COVERAGE_BADGES_GIST_TOKEN }}
           # gist-id: d7e6b443a01eba615fd2a7c1215aec91
           # color: green
           # named-logo: jest
-          hide-coverage-reports: false
-          hide-unchanged: false
+          #hide-coverage-reports: FALSE
+          #hide-unchanged: FALSE
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
