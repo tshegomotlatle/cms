@@ -1,6 +1,7 @@
 import styles from './cms-ui-library.module.scss';
 import Navigation from './navigation/navigation';
 import axios, { AxiosRequestConfig } from 'axios';
+import 'core-js/stable/atob';
 import { jwtDecode } from 'jwt-decode';
 
 /* eslint-disable-next-line */

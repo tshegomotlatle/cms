@@ -2,7 +2,7 @@ import { SetStateAction, useEffect, useState } from 'react';
 import styles from './test-component.module.scss';
 import { CourtCase } from '@cms-models';
 import axios, { AxiosResponse } from 'axios';
-import { jwtDecode } from 'jwt-decode';
+import 'core-js/stable/atob';
 
 /* eslint-disable-next-line */
 export interface TestComponentProps {}
@@ -15,13 +15,7 @@ export function TestComponent(props: TestComponentProps) {
 
 
   useEffect(() => {
-      const user: { userId: string; email: string } = jwtDecode(
-        sessionStorage.getItem('access_token') || ''
-      );
-
-      axios.post('api/court-cases/getAllCases', {
-        userId: user.userId,
-      }).then((response : AxiosResponse) =>{
+      axios.post('api/court-cases/getAllCases').then((response : AxiosResponse) =>{
         setCourtCases(response.data)
       });
   }, []);
