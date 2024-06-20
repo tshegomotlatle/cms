@@ -9,10 +9,6 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/*" element={<CmsUiLibrary />} />
-      </Routes>
-    </BrowserRouter>
+        <CmsUiLibrary />
   </StrictMode>
 );
