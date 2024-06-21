@@ -27,6 +27,7 @@
     "axios": "^1.6.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "core-js": "^3.37.1",
     "jest-mock-extended": "^3.0.7",
     "jwt-decode": "^4.0.0",
     "passport-jwt": "^4.0.1",
