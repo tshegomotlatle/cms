@@ -57,7 +57,7 @@ export function Navigation(props: NavigationProps) {
                 folder
               </span>
               <div className={styles['naviagtion-item-text']}>
-                Document Management
+                <a href="/file-management">Document Management</a>
               </div>
             </div>
             <div className={styles['navigation-item']}>

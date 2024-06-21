@@ -14,7 +14,7 @@ export function FileManagement(props: FileManagementProps) {
 
    useEffect(() => {
      axios
-       .post('api/court-cases/getAllCases')
+       .post('/court-cases/getAllCases')
        .then((response: AxiosResponse) => {
          setCourtCases(response.data);
        });
@@ -52,7 +52,7 @@ export function FileManagement(props: FileManagementProps) {
        formData.append('caseNumber', caseNumber);
 
        axios
-         .post('api/documents/UploadDocuments', formData)
+         .post('/documents/UploadDocuments', formData)
          .then((response) => {
            console.log(response);
          });

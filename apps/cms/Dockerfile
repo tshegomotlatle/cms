@@ -13,8 +13,7 @@ RUN npm install
 # Step 5: Copy the rest of the application code
 COPY . .
 
-# Step 9: Expose port 80
 EXPOSE 4200
 
-# Step 10: Start Nginx
 RUN npm run start-frontend
+# CMD["npm", "run", "start-frontend"]
