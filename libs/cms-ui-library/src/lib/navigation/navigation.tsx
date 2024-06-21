@@ -101,6 +101,7 @@ export function Navigation(props: NavigationProps) {
           <Route path="/calendar" element={<CalendarUi />} />
           <Route path="/file-management" element={<FileManagement />} />
           <Route path="/invoices" element={<Invoice />} />
+          <Route path="/" element={<Invoice />} />
         </Routes>
       </div>
     </BrowserRouter>

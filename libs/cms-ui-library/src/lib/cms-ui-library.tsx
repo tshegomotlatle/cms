@@ -40,7 +40,6 @@ export function CmsUiLibrary(props: CmsUiLibraryProps) {
 
   axios.interceptors.response.use(undefined, async function (error) {
     // Get refresh token on request fail with error status 401 unauthorized
-    console.log(error.config);
     if (
       error.response.status === 401 &&
       error.config &&
