@@ -9,47 +9,10 @@ on:
   pull_request: 
     branches:
         - prod
-  workflow_dispatch: 
-    jobs: 
-        - Test-Affected
+  workflow_dispatch:
 
 jobs:
-  Test-Affected:
-    if: ${{ github.event_name == 'pull_request'}}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: ${{env.node-version}}
-          cache: npm
-
-      - name: Installing Dependencies
-        run: npm install --verbose
-
-      - name: Installing nx
-        run: npm add nx --global
-
-      - name: Installing vitest
-        run: npm add vitest --global
-
-      - name: Running nx affected lint
-        run: npx nx affected --base=master --head=HEAD --target=lint --parallel=3
-
-      - name: Running nx affected test
-        run: npx nx affected --base=master --head=HEAD --target=test --parallel=3 
-
-      - name: Running nx affected build
-        run: npx nx run-many --target=build --parallel=3
-
-      - name: Running nx affected e2e
-        run: npx nx affected --base=master --head=HEAD --target=e2e
-
   Test-All:
-    if: ${{ github.event_name == 'push'}}
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -83,9 +46,6 @@ jobs:
 
       - name: Running nx run-many e2e
         run: npx nx run-many --target=e2e
-
-      - name: Running nx run-many
-        run: npx nx run-many --target=build
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
