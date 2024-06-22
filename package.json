@@ -6,8 +6,7 @@
     "migrate": "npx prisma db push",
     "seed-db": "ts-node prisma/seed.ts",
     "build": "npx nx run cms:build & npx nx run cms-api:build",
-    "start-frontend": "nx run cms:serve",
-    "start-api": "nx run cms-api:serve:production"
+    "app": "docker-compose up --build"
   },
   "private": true,
   "dependencies": {
