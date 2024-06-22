@@ -28,7 +28,7 @@ jobs:
           cache: npm
 
       - name: Installing Dependencies
-        run: npm install
+        run: npm install --verbose
 
       - name: Installing nx
         run: npm add nx --global
@@ -64,7 +64,7 @@ jobs:
           cache: npm
 
       - name: Installing Dependencies
-        run: npm install
+        run: npm install --verbose
 
       - name: Installing nx
         run: npm add nx --global
