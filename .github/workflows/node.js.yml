@@ -29,6 +29,9 @@ jobs:
       - name: Installing nx
         run: npm add nx --global
 
+      - name: Installing vitest
+        run: npm add vitest --global
+
       - name: Running nx affected lint
         run: npm nx affected --base=master --head=HEAD --target=lint --parallel=3
 
