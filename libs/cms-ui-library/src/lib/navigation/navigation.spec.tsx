@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
-
-import Navigation from '../navigation/navigation';z
+import Navigation from '../navigation/navigation';
 import React from 'react';
 
 describe('Navigation', () => {
