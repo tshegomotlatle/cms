@@ -21,7 +21,7 @@ export function CourtCases(props: CourtCasesProps) {
         return;
       })
       .catch((response) => {
-        console.log(response);
+        throw response;
       });
   },[])
 
