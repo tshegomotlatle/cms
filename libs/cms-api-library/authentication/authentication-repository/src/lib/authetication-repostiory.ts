@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { User, UserEditRequest, UserRegisterRequest } from "@cms-models";
-import * as bcrypt from "bcrypt";
 import { Injectable, Logger } from "@nestjs/common";
+var bcrypt = require('bcryptjs');
 
 @Injectable()
 export class AutheticationRepostiory {

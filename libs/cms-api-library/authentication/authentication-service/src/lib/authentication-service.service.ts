@@ -1,6 +1,6 @@
 import { User, UserEditRequest, UserRegisterRequest } from '@cms-models';
 import { Injectable, Logger } from '@nestjs/common';
-import * as bcrypt from "bcrypt";
+var bcrypt = require('bcryptjs');
 import { AutheticationRepostiory } from "@cms-authentication-repository";
 import { JwtService } from '@nestjs/jwt';
 import { env } from 'process';
