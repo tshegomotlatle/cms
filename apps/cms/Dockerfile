@@ -1,19 +1,33 @@
-# Step 1: Use a Node.js image as the base image
-FROM node:18
+# Use Node.js as the base image
+FROM node:18 AS builder
 
-# Step 2: Set the working directory
+
+# Set the working directory
 WORKDIR /app
 
-# Step 3: Copy the package.json and package-lock.json (or yarn.lock) files
-COPY package.json package-lock.json ./
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Step 4: Install dependencies
-RUN npm install
+# Install dependencies
+RUN npm ci
 
-# Step 5: Copy the rest of the application code
+# Copy the rest of the application code
 COPY . .
 
-EXPOSE 4200
+# Build the React application
+RUN npm run build 
 
-RUN npm run start-frontend
-# CMD["npm", "run", "start-frontend"]
+# Use Nginx to serve the built application
+FROM nginx
+
+# Copy the built files from the builder stage
+COPY --from=builder /app/dist/apps/cms /usr/share/nginx/html
+
+# Copy a custom Nginx configuration if needed
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]

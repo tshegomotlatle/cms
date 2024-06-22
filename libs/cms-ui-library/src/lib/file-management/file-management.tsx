@@ -1,7 +1,7 @@
-import { CourtCase } from '@prisma/client';
 import axios, { AxiosResponse } from 'axios';
 import { useState, useEffect, SetStateAction } from 'react';
 import styles from './file-management.module.scss';
+import { CourtCaseDto } from '../data-transfer-object/court-case/court-case.dto';
 
 /* eslint-disable-next-line */
 export interface FileManagementProps {}
@@ -10,7 +10,7 @@ export function FileManagement(props: FileManagementProps) {
    const [file, setFile] = useState<Blob | null>(null);
    const [fileName, setFileName] = useState('');
    const [caseNumber, setCaseNumber] = useState('');
-   const [courtCases, setCourtCases] = useState<CourtCase[]>([]);
+   const [courtCases, setCourtCases] = useState<CourtCaseDto[]>([]);
 
    useEffect(() => {
      axios

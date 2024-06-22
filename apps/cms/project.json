@@ -6,12 +6,11 @@
   "tags": [],
   "targets": {
     "docker-build": {
-      "dependsOn": ["build"],
       "command": "docker build -f apps/cms/Dockerfile . -t cms"
     },
     "docker-run": {
       "dependsOn": ["docker-build"],
-      "command": "docker run --rm -p 4200:4200 cms"
+      "command": "docker run --rm -p 80:80 cms"
     }
   }
 }

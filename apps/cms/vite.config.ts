@@ -17,6 +17,7 @@ export default defineConfig({
     port: 4300,
     host: 'localhost',
   },
+  
 
   plugins: [react(), nxViteTsPaths(), codecovVitePlugin({
     enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
