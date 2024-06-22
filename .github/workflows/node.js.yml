@@ -30,16 +30,16 @@ jobs:
         run: npm add nx --global
 
       - name: Running nx affected lint
-        run: npm nx affected --base=master --head=HEAD --target=lint --parallel=3
+        run: npx nx affected --base=master --head=HEAD --target=lint --parallel=3
 
       - name: Running nx affected test
-        run: npm nx affected --base=master --head=HEAD --target=test --parallel=3 
+        run: npx nx affected --base=master --head=HEAD --target=test --parallel=3 
 
       - name: Running nx affected build
         run: npx nx run-many --target=build --parallel=3
 
       - name: Running nx affected e2e
-        run: npm nx affected --base=master --head=HEAD --target=e2e
+        run: npx nx affected --base=master --head=HEAD --target=e2e
 
   Test-All:
     if: ${{ github.event_name == 'push'}}
