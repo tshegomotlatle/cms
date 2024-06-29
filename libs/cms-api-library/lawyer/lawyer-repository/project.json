@@ -1,0 +1,9 @@
+{
+  "name": "lawyer-repository",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/cms-api-library/lawyer/lawyer-repository/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project lawyer-repository --web",
+  "targets": {}
+}
