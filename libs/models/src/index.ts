@@ -3,6 +3,10 @@ export * from './lib/models.module';
 
 export * from './lib/user/user'
 
+export * from './lib/user/user-token'
+
+export * from './lib/lawyer/lawyer'
+
 export * from './lib/court-case/court-case'
 
 export * from './lib/documents/documents'

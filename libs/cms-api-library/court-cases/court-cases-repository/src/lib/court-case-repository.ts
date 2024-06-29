@@ -22,8 +22,16 @@ export class CourtCaseRepository {
                 location: courtCase.location,
                 outcome: courtCase.outcome,
                 dateCreated: courtCase.dateCreated,
-                lawyerId: courtCase.lawyerId,
-                userId: courtCase.userId,
+                lawyer: {
+                    connect: {
+                        id: courtCase.lawyerId
+                    }
+                },
+                user: {
+                    connect: {
+                        id: courtCase.userId
+                    }
+                }
             }
         });
 
@@ -47,8 +55,11 @@ export class CourtCaseRepository {
                 location: courtCase.location,
                 outcome: courtCase.outcome,
                 dateCreated: courtCase.dateCreated,
-                lawyerId: courtCase.lawyerId,
-                userId: courtCase.userId,
+                lawyer: {
+                    connect: {
+                        id: courtCase.lawyerId
+                    }
+                }
             }
         });
 

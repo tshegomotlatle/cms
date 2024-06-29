@@ -8,7 +8,7 @@ export class UploadDocumentRequest {
     fileName!: string;
 
     @ApiProperty()
-    caseNumber!: string;  
+    caseId!: string;  
 
     @ApiProperty()
     dateCreated!: Date;

@@ -1,69 +1,97 @@
-datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
 model CourtCase {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  caseNumber  String   @unique
-  location    String
-  plaintiff   String
-  defendant   String
-  status      String
-  type        String?
-  outcome     String?
-  lawyerId    String   
-  userId      String   
-  dateCreated DateTime
+  id             String          @id @default(uuid())
+  caseNumber     String          @unique
+  location       String
+  plaintiff      String
+  defendant      String
+  status         String
+  type           String?
+  outcome        String?
+  dateCreated    DateTime
+  userId         String
+  courtcaseDates CourtCaseDate[]
+  user           User            @relation(fields: [userId], references: [id])
+  documents      Document[]
+  invoiceItems   InvoiceItem[]
+  lawyer         Lawyer[]        @relation("CourtCaseToLawyer")
+
+  @@map("court_cases")
 }
 
 model Lawyer {
-  id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  email        String      @unique
-  name         String
-  surname      String
-  mobileNumber String      @unique
-  userId       String
+  id             String          @id @default(uuid())
+  email          String          @unique
+  name           String
+  surname        String
+  mobileNumber   String          @unique
+  courtCaseDates CourtCaseDate[] @relation("CourtCaseDateToLawyer")
+  courtCase      CourtCase[]     @relation("CourtCaseToLawyer")
+  users          User[]          @relation("LawyerToUser")
+
+  @@map("lawyers")
 }
 
 model User {
-  id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  email        String      @unique
+  id           String        @id @default(uuid())
+  email        String        @unique
   name         String
   surname      String
   mobileNumber String
   password     String
   passwordSalt String
   refreshToken String
+  courtCases   CourtCase[]
+  documents    Document[]
+  invoiceItems InvoiceItem[]
+  lawyers      Lawyer[]      @relation("LawyerToUser")
+
+  @@map("users")
 }
 
-model Documents {
-  id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  path         String      @unique
-  fileName     String
-  caseNumber   String      
-  dateCreated  DateTime
+model Document {
+  id          String    @id @default(uuid())
+  path        String    @unique
+  fileName    String
+  dateCreated DateTime
+  userId      String
+  caseId      String
+  case        CourtCase @relation(fields: [caseId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@map("documents")
 }
 
-model InvoiceItems{
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
+model InvoiceItem {
+  id            String    @id @default(uuid())
   invoiceNumber String?
   name          String
   date          DateTime
   hours         Int
   costPerHour   Float
-  caseNumber    String
-  userId        String  
+  userId        String
+  caseId        String
+  case          CourtCase @relation(fields: [caseId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
+
+  @@map("invoice_items")
 }
 
-model CourtCasesDates{
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
-  caseNumber    String
-  date          String
-  title         String
-  lawyersIds    String[]
+model CourtCaseDate {
+  id      String    @id @default(uuid())
+  date    String
+  title   String
+  caseId  String
+  case    CourtCase @relation(fields: [caseId], references: [id])
+  lawyers Lawyer[]  @relation("CourtCaseDateToLawyer")
+
+  @@map("court_case_dates")
 }

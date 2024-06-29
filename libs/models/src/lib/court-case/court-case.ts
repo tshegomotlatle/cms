@@ -26,10 +26,10 @@ export class CourtCase {
     outcome?: string | null;
     
     @ApiProperty()
-    lawyerId!: string;
+    lawyerId?: string;
     
     @ApiProperty()
-    userId!: string;
+    userId?: string;
     
     @ApiProperty()
     dateCreated!: Date;

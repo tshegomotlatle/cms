@@ -27,7 +27,6 @@ describe('CourtCaseRepository', () => {
       location: 'location',
       outcome: 'outcome',
       dateCreated: date,
-      lawyerId: '123',
       userId: '123',
       id: '123',
     };
@@ -41,7 +40,6 @@ describe('CourtCaseRepository', () => {
       location: 'location',
       outcome: 'outcome',
       dateCreated: date,
-      lawyerId: '123',
       userId: '123',
       id: '123',
     });

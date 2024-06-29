@@ -8,24 +8,26 @@ export class DocumentsRepository {
     constructor(private _prisma: PrismaClient)
     {}
 
-    public async UploadDocument(document : UploadDocumentRequest) : Promise<Documents>
+    public async UploadDocument(document : UploadDocumentRequest, userId : string) : Promise<Documents>
     {
-        return await this._prisma.documents.create({
+        return await this._prisma.document.create({
             data:{
                 dateCreated: document.dateCreated,
                 path: document.path,
-                caseNumber: document.caseNumber,
-                fileName: document.fileName
+                fileName: document.fileName,
+                caseId: document.caseId,
+                userId: userId
             }
         })
 
     }
 
-    public async GetDocumentsForCaseId(document: GetDocumentRequest): Promise<Documents[] | null>
+    public async GetDocumentsForCaseId(document: GetDocumentRequest, userId: string): Promise<Documents[] | null>
     {
-        const cases = await this._prisma.documents.findMany({
+        const cases = await this._prisma.document.findMany({
             where: {
-                caseNumber: document.caseNumber
+                caseId: document.caseId,
+                userId: userId
             }
         })
 

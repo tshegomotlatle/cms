@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-import { CourtCases } from './court-cases';
-
-import { invoiceItems } from './Invoices';
+import { PrismaClient } from "@prisma/client";
+import { invoiceItems } from "./seed-data/Invoices";
 
 const prisma = new PrismaClient();
 
@@ -15,7 +13,7 @@ async function main() {
 
     for (let invoice of invoiceItems)
         {
-            await prisma.invoiceItems.create({
+            await prisma.invoiceItem.create({
                 data: invoice
             })
 

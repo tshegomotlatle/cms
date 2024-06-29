@@ -36,6 +36,9 @@ export class AutheticationRepostiory {
         const user = await this.prisma.user.findUnique({
             where: {
                 email: email
+            },
+            include:{
+                courtCases: true
             }
         })
         Logger.log(user)
