@@ -1,6 +1,6 @@
 import { DocumentsService } from '@cms-documents-service';
 import { Documents, GetDocumentRequest, UploadDocumentRequest } from '@cms-models';
-import { Body, Controller, Logger, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Logger, Post, UploadedFile, UseInterceptors, Headers } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
@@ -13,8 +13,9 @@ export class DocumentsApiController {
     constructor(private _documentsService : DocumentsService){}
 
     @Post('GetDocumentsByCaseNumber')
-    GetDocumentsByCaseNumber(@Body() body : GetDocumentRequest): Promise<Documents[] | null> {
-        return this._documentsService.GetDocumentsForCaseId(body);
+    GetDocumentsByCaseNumber(@Headers() headers : any, @Body() body : GetDocumentRequest): Promise<Documents[] | null> {
+        console.log(headers);
+        return this._documentsService.GetDocumentsForCaseId(body, headers.authorization);
     }
 
     @UseInterceptors(FileInterceptor('file', {
@@ -29,16 +30,16 @@ export class DocumentsApiController {
         })
     }))
     @Post('UploadDocuments')
-    UploadDocuments(@UploadedFile() file: Express.Multer.File, @Body() body: {caseNumber: string}) {
+    UploadDocuments(@Headers() headers: any, @UploadedFile() file: Express.Multer.File, @Body() body: {caseNumber: string}) {
         //return this._documentsService.UploadDocument(file);
         Logger.log(body);
         const uploadFileRequest : UploadDocumentRequest = {
-            caseNumber : body.caseNumber,
+            caseId : body.caseNumber,
             fileName: file.originalname,
             path: file.path,
             dateCreated: new Date()
         };
-        return this._documentsService.UploadDocument(uploadFileRequest);
+        return this._documentsService.UploadDocument(uploadFileRequest, headers.authorization);
 
     }
 

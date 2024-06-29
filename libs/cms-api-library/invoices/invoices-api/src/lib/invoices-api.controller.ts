@@ -32,10 +32,4 @@ export class InvoicesApiController {
     getInvoiceByInvoiceNumber(@Body() body: GetInvoicesByInvoiceNumberRequest) : Promise<Invoice[] | null>{
         return this.invoiceService.GetInvoiceByInvoiceNumber(body.invoiceNumber, body.accessToken);
     }
-
-    @Post('getInvoiceByCaseNumber')
-    getInvoiceByCaseNumber(@Body() body: GetInvoicesByCaseNumberRequest) : Promise<Invoice[] | null>{
-        Logger.log(body);
-        return this.invoiceService.GetInvoiceByCaseNumber(body.caseNumber, body.accessToken);
-    }
 }

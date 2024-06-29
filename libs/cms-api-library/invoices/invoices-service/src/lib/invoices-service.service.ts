@@ -46,15 +46,6 @@ export class InvoicesService {
         return this.invoiceRepository.GetInvoiceByInvoiceNumber(invoiceNumber, user.userId);
     }
 
-    public async GetInvoiceByCaseNumber(caseNumber: string, accessToken: string): Promise<Invoice[] | null> {
-        if (accessToken === "" || caseNumber === "")
-            return null
-
-        const user: {userId:string, email:string} = this.jwtService.decode(accessToken);
-
-        return this.invoiceRepository.GetInvoiceByCaseNumber(caseNumber, user.userId);
-    }
-
     public async DeleteInvoice(id: string, accessToken: string): Promise<Invoice | null> {
         if (id === "" || accessToken === "")
             return null
@@ -69,7 +60,7 @@ export class InvoicesService {
     {
         if (invoice === null)
             return false;
-        if (invoice.caseNumber === "")
+        if (invoice.caseId === "")
             return false;
         if (invoice.name === "")
             return false;

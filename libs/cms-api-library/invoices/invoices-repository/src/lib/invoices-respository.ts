@@ -11,14 +11,22 @@ export class InvoicesRespository {
     public async AddInvoice(invoice: Invoice): Promise<Invoice | null> {
         this.prisma.$connect();
 
-        const result = await this.prisma.invoiceItems.create({
+        const result = await this.prisma.invoiceItem.create({
             data: {
-                caseNumber: invoice.caseNumber,
                 costPerHour: invoice.costPerHour,
                 date: invoice.date,
                 hours: invoice.hours,
                 name: invoice.name,
-                userId: invoice.userId,
+                case: {
+                    connect: {
+                        id: invoice.caseId
+                    }
+                },
+                user: {
+                    connect: {
+                        id: invoice.userId
+                    }
+                }
             }
         })
 
@@ -29,7 +37,7 @@ export class InvoicesRespository {
     public async EditInvoice(invoice: Invoice): Promise<Invoice | null> {
         this.prisma.$connect();
 
-        const result = await this.prisma.invoiceItems.update({
+        const result = await this.prisma.invoiceItem.update({
             where : {
                 id : invoice.id
             },
@@ -48,7 +56,7 @@ export class InvoicesRespository {
     public async GetInvoiceById(id: string, userId: string): Promise<Invoice | null> {
         this.prisma.$connect();
 
-        const result = await this.prisma.invoiceItems.findUnique({
+        const result = await this.prisma.invoiceItem.findUnique({
             where: {
                 id: id,
                 userId: userId
@@ -62,23 +70,9 @@ export class InvoicesRespository {
     public async GetInvoiceByInvoiceNumber(invoiceNumber: string, userId: string): Promise<Invoice[] | null> {
         this.prisma.$connect();
 
-        const result = await this.prisma.invoiceItems.findMany({
+        const result = await this.prisma.invoiceItem.findMany({
             where: {
                 invoiceNumber: invoiceNumber,
-                userId: userId
-            }
-        })
-
-        this.prisma.$disconnect();
-        return result;
-    }
-
-    public async GetInvoiceByCaseNumber(caseNumber: string, userId: string): Promise<Invoice[] | null> {
-        this.prisma.$connect();
-
-        const result = await this.prisma.invoiceItems.findMany({
-            where: {
-                caseNumber: caseNumber,
                 userId: userId
             }
         })
@@ -90,7 +84,7 @@ export class InvoicesRespository {
     public async DeleteInvoice(id: string, userId: string): Promise<Invoice | null> {
         this.prisma.$connect();
 
-        const result = await this.prisma.invoiceItems.delete({
+        const result = await this.prisma.invoiceItem.delete({
             where: {
                 id: id,
                 userId: userId
