@@ -12,13 +12,13 @@ export class DocumentsService {
 
     public GetDocumentsForCaseId(document: GetDocumentRequest, accessToken : string) : Promise<Documents[] | null>
     {
-        var userId = this.currentUserService.GetUserToken(accessToken)?.userId || ""
+        const userId = this.currentUserService.GetUserToken(accessToken)?.userId || ""
         return this._documentsRepository.GetDocumentsForCaseId(document, userId);
     }
 
     public UploadDocument(document: UploadDocumentRequest, accessToken: string): Promise<Documents>
     {
-        var userId = this.currentUserService.GetUserToken(accessToken)?.userId || ""
+        const userId = this.currentUserService.GetUserToken(accessToken)?.userId || ""
         return this._documentsRepository.UploadDocument(document, userId);
     }
 }
