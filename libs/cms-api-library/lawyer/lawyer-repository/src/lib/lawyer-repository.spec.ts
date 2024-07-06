@@ -2,7 +2,7 @@ import { AutheticationRepostiory } from '@cms-authentication-repository';
 import { PrismaClient } from '@prisma/client';
 import { LawyerRepository } from './lawyer-repository';
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
-import { Lawyer } from '@cms-models';
+import { Lawyer, UpdateLawyerRequest } from '@cms-models';
 
 describe('LawyerRepository', () => {
   let lawyerRepo: LawyerRepository;
@@ -34,7 +34,8 @@ describe('LawyerRepository', () => {
   });
 
   it('should edit a lawyer', async () => {
-    const editLawyerRequest: Lawyer = {
+    const editLawyerRequest: UpdateLawyerRequest = {
+      id: "1234",
       email: "tshegomotlatle.dev@gmail.com",
       mobileNumber: "0812198232",
       name: "Tshego",

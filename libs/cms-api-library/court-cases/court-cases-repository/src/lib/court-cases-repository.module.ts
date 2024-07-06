@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 
 @Module({
   controllers: [],
-  providers: [PrismaClient, CourtCaseRepository],
-  exports: [CourtCaseRepository],
+  providers: [PrismaClient],
+  exports: [],
 })
 export class CourtCasesRepositoryModule {}

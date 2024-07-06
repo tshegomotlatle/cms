@@ -3,7 +3,7 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
@@ -27,12 +27,16 @@ async function bootstrap() {
   // Add payload size limit
   app.useBodyParser('json', { limit: '10mb' });
 
+  //Add Validation
+  app.useGlobalPipes(new ValidationPipe());
+
   //Add Swagger
   const config = new DocumentBuilder()
     .setTitle('Case-Management-System')
     .setDescription('API for CMS')
     .setVersion('1.0')
     .addTag('cms')
+    .addBearerAuth()
     .build();
     
   const document = SwaggerModule.createDocument(app, config);

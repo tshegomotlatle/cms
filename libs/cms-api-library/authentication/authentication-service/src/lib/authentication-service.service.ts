@@ -1,4 +1,4 @@
-import { User, UserEditRequest, UserRegisterRequest } from '@cms-models';
+import { User, UserEditRequest, UserRegisterRequest, UserToken } from '@cms-models';
 import { Injectable, Logger } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { AutheticationRepostiory } from "@cms-authentication-repository";
@@ -31,7 +31,7 @@ export class AuthenticationService {
         if (user) {
             const passwordHash = await bcrypt.hash(password, user.passwordSalt || "");
             if (passwordHash == user?.password) {
-                const payload = { userId: user.id, username: user.email };
+                const payload = { userId: user.id, email: user.email };
                 const accessToken = await this.jwtService.signAsync(payload, {
                     secret: env['JWT_SECRET'],
                     expiresIn: env['JWT_SECRET_TIME']
@@ -109,7 +109,7 @@ export class AuthenticationService {
             };
         }
 
-        const payload = { userId: user.id, username: user.email };
+        const payload : UserToken = { userId: user.id!, email: user.email! };
         const accessToken = await this.jwtService.signAsync(payload, {
             secret: env['JWT_SECRET'],
             expiresIn: env['JWT_SECRET_TIME']

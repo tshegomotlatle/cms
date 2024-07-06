@@ -2,21 +2,235 @@ import { Test } from '@nestjs/testing';
 import { CourtCasesService } from './court-cases-service.service';
 import { CourtCaseRepository } from '@cms-court-cases-repository';
 import { PrismaClient } from '@prisma/client';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
+import { CurrentUserService } from '@cms-authetication-api';
+
 
 describe('CourtCasesServiceService', () => {
-  let service: CourtCasesService;
+  let courtCaseService: CourtCasesService;
+  let courtCaseRepositoryMock: DeepMockProxy<CourtCaseRepository>;
+  let prisma: DeepMockProxy<PrismaClient>;
+  let currentUserService: DeepMockProxy<CurrentUserService>;
 
   beforeEach(async () => {
-    const module = await Test.createTestingModule({
-      providers: [CourtCasesService, CourtCaseRepository, PrismaClient, JwtModule],
-      imports: [PrismaClient, JwtModule]
-    }).compile();
+    courtCaseRepositoryMock = mockDeep<CourtCaseRepository>();
+    prisma = mockDeep<PrismaClient>();
+    currentUserService = mockDeep<CurrentUserService>();
 
-    service = module.get(CourtCasesService);
+    courtCaseService = new CourtCasesService(courtCaseRepositoryMock, currentUserService);
+    currentUserService.GetUserToken.mockReturnValue({
+      userId: '123456',
+      email: 'test',
+    });
   });
+  
 
   it('should be defined', () => {
-    expect(service).toBeTruthy();
+    expect(courtCaseService).toBeTruthy();
   });
+
+  it('should add a new court case', async () => {
+    
+    courtCaseRepositoryMock.AddCase.mockResolvedValue({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: new Date(),
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    });
+
+    const result = await courtCaseService.AddCase({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: new Date(),
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    },"123456");
+    expect(result).toEqual({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: new Date(),
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    });
+  });
+
+  it('should get all court cases', async () => {
+
+    let date = new Date();
+    courtCaseRepositoryMock.GetAllCases.mockResolvedValue([
+      {
+        caseNumber: '123456',
+        userId: '123456',
+        dateCreated: date,
+        id: '123456',
+        status: 'open',
+        type: 'trial',
+        plaintiff: 'test',
+        defendant: 'test',
+        location: 'test',
+        outcome: 'test',
+      },
+    ]);
+    const result = await courtCaseService.GetAllCases("123456");
+    expect(result).toEqual([
+      {
+        caseNumber: '123456',
+        userId: '123456',
+        dateCreated: date,
+        id: '123456',
+        status: 'open',
+        type: 'trial',
+        plaintiff: 'test',
+        defendant: 'test',
+        location: 'test',
+        outcome: 'test',
+      },
+    ]);
+  });
+
+  it('should get a court case by id', async () => {
+    let date = new Date();
+    courtCaseRepositoryMock.GetCaseById.mockResolvedValue({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: date,
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    });
+    const result = await courtCaseService.GetCaseById('123456', '123456');
+    expect(result).toEqual({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: date,
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    });
+  });
+
+  it('should edit a court case', async () => {
+    let date = new Date();
+    courtCaseRepositoryMock.EditCase.mockResolvedValue({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: date,
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    });
+    const result = await courtCaseService.EditCase({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: date,
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    });
+    expect(result).toEqual({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: date,
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    });
+  }); 
+
+  it('should delete a court case', async () => {
+    let date = new Date();
+    courtCaseRepositoryMock.DeleteCase.mockResolvedValue({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: date,
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    });
+    const result = await courtCaseService.DeleteCase('123456', '123456');
+    expect(result).toEqual({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: date,
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    });
+  });
+
+  it('should get a court case by case number', async () => {
+    let date = new Date()
+    courtCaseRepositoryMock.GetAllCasesByCaseNumber.mockResolvedValue({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: date,
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    });
+    
+    const result = await courtCaseService.GetAllCasesByCaseNumber('123456', '123456');
+    expect(result).toEqual({
+      caseNumber: '123456',
+      userId: '123456',
+      dateCreated: date,
+      id: '123456',
+      status: 'open',
+      type: 'trial',
+      plaintiff: 'test',
+      defendant: 'test',
+      location: 'test',
+      outcome: 'test',
+    });
+  });
+
 });

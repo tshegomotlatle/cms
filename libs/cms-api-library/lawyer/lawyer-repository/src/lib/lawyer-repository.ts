@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { Lawyer } from "@cms-models";
+import { Lawyer, AddLawyerRequest, UpdateLawyerRequest } from "@cms-models";
 import { Injectable } from "@nestjs/common";
+import { UUID } from "crypto";
 
 @Injectable()
 export class LawyerRepository {
@@ -29,7 +30,7 @@ export class LawyerRepository {
         return result;
     }
 
-    public async AddLawyer(lawyer: Lawyer): Promise<Lawyer> {
+    public async AddLawyer(lawyer: AddLawyerRequest): Promise<Lawyer> {
         this.prisma.$connect();
         const result = await this.prisma.lawyer.create({
             data: {
@@ -43,7 +44,7 @@ export class LawyerRepository {
         return result;
     }
 
-    public async UpdateLawyer(lawyer: Lawyer): Promise<Lawyer> {
+    public async UpdateLawyer(lawyer: UpdateLawyerRequest): Promise<Lawyer> {
         this.prisma.$connect();
         const result = await this.prisma.lawyer.update({
             where: {

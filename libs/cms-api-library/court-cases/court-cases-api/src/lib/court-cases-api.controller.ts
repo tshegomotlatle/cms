@@ -1,5 +1,5 @@
 import { CourtCase } from '@cms-models';
-import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Logger, Post, UseGuards, Headers } from '@nestjs/common';
 import { CourtCasesService } from '@cms-court-cases-service'
 import { ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from '@cms-authetication-api' 
@@ -10,8 +10,8 @@ export class CourtCasesApiController {
 
     
     @Post('add')
-    add(@Body() courtCase: CourtCase): Promise<CourtCase | null> {
-        return this._courtCaseService.AddCase(courtCase);
+    add(@Body() courtCase: CourtCase, @Headers() headers: any): Promise<CourtCase | null> {
+        return this._courtCaseService.AddCase(courtCase, headers.authorization);
     }
 
     @Post('delete')

@@ -54,13 +54,13 @@ export function CmsUiLibrary(props: CmsUiLibraryProps) {
       if (!isRefreshing) {
         isRefreshing = true;
         if (token) {
-          const user: { userId: string; username: string } = jwtDecode(token);
+          const user: { userId: string; email: string } = jwtDecode(token);
           console.log(user);
           await axios
             .post(
               '/authentication/refreshToken',
               {
-                email: user.username,
+                email: user.email,
                 refreshToken: token,
               },
               {

@@ -1,18 +1,23 @@
+import { CurrentUserService } from '@cms-authetication-api';
 import { CourtCaseRepository } from '@cms-court-cases-repository';
-import { CourtCase } from '@cms-models';
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { CourtCase, UserToken } from '@cms-models';
+import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
 export class CourtCasesService {
     constructor(
         private courtCaseRepository: CourtCaseRepository,
-        private jwtService : JwtService
+        private currentUserService: CurrentUserService
     ) { }
 
-    public async AddCase(courtCase: CourtCase): Promise<CourtCase | null> {
+    public async AddCase(courtCase: CourtCase, accessToken: string): Promise<CourtCase | null> {
 
         courtCase.dateCreated = new Date();
+
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
+
+        Logger.log(user);
+
         if (courtCase) {
             return this.courtCaseRepository.AddCase(courtCase);
         }
@@ -33,6 +38,9 @@ export class CourtCasesService {
 
     public async GetCaseById(id: string, userId: string): Promise<CourtCase | null> {
 
+        if (id === "" || userId === "")
+            return null
+
         return this.courtCaseRepository.GetCaseById(id, userId);
 
     }
@@ -41,7 +49,7 @@ export class CourtCasesService {
         if (accessToken === "")
             return []
 
-        const user: { userId: string, email: string } = this.jwtService.decode(accessToken);
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
         if (!user)
             return []
@@ -76,7 +84,7 @@ export class CourtCasesService {
         if (accessToken === "" || caseNumber === "")
             return null
 
-        const user: { userId: string, email: string } = this.jwtService.decode(accessToken);
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
         if (!user)
             return null
