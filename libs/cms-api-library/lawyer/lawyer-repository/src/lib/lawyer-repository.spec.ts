@@ -2,7 +2,7 @@ import { AutheticationRepostiory } from '@cms-authentication-repository';
 import { PrismaClient } from '@prisma/client';
 import { LawyerRepository } from './lawyer-repository';
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
-import { Lawyer } from '@cms-models';
+import { Lawyer, UpdateLawyerRequest } from '@cms-models';
 
 describe('LawyerRepository', () => {
   let lawyerRepo: LawyerRepository;
@@ -34,7 +34,8 @@ describe('LawyerRepository', () => {
   });
 
   it('should edit a lawyer', async () => {
-    const editLawyerRequest: Lawyer = {
+    const editLawyerRequest: UpdateLawyerRequest = {
+      id: "1234",
       email: "tshegomotlatle.dev@gmail.com",
       mobileNumber: "0812198232",
       name: "Tshego",
@@ -50,10 +51,10 @@ describe('LawyerRepository', () => {
     });
 
     const editedLawyer = await lawyerRepo.UpdateLawyer(editLawyerRequest);
-    expect(editedLawyer.email).toEqual("tshegomotlatle.dev@gmail.com");
-    expect(editedLawyer.mobileNumber).toEqual("0812198232");
-    expect(editedLawyer.name).toEqual("Tshego");
-    expect(editedLawyer.surname).toEqual("Motlatle");
+    expect(editedLawyer?.email).toEqual("tshegomotlatle.dev@gmail.com");
+    expect(editedLawyer?.mobileNumber).toEqual("0812198232");
+    expect(editedLawyer?.name).toEqual("Tshego");
+    expect(editedLawyer?.surname).toEqual("Motlatle");
 
   });
 
@@ -75,10 +76,10 @@ describe('LawyerRepository', () => {
 
     const lawyer = await lawyerRepo.AddLawyer(lawyerRegisterRequest);
     expect(lawyer).toBeDefined();
-    expect(lawyer.email).toEqual("tshegomotlatle.dev@gmail.com");
-    expect(lawyer.mobileNumber).toEqual("0812198232");
-    expect(lawyer.name).toEqual("Tshego");
-    expect(lawyer.surname).toEqual("Motlatle");
+    expect(lawyer?.email).toEqual("tshegomotlatle.dev@gmail.com");
+    expect(lawyer?.mobileNumber).toEqual("0812198232");
+    expect(lawyer?.name).toEqual("Tshego");
+    expect(lawyer?.surname).toEqual("Motlatle");
 
   });
 
@@ -109,9 +110,9 @@ describe('LawyerRepository', () => {
     })
     const lawyer = await lawyerRepo.DeleteLawyer("1234");
     expect(lawyer).toBeDefined();
-    expect(lawyer.email).toEqual("tshegomotlatle.dev@gmail.com");
-    expect(lawyer.mobileNumber).toEqual("0812198232");
-    expect(lawyer.name).toEqual("Tshego");
-    expect(lawyer.surname).toEqual("Motlatle");
+    expect(lawyer?.email).toEqual("tshegomotlatle.dev@gmail.com");
+    expect(lawyer?.mobileNumber).toEqual("0812198232");
+    expect(lawyer?.name).toEqual("Tshego");
+    expect(lawyer?.surname).toEqual("Motlatle");
   });
 });

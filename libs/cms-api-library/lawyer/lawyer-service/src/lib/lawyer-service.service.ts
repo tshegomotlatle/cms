@@ -1,6 +1,7 @@
-import { Lawyer } from '@cms-models';
+import { Lawyer, AddLawyerRequest, UpdateLawyerRequest } from '@cms-models';
 import { LawyerRepository } from '@cms/lawyer-repository';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { UUID } from 'crypto';
 
 @Injectable()
 export class LawyerService {
@@ -11,51 +12,78 @@ export class LawyerService {
 
     }
 
-    public async GetLawyerById(id: string): Promise<Lawyer | null> {
-        if (id === "" || id === undefined || id === null) 
-            return null
+    public async GetLawyerById(id: string): Promise<Lawyer | HttpException> {
+        const lawyer = await this.lawyerRepository.GetLawyerById(id);
 
-        return this.lawyerRepository.GetLawyerById(id);
+        if (!lawyer) {
+            return new NotFoundException();
+        }
+
+        return lawyer
     }
 
-    public async GetLawyerByEmail(email: string): Promise<Lawyer | null> {
-        if (email === "" || email === undefined || email === null) 
-            return null
+    public async GetLawyerByEmail(email: string): Promise<Lawyer | HttpException> {
 
-        return this.lawyerRepository.GetLawyerByEmail(email);
+        const lawyer = await this.lawyerRepository.GetLawyerByEmail(email);
+
+        if (!lawyer) {
+            return new NotFoundException();
+        }
+
+        return lawyer
     }
 
-    public async GetAllLawyers(): Promise<Lawyer[]> {
-        return this.lawyerRepository.GetAllLawyers();
+    public async GetAllLawyers(): Promise<Lawyer[] | HttpException> {
+        const lawyer = await this.lawyerRepository.GetAllLawyers();
+
+        if (!lawyer) {
+            return new NotFoundException();
+        }
+
+        return lawyer
     }
 
-    public async AddLawyer(lawyer: Lawyer): Promise<Lawyer | null> {
-        if (!this.ValidateLawyer(lawyer))
-            return null;
-        return this.lawyerRepository.AddLawyer(lawyer);
+    public async AddLawyer(newLawyer: AddLawyerRequest): Promise<boolean | HttpException> {
+        if (await this.CheckIfExistsEmail(newLawyer.email))
+            return new ConflictException();
+
+        const lawyer = await this.lawyerRepository.AddLawyer(newLawyer);
+
+        if (!lawyer) {
+            return new BadRequestException();
+        }
+
+        return true;
     }
 
-    public async UpdateLawyer(lawyer: Lawyer): Promise<Lawyer | null> {
-        if (!this.ValidateLawyer(lawyer))
-            return null;
-        return this.lawyerRepository.UpdateLawyer(lawyer);
+    public async UpdateLawyer(UpdateLawyer: UpdateLawyerRequest): Promise<boolean | HttpException> {
+        if (!await this.CheckIfExists(UpdateLawyer.id))
+            return new NotFoundException();
+
+        const lawyer = await this.lawyerRepository.UpdateLawyer(UpdateLawyer);
+
+        return true;
     }
 
-    public async DeleteLawyer(id: string): Promise<Lawyer | null> {
-        if (id === "" || id === undefined || id === null) 
-            return null
-        return this.lawyerRepository.DeleteLawyer(id);
+    public async DeleteLawyer(id: string): Promise<boolean | HttpException> {
+
+        if (!await this.CheckIfExists(id))
+            return new NotFoundException();
+
+        await this.lawyerRepository.DeleteLawyer(id);
+
+        return true;
     }
 
-    private ValidateLawyer(lawyer: Lawyer): boolean {
-        if (lawyer.email === "" || lawyer.email === undefined || lawyer.email === null) 
-            return false
-        if (lawyer.name === "" || lawyer.name === undefined || lawyer.name === null) 
-            return false
-        if (lawyer.surname === "" || lawyer.surname === undefined || lawyer.surname === null) 
-            return false
-        if (lawyer.mobileNumber === "" || lawyer.mobileNumber === undefined || lawyer.mobileNumber === null) 
-            return false
-        return true
+    public async CheckIfExists(id : string): Promise<boolean> {
+        const lawyer = await this.lawyerRepository.GetLawyerById(id);
+
+        return lawyer ? true : false
+    }
+
+    public async CheckIfExistsEmail(email : string): Promise<boolean> {
+        const lawyer = await this.lawyerRepository.GetLawyerByEmail(email);
+
+        return lawyer ? true : false
     }
 }
