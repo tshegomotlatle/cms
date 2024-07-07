@@ -6,9 +6,9 @@ on:
     branches:
       - master
       - development
-  pull_request: 
+  pull_request:
     branches:
-        - prod
+      - prod
   workflow_dispatch:
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
           cache: npm
 
       - name: Installing Dependencies
-        run: npm install --verbose
+        run: npm install
 
       - name: Installing nx
         run: npm add nx --global
@@ -39,7 +39,7 @@ jobs:
         run: npx nx run-many --target=lint
 
       - name: Running nx run-many test
-        run: vitest --coverage 
+        run: npx nx run-many --target=test --coverage
 
       - name: Running nx run-many build
         run: npx nx run-many --target=build
@@ -51,4 +51,3 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-

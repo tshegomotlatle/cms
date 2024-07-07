@@ -6,6 +6,11 @@ module.exports = {
   output: {
     path: join(__dirname, '../../dist/apps/cms-api'),
   },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+  },
   plugins: [
     new NxWebpackPlugin({
       target: 'node',
