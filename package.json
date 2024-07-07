@@ -45,6 +45,7 @@
     "@babel/core": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
     "@codecov/vite-plugin": "^0.0.1-beta.6",
+    "@codecov/webpack-plugin": "^0.0.1-beta.10",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
     "@nx/cypress": "18.2.3",
