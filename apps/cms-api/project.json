@@ -5,6 +5,13 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "docker-build": {
+      "command": "docker build -f apps/cms-api/Dockerfile . -t cms-api"
+    },
+    "docker-run": {
+      "dependsOn": ["docker-build"],
+      "command": "docker run --env-file .env --rm -p 3000:3000 cms-api"
+    },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",

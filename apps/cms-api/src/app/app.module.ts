@@ -8,9 +8,10 @@ import { DocumentsApiModule } from '@cms-documents-api';
 import { InvoicesApiModule } from '@cms-invoices-api';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { LawyerApiModule } from '@cms/lawyer-api';
 
 @Module({
-  imports: [AuthenticationApiModule, CourtCasesApiModule, DocumentsApiModule, InvoicesApiModule, ServeStaticModule.forRoot({
+  imports: [AuthenticationApiModule, CourtCasesApiModule, DocumentsApiModule, InvoicesApiModule, LawyerApiModule, ServeStaticModule.forRoot({
     rootPath: join(__dirname, '..', 'cms-api'),
     exclude: ['/api/(.*)'],
   }),],

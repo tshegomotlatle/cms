@@ -21,7 +21,7 @@ export class Invoice {
     costPerHour!: number;
     
     @ApiProperty()
-    caseNumber!: string;
+    caseId!: string;
     
     @ApiProperty()
     userId!: string;

@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { User, UserEditRequest, UserRegisterRequest } from "@cms-models";
-import * as bcrypt from "bcrypt";
 import { Injectable, Logger } from "@nestjs/common";
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AutheticationRepostiory {
@@ -36,6 +36,9 @@ export class AutheticationRepostiory {
         const user = await this.prisma.user.findUnique({
             where: {
                 email: email
+            },
+            include:{
+                courtCases: true
             }
         })
         Logger.log(user)

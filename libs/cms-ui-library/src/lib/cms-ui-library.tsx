@@ -1,6 +1,7 @@
 import styles from './cms-ui-library.module.scss';
 import Navigation from './navigation/navigation';
 import axios, { AxiosRequestConfig } from 'axios';
+import 'core-js/stable/atob';
 import { jwtDecode } from 'jwt-decode';
 
 /* eslint-disable-next-line */
@@ -39,9 +40,8 @@ export function CmsUiLibrary(props: CmsUiLibraryProps) {
 
   axios.interceptors.response.use(undefined, async function (error) {
     // Get refresh token on request fail with error status 401 unauthorized
-    console.log(error.config);
     if (
-      error.response.status === 401 &&
+      error.response?.status === 401 &&
       error.config &&
       !error.config.__isRetryRequest
     ) {
@@ -54,13 +54,13 @@ export function CmsUiLibrary(props: CmsUiLibraryProps) {
       if (!isRefreshing) {
         isRefreshing = true;
         if (token) {
-          const user: { userId: string; username: string } = jwtDecode(token);
+          const user: { userId: string; email: string } = jwtDecode(token);
           console.log(user);
           await axios
             .post(
               '/authentication/refreshToken',
               {
-                email: user.username,
+                email: user.email,
                 refreshToken: token,
               },
               {

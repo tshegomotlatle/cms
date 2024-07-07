@@ -3,6 +3,10 @@ export * from './lib/models.module';
 
 export * from './lib/user/user'
 
+export * from './lib/user/user-token'
+
+export * from './lib/lawyer/lawyer'
+
 export * from './lib/court-case/court-case'
 
 export * from './lib/documents/documents'
@@ -28,3 +32,15 @@ export * from './lib/contracts/requests/invoices/get-invoices-by-id/get-invoices
 export * from './lib/contracts/requests/invoices/get-invoices-by-invoice-number-request/get-invoices-by-invoice-number-request'
 
 export * from './lib/contracts/requests/invoices/get-invoices-by-case-number-request/get-invoices-by-case-number-request'
+
+export * from './lib/contracts/requests/common/id-request'
+
+export * from './lib/contracts/requests/common/email-request'
+
+export * from './lib/contracts/requests/lawyer/add-lawyer/add-lawyer-request'
+
+export * from './lib/contracts/requests/lawyer/update-lawyer/update-lawyer-request'
+
+export * from './lib/contracts/requests/court-case/case-number-request'
+
+export * from './lib/contracts/responses/court-cases/get-all-case-numbers-response'

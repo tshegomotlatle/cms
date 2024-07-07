@@ -11,7 +11,7 @@ export class Documents {
     path!: string;
 
     @ApiProperty()
-    caseNumber!: string;
+    caseId!: string;
 
     @ApiProperty()
     dateCreated!: Date;

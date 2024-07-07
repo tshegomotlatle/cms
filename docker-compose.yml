@@ -1,0 +1,48 @@
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: apps/cms/Dockerfile
+      args:
+        - CODECOV_TOKEN=${CODECOV_TOKEN}
+    ports:
+      - "80:80"
+    depends_on:
+      - cms-api
+    networks:
+      - app-network
+
+  cms-api:
+    build:
+      context: .
+      dockerfile: apps/cms-api/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+  cms-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=CMS
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - app-network
+
+volumes:
+  node_modules:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
+

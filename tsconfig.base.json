@@ -54,7 +54,17 @@
         "libs/cms-api-library/invoices/invoices-service/src/index.ts"
       ],
       "@cms-models": ["libs/models/src/index.ts"],
-      "@cms-ui-library": ["libs/cms-ui-library/src/index.ts"]
+      "@cms-ui-library": ["libs/cms-ui-library/src/index.ts"],
+      "@cms/common": ["libs/cms-api-library/common/src/index.ts"],
+      "@cms/lawyer-api": [
+        "libs/cms-api-library/lawyer/lawyer-api/src/index.ts"
+      ],
+      "@cms/lawyer-repository": [
+        "libs/cms-api-library/lawyer/lawyer-repository/src/index.ts"
+      ],
+      "@cms/lawyer-service": [
+        "libs/cms-api-library/lawyer/lawyer-service/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
