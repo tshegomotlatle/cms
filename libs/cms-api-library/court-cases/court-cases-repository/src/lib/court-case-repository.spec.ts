@@ -147,6 +147,7 @@ describe('CourtCaseRepository', () => {
   });
 
   it('should delete a court case', async () => {
+    const date = new Date();
     prisma.courtCase.delete.mockResolvedValue({
       caseNumber: '123',
       status: 'open',
@@ -155,7 +156,7 @@ describe('CourtCaseRepository', () => {
       plaintiff: 'plaintiff',
       location: 'location',
       outcome: 'outcome',
-      dateCreated: new Date(),
+      dateCreated: date,
       userId: '123',
       id: '123',
     });
@@ -169,7 +170,7 @@ describe('CourtCaseRepository', () => {
       plaintiff: 'plaintiff',
       location: 'location',
       outcome: 'outcome',
-      dateCreated: new Date(),
+      dateCreated: date,
       userId: '123',
       id: '123',
     });
@@ -203,7 +204,7 @@ describe('CourtCaseRepository', () => {
         id: '123',
       });
 
-    const result = await caseRepo.GetAllCasesByCaseNumber('123', '123');
+    const result = await caseRepo.GetByCaseNumber('123', '123');
     expect(result).toEqual(user);
   });
 

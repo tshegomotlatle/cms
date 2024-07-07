@@ -40,3 +40,7 @@ export * from './lib/contracts/requests/common/email-request'
 export * from './lib/contracts/requests/lawyer/add-lawyer/add-lawyer-request'
 
 export * from './lib/contracts/requests/lawyer/update-lawyer/update-lawyer-request'
+
+export * from './lib/contracts/requests/court-case/case-number-request'
+
+export * from './lib/contracts/responses/court-cases/get-all-case-numbers-response'

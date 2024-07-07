@@ -14,6 +14,7 @@ export class CurrentUserService {
      * @returns {string | null} The user ID, or null if the token is invalid.
      */
     public GetUserToken(accessToken : string): UserToken | null {
+        accessToken = accessToken.replace('Bearer ', '');
         return this.jwtService.decode(accessToken) as UserToken | null;
     }
 }

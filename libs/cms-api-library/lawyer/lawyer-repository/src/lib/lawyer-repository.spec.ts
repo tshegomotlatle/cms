@@ -51,10 +51,10 @@ describe('LawyerRepository', () => {
     });
 
     const editedLawyer = await lawyerRepo.UpdateLawyer(editLawyerRequest);
-    expect(editedLawyer.email).toEqual("tshegomotlatle.dev@gmail.com");
-    expect(editedLawyer.mobileNumber).toEqual("0812198232");
-    expect(editedLawyer.name).toEqual("Tshego");
-    expect(editedLawyer.surname).toEqual("Motlatle");
+    expect(editedLawyer?.email).toEqual("tshegomotlatle.dev@gmail.com");
+    expect(editedLawyer?.mobileNumber).toEqual("0812198232");
+    expect(editedLawyer?.name).toEqual("Tshego");
+    expect(editedLawyer?.surname).toEqual("Motlatle");
 
   });
 
@@ -76,10 +76,10 @@ describe('LawyerRepository', () => {
 
     const lawyer = await lawyerRepo.AddLawyer(lawyerRegisterRequest);
     expect(lawyer).toBeDefined();
-    expect(lawyer.email).toEqual("tshegomotlatle.dev@gmail.com");
-    expect(lawyer.mobileNumber).toEqual("0812198232");
-    expect(lawyer.name).toEqual("Tshego");
-    expect(lawyer.surname).toEqual("Motlatle");
+    expect(lawyer?.email).toEqual("tshegomotlatle.dev@gmail.com");
+    expect(lawyer?.mobileNumber).toEqual("0812198232");
+    expect(lawyer?.name).toEqual("Tshego");
+    expect(lawyer?.surname).toEqual("Motlatle");
 
   });
 
@@ -110,9 +110,9 @@ describe('LawyerRepository', () => {
     })
     const lawyer = await lawyerRepo.DeleteLawyer("1234");
     expect(lawyer).toBeDefined();
-    expect(lawyer.email).toEqual("tshegomotlatle.dev@gmail.com");
-    expect(lawyer.mobileNumber).toEqual("0812198232");
-    expect(lawyer.name).toEqual("Tshego");
-    expect(lawyer.surname).toEqual("Motlatle");
+    expect(lawyer?.email).toEqual("tshegomotlatle.dev@gmail.com");
+    expect(lawyer?.mobileNumber).toEqual("0812198232");
+    expect(lawyer?.name).toEqual("Tshego");
+    expect(lawyer?.surname).toEqual("Motlatle");
   });
 });

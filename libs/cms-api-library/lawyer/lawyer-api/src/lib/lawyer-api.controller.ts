@@ -1,88 +1,58 @@
 import { Lawyer, IdRequest, EmailRequest, AddLawyerRequest, UpdateLawyerRequest } from '@cms-models';
 import { LawyerService } from '@cms/lawyer-service';
-import {  BadRequestException, Body, Controller, Delete, GatewayTimeoutException, Get, NotFoundException, Post, Put, Query} from '@nestjs/common';
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiFoundResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UUID } from 'crypto';
+import {  BadRequestException, Body, Controller, Delete, Get, NotFoundException, Post, Put, Query} from '@nestjs/common';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiFoundResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+
 @ApiTags("lawyer")
 @Controller('lawyer')
+@ApiBearerAuth()
 export class LawyerApiController {
 
     constructor(
-        private LawyerService: LawyerService
+        private lawService: LawyerService
     ) { }
 
     @Get()
-    @ApiFoundResponse()
+    @ApiFoundResponse({ type: Lawyer })
     @ApiNotFoundResponse()
     @ApiQuery({ name: 'id', type: String })
-    async GetLawyerById(@Query() query: IdRequest) {
-        try {
-            return this.LawyerService.GetLawyerById(query.id);
-        }
-        catch (error) {
-            return new NotFoundException(error);
-        }
+    GetLawyerById(@Query() query: IdRequest): Promise<Lawyer | NotFoundException> {
+        return this.lawService.GetLawyerById(query.id);
     }
 
     @Get('email')
-    @ApiFoundResponse()
+    @ApiFoundResponse({ type: Lawyer })
     @ApiNotFoundResponse()
     @ApiQuery({ name: 'email', type: String })
-    async GetLawyerByEmail(@Query() query: EmailRequest) {
-        try {
-            return this.LawyerService.GetLawyerByEmail(query.email);
-        }
-        catch (error) {
-            return new NotFoundException(error);
-        }
+    GetLawyerByEmail(@Query() query: { email: string }): Promise<Lawyer | NotFoundException> {
+        return this.lawService.GetLawyerByEmail(query.email);
     }
 
     @Get('all')
-    @ApiFoundResponse()
+    @ApiFoundResponse({ type: [Lawyer] })
     @ApiNotFoundResponse()
-    async GetAllLawyers() {
-
-        try {
-            return this.LawyerService.GetAllLawyers();
-        }
-        catch (error) {
-            return new NotFoundException(error);
-        }
+    GetAllLawyers(): Promise<Lawyer[] | NotFoundException> {
+        return this.lawService.GetAllLawyers();
     }
 
     @Post()
     @ApiCreatedResponse()
     @ApiBadRequestResponse()
-    async AddLawyer(@Body() body: AddLawyerRequest) {
-        try {
-            return this.LawyerService.AddLawyer(body);
-        }
-        catch (error) {
-            return new BadRequestException(error);
-        }
+    AddLawyer(@Body() body: AddLawyerRequest): Promise<boolean | BadRequestException> {
+        return this.lawService.AddLawyer(body);
     }
 
     @Put()
     @ApiOkResponse()
     @ApiBadRequestResponse()
-    async UpdateLawyer(@Body() body: UpdateLawyerRequest) {
-        try {
-            return this.LawyerService.UpdateLawyer(body);
-        }
-        catch (error) {
-            return new NotFoundException(error);
-        }
+    UpdateLawyer(@Body() body: UpdateLawyerRequest): Promise<boolean | BadRequestException> {
+        return this.lawService.UpdateLawyer(body);
     }
 
     @Delete()
     @ApiOkResponse()
     @ApiNotFoundResponse()
-    async DeleteLawyer(@Body() body: IdRequest) {
-        try {
-            return this.LawyerService.DeleteLawyer(body.id);
-        }
-        catch (error) {
-            return new NotFoundException(error);
-        }
+    DeleteLawyer(@Body() body: IdRequest): Promise<boolean | NotFoundException> {
+        return this.lawService.DeleteLawyer(body.id);
     }
 }

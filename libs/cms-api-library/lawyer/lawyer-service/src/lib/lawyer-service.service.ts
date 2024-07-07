@@ -43,7 +43,7 @@ export class LawyerService {
         return lawyer
     }
 
-    public async AddLawyer(newLawyer: AddLawyerRequest): Promise<Boolean | HttpException> {
+    public async AddLawyer(newLawyer: AddLawyerRequest): Promise<boolean | HttpException> {
         if (await this.CheckIfExistsEmail(newLawyer.email))
             return new ConflictException();
 
@@ -56,7 +56,7 @@ export class LawyerService {
         return true;
     }
 
-    public async UpdateLawyer(UpdateLawyer: UpdateLawyerRequest): Promise<Boolean | HttpException> {
+    public async UpdateLawyer(UpdateLawyer: UpdateLawyerRequest): Promise<boolean | HttpException> {
         if (!await this.CheckIfExists(UpdateLawyer.id))
             return new NotFoundException();
 
@@ -65,7 +65,7 @@ export class LawyerService {
         return true;
     }
 
-    public async DeleteLawyer(id: string): Promise<Boolean | HttpException> {
+    public async DeleteLawyer(id: string): Promise<boolean | HttpException> {
 
         if (!await this.CheckIfExists(id))
             return new NotFoundException();
@@ -75,13 +75,13 @@ export class LawyerService {
         return true;
     }
 
-    public async CheckIfExists(id : string): Promise<Boolean> {
+    public async CheckIfExists(id : string): Promise<boolean> {
         const lawyer = await this.lawyerRepository.GetLawyerById(id);
 
         return lawyer ? true : false
     }
 
-    public async CheckIfExistsEmail(email : string): Promise<Boolean> {
+    public async CheckIfExistsEmail(email : string): Promise<boolean> {
         const lawyer = await this.lawyerRepository.GetLawyerByEmail(email);
 
         return lawyer ? true : false

@@ -8,117 +8,142 @@ export class CourtCaseRepository {
     constructor(private prisma : PrismaClient) {
     }
 
-    public async AddCase(courtCase: CourtCase): Promise<CourtCase> {
-        this.prisma.$connect();
-        Logger.log(courtCase);
+    public async AddCase(courtCase: CourtCase): Promise<CourtCase | null> {
+        try {
+            this.prisma.$connect();
+            Logger.log(courtCase);
 
-        const result = await this.prisma.courtCase.create({
-            data: {
-                caseNumber: courtCase.caseNumber,
-                status: courtCase.status,
-                type: courtCase.type,
-                defendant: courtCase.defendant,
-                plaintiff: courtCase.plaintiff,
-                location: courtCase.location,
-                outcome: courtCase.outcome,
-                dateCreated: courtCase.dateCreated,
-                lawyer: {
-                    connect: {
-                        id: courtCase.lawyerId
-                    }
-                },
-                user: {
-                    connect: {
-                        id: courtCase.userId
+            const result = await this.prisma.courtCase.create({
+                data: {
+                    caseNumber: courtCase.caseNumber,
+                    status: courtCase.status,
+                    type: courtCase.type,
+                    defendant: courtCase.defendant,
+                    plaintiff: courtCase.plaintiff,
+                    location: courtCase.location,
+                    outcome: courtCase.outcome,
+                    dateCreated: courtCase.dateCreated,
+                    lawyer: {
+                        connect: {
+                            id: courtCase.lawyerId
+                        }
+                    },
+                    user: {
+                        connect: {
+                            id: courtCase.userId
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        this.prisma.$disconnect();
-        return result;
+            this.prisma.$disconnect();
+            return result;
+        } catch (e) {
+            return null;
+        }
     }
 
-    public async EditCase(courtCase: CourtCase): Promise<CourtCase> {
-        this.prisma.$connect();
+    public async EditCase(courtCase: CourtCase): Promise<CourtCase | null> {
+        try {
+            this.prisma.$connect();
 
-        const result = await this.prisma.courtCase.update({
-            where: {
-                id: courtCase.id,
-            },
-            data: {
-                caseNumber: courtCase.caseNumber,
-                status: courtCase.status,
-                type: courtCase.type,
-                defendant: courtCase.defendant,
-                plaintiff: courtCase.plaintiff,
-                location: courtCase.location,
-                outcome: courtCase.outcome,
-                dateCreated: courtCase.dateCreated,
-                lawyer: {
-                    connect: {
-                        id: courtCase.lawyerId
+            const result = await this.prisma.courtCase.update({
+                where: {
+                    id: courtCase.id,
+                    userId: courtCase.userId
+                },
+                data: {
+                    caseNumber: courtCase.caseNumber,
+                    status: courtCase.status,
+                    type: courtCase.type,
+                    defendant: courtCase.defendant,
+                    plaintiff: courtCase.plaintiff,
+                    location: courtCase.location,
+                    outcome: courtCase.outcome,
+                    dateCreated: courtCase.dateCreated,
+                    lawyer: {
+                        connect: {
+                            id: courtCase.lawyerId
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        this.prisma.$disconnect();
-        return result;
+            this.prisma.$disconnect();
+            return result;
+        } catch (e) {
+            return null;
+        }
     }
 
     public async GetCaseById(id: string, userId: string): Promise<CourtCase | null> {
-        this.prisma.$connect();
+        try {
+            this.prisma.$connect();
 
-        const result = await this.prisma.courtCase.findUnique({
-            where: {
-                id: id,
-                userId: userId
-            }
-        });
+            const result = await this.prisma.courtCase.findUnique({
+                where: {
+                    id: id,
+                    userId: userId
+                }
+            });
 
-        this.prisma.$disconnect();
-        return result;
+            this.prisma.$disconnect();
+            return result;
+        } catch (e) {
+            return null;
+        }
     }
 
     public async GetAllCases(userId: string): Promise<CourtCase[]> {
-        this.prisma.$connect();
+        try {
+            this.prisma.$connect();
 
-        const result = await this.prisma.courtCase.findMany({
-            where: {
-                userId: userId,
-            }
-        });
+            const result = await this.prisma.courtCase.findMany({
+                where: {
+                    userId: userId,
+                }
+            });
 
-        this.prisma.$disconnect();
-        return result;
+            this.prisma.$disconnect();
+            return result;
+        } catch (e) {
+            return [];
+        }
     }
 
-    public async GetAllCasesByCaseNumber(caseNumber: string, userId: string): Promise<CourtCase | null> {
-        this.prisma.$connect();
+    public async GetByCaseNumber(caseNumber: string, userId: string): Promise<CourtCase | null> {
+        try {
+            this.prisma.$connect();
 
-        const result = await this.prisma.courtCase.findUnique({
-            where: {
-                userId: userId,
-                caseNumber: caseNumber
-            }
-        });
+            const result = await this.prisma.courtCase.findUnique({
+                where: {
+                    userId: userId,
+                    caseNumber: caseNumber
+                }
+            });
 
-        this.prisma.$disconnect();
-        return result;
+            this.prisma.$disconnect();
+            return result;
+        } catch (e) {
+            return null;
+        }
     }
 
-    public async DeleteCase(caseNumber: string, userId: string): Promise<CourtCase> {
-        this.prisma.$connect();
+    public async DeleteCase(caseNumber: string, userId: string): Promise<CourtCase | null> {
+        try {
+            this.prisma.$connect();
 
-        const result = await this.prisma.courtCase.delete({
-            where: {
-                caseNumber: caseNumber,
-                userId: userId
-            }
-        });
+            const result = await this.prisma.courtCase.delete({
+                where: {
+                    caseNumber: caseNumber,
+                    userId: userId
+                }
+            });
 
-        this.prisma.$disconnect();
-        return result;
+            this.prisma.$disconnect();
+            return result;
+        } catch (e) {
+            return null;
+        }
     }
 }
