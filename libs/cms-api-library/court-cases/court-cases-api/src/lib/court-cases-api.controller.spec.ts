@@ -12,7 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 describe('CourtCasesApiController', () => {
   let controller: CourtCasesApiController;
   let service: CourtCasesService;
-  let currentUserService: DeepMockProxy<CurrentUserService>;;
+  let currentUserService: DeepMockProxy<CurrentUserService>;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({

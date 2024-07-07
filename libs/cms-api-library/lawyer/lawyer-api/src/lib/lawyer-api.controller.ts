@@ -9,50 +9,50 @@ import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiFoundRespo
 export class LawyerApiController {
 
     constructor(
-        private lawService: LawyerService
+        private lawyerService: LawyerService
     ) { }
 
     @Get()
     @ApiFoundResponse({ type: Lawyer })
-    @ApiNotFoundResponse()
+    @ApiNotFoundResponse({description: "Lawyer not found"})
     @ApiQuery({ name: 'id', type: String })
     GetLawyerById(@Query() query: IdRequest): Promise<Lawyer | NotFoundException> {
-        return this.lawService.GetLawyerById(query.id);
+        return this.lawyerService.GetLawyerById(query.id);
     }
 
     @Get('email')
     @ApiFoundResponse({ type: Lawyer })
-    @ApiNotFoundResponse()
+    @ApiNotFoundResponse({description: "Lawyer not found"})
     @ApiQuery({ name: 'email', type: String })
     GetLawyerByEmail(@Query() query: { email: string }): Promise<Lawyer | NotFoundException> {
-        return this.lawService.GetLawyerByEmail(query.email);
+        return this.lawyerService.GetLawyerByEmail(query.email);
     }
 
     @Get('all')
-    @ApiFoundResponse({ type: [Lawyer] })
-    @ApiNotFoundResponse()
+    @ApiFoundResponse({ type: [Lawyer], isArray: true })
+    @ApiNotFoundResponse({description: "Lawyers not found"})
     GetAllLawyers(): Promise<Lawyer[] | NotFoundException> {
-        return this.lawService.GetAllLawyers();
+        return this.lawyerService.GetAllLawyers();
     }
 
     @Post()
-    @ApiCreatedResponse()
-    @ApiBadRequestResponse()
+    @ApiCreatedResponse({ type: Boolean })
+    @ApiBadRequestResponse({ description: "Lawyer already exists" })
     AddLawyer(@Body() body: AddLawyerRequest): Promise<boolean | BadRequestException> {
-        return this.lawService.AddLawyer(body);
+        return this.lawyerService.AddLawyer(body);
     }
 
     @Put()
-    @ApiOkResponse()
-    @ApiBadRequestResponse()
+    @ApiOkResponse({ type: Boolean })
+    @ApiBadRequestResponse({ description: "Lawyer not found" })
     UpdateLawyer(@Body() body: UpdateLawyerRequest): Promise<boolean | BadRequestException> {
-        return this.lawService.UpdateLawyer(body);
+        return this.lawyerService.UpdateLawyer(body);
     }
 
     @Delete()
-    @ApiOkResponse()
-    @ApiNotFoundResponse()
+    @ApiOkResponse({ type: Boolean })
+    @ApiNotFoundResponse({ description: "Lawyer not found" })
     DeleteLawyer(@Body() body: IdRequest): Promise<boolean | NotFoundException> {
-        return this.lawService.DeleteLawyer(body.id);
+        return this.lawyerService.DeleteLawyer(body.id);
     }
 }

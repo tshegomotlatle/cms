@@ -9,13 +9,11 @@ export class LawyerRepository {
 
     public async GetLawyerByEmail(email: string): Promise<Lawyer | null> {
         try {
-            this.prisma.$connect();
             const result = await this.prisma.lawyer.findUnique({
                 where: {
                     email: email
                 }
             })
-            this.prisma.$disconnect();
             return result;
         } catch {
             return null;
@@ -24,13 +22,11 @@ export class LawyerRepository {
 
     public async GetLawyerById(id: string): Promise<Lawyer | null> {
         try {
-            this.prisma.$connect();
             const result = await this.prisma.lawyer.findUnique({
                 where: {
                     id: id
                 }
             })
-            this.prisma.$disconnect();
             return result;
         } catch {
             return null;
@@ -39,7 +35,6 @@ export class LawyerRepository {
 
     public async AddLawyer(lawyer: AddLawyerRequest): Promise<Lawyer | null> {
         try {
-            this.prisma.$connect();
             const result = await this.prisma.lawyer.create({
                 data: {
                     email: lawyer.email,
@@ -48,7 +43,6 @@ export class LawyerRepository {
                     mobileNumber: lawyer.mobileNumber
                 }
             })
-            this.prisma.$disconnect();
             return result;
         } catch {
             return null;
@@ -57,7 +51,6 @@ export class LawyerRepository {
 
     public async UpdateLawyer(lawyer: UpdateLawyerRequest): Promise<Lawyer | null> {
         try {
-            this.prisma.$connect();
             const result = await this.prisma.lawyer.update({
                 where: {
                     id: lawyer.id
@@ -69,7 +62,6 @@ export class LawyerRepository {
                     mobileNumber: lawyer.mobileNumber
                 }
             })
-            this.prisma.$disconnect();
             return result;
         } catch {
             return null;
@@ -78,13 +70,11 @@ export class LawyerRepository {
 
     public async DeleteLawyer(id: string): Promise<Lawyer | null> {
         try {
-            this.prisma.$connect();
             const result = await this.prisma.lawyer.delete({
                 where: {
                     id: id
                 }
             })
-            this.prisma.$disconnect();
             return result;
         } catch {
             return null;
@@ -93,9 +83,7 @@ export class LawyerRepository {
 
     public async GetAllLawyers(): Promise<Lawyer[] | null> {
         try {
-            this.prisma.$connect();
             const result = await this.prisma.lawyer.findMany();
-            this.prisma.$disconnect();
             return result;
         } catch {
             return null;

@@ -1,11 +1,9 @@
-import { Test } from '@nestjs/testing';
-import { CourtCasesService } from './court-cases-service.service';
-import { CourtCaseRepository } from '@cms-court-cases-repository';
-import { PrismaClient } from '@prisma/client';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 import { CurrentUserService } from '@cms-authetication-api';
+import { CourtCaseRepository } from '@cms-court-cases-repository';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
+import { CourtCasesService } from './court-cases-service.service';
 
 
 describe('CourtCasesServiceService', () => {
@@ -25,14 +23,14 @@ describe('CourtCasesServiceService', () => {
       email: 'test',
     });
   });
-  
+
 
   it('should be defined', () => {
     expect(courtCaseService).toBeTruthy();
   });
 
   it('should add a new court case', async () => {
-    
+
     courtCaseRepositoryMock.AddCase.mockResolvedValue({
       caseNumber: '123456',
       userId: '123456',
@@ -57,7 +55,7 @@ describe('CourtCasesServiceService', () => {
       defendant: 'test',
       location: 'test',
       outcome: 'test',
-    },"123456");
+    }, "123456");
 
     expect(result).toBeTruthy();
 
@@ -78,14 +76,14 @@ describe('CourtCasesServiceService', () => {
       defendant: 'test',
       location: 'test',
       outcome: 'test',
-    },"123456");
+    }, "123456");
 
     expect(result).toEqual(new BadRequestException());
   });
 
   it('should get all court cases', async () => {
 
-    let date = new Date();
+    const date = new Date();
     courtCaseRepositoryMock.GetAllCases.mockResolvedValue([
       {
         caseNumber: '123456',
@@ -125,7 +123,7 @@ describe('CourtCasesServiceService', () => {
   });
 
   it('should get a court case by id', async () => {
-    let date = new Date();
+    const date = new Date();
     courtCaseRepositoryMock.GetCaseById.mockResolvedValue({
       caseNumber: '123456',
       userId: '123456',
@@ -160,7 +158,7 @@ describe('CourtCasesServiceService', () => {
   });
 
   it('should edit a court case', async () => {
-    let date = new Date();
+    const date = new Date();
     courtCaseRepositoryMock.EditCase.mockResolvedValue({
       caseNumber: '123456',
       userId: '123456',
@@ -184,10 +182,10 @@ describe('CourtCasesServiceService', () => {
       defendant: 'test',
       location: 'test',
       outcome: 'test',
-    },"123456");
+    }, "123456");
 
     expect(result).toBeTruthy()
-  }); 
+  });
 
   it('should return bad request when editing a court case', async () => {
     courtCaseRepositoryMock.EditCase.mockResolvedValue(null);
@@ -202,12 +200,12 @@ describe('CourtCasesServiceService', () => {
       defendant: 'test',
       location: 'test',
       outcome: 'test',
-    },"123456");
+    }, "123456");
     expect(result).toEqual(new BadRequestException());
   });
 
   it('should delete a court case', async () => {
-    let date = new Date();
+    const date = new Date();
     courtCaseRepositoryMock.DeleteCase.mockResolvedValue({
       caseNumber: '123456',
       userId: '123456',
@@ -231,7 +229,7 @@ describe('CourtCasesServiceService', () => {
   });
 
   it('should get a court case by case number', async () => {
-    let date = new Date()
+    const date = new Date()
     courtCaseRepositoryMock.GetAllCases.mockResolvedValue([{
       caseNumber: '123456',
       userId: '123456',
@@ -244,7 +242,7 @@ describe('CourtCasesServiceService', () => {
       location: 'test',
       outcome: 'test',
     }]);
-    
+
     const result = await courtCaseService.GetAllCaseNumbers('123456');
     expect(result).toEqual({
       caseNumbers: ['123456'],
