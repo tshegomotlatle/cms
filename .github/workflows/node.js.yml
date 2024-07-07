@@ -6,9 +6,9 @@ on:
     branches:
       - master
       - development
-  pull_request: 
+  pull_request:
     branches:
-        - prod
+      - prod
   workflow_dispatch:
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
           cache: npm
 
       - name: Installing Dependencies
-        run: npm install --verbose
+        run: npm install
 
       - name: Installing nx
         run: npm add nx --global
@@ -51,4 +51,3 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-

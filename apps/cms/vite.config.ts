@@ -17,7 +17,7 @@ export default defineConfig({
     port: 4300,
     host: 'localhost',
   },
-  
+
 
   plugins: [react(), nxViteTsPaths(), codecovVitePlugin({
     enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
@@ -43,13 +43,13 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     reporters: ['default'],
     coverage: {
       reportsDirectory: '../../coverage',
       provider: 'v8',
     },
   },
-  
+
 });
 
