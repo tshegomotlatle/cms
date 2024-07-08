@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import * as path from 'path';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { codecovVitePlugin } from "@codecov/vite-plugin";
 
 export default defineConfig({
   root: __dirname,
@@ -59,7 +60,3 @@ export default defineConfig({
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
 });
-
-function codecovVitePlugin(arg0: { enableBundleAnalysis: boolean; bundleName: string; uploadToken: string | undefined; }): import("vite").PluginOption {
-  throw new Error('Function not implemented.');
-}
