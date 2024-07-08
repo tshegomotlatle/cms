@@ -38,8 +38,11 @@ jobs:
       - name: Running nx run-many lint
         run: npx nx run-many --target=lint
 
-      - name: Running nx run-many test
-        run: npx nx run-many --target=test --coverage
+      - name: Running nx frontend test
+        run: vitest --coverage
+
+      - name: Running nx api test
+        run: npx jest --coverage
 
       - name: Running nx run-many build
         run: npx nx run-many --target=build
