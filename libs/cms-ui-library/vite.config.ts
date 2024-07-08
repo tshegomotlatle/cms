@@ -16,6 +16,11 @@ export default defineConfig({
       entryRoot: 'src',
       tsconfigPath: path.join(__dirname, 'tsconfig.lib.json'),
     }),
+    codecovVitePlugin({
+      enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+      bundleName: "Case-Management-System",
+      uploadToken: process.env.CODECOV_TOKEN,
+    }),
   ],
 
   define: { global: 'window' },
@@ -54,3 +59,7 @@ export default defineConfig({
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
 });
+
+function codecovVitePlugin(arg0: { enableBundleAnalysis: boolean; bundleName: string; uploadToken: string | undefined; }): import("vite").PluginOption {
+  throw new Error('Function not implemented.');
+}
