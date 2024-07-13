@@ -39,7 +39,7 @@ jobs:
         run: npx nx run-many --target=lint
 
       - name: Running nx api test
-        run: npx jest --coverage
+        run: npx nx run-many --target=test --all=true --verbose=true --coverage=true
 
       - name: Running nx run-many build
         run: npx nx run-many --target=build
