@@ -20,7 +20,7 @@ module.exports = {
     }),
     codecovWebpackPlugin({
       enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
-      bundleName: 'Case-Management-System-Api',
+      bundleName: 'cms-api',
       uploadToken: process.env.CODECOV_TOKEN,
     }),
   ],

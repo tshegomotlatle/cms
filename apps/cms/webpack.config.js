@@ -1,6 +1,7 @@
 const { NxWebpackPlugin } = require('@nx/webpack');
 const { NxReactWebpackPlugin } = require('@nx/react');
 const { join } = require('path');
+const { codecovWebpackPlugin } = require('@codecov/webpack-plugin');
 
 module.exports = {
   output: {
@@ -25,6 +26,11 @@ module.exports = {
       // Uncomment this line if you don't want to use SVGR
       // See: https://react-svgr.com/
       // svgr: false
+    }),
+    codecovWebpackPlugin({
+      enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+      bundleName: 'cms',
+      uploadToken: process.env.CODECOV_TOKEN,
     }),
   ],
 };
