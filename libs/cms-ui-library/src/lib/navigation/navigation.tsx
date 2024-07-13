@@ -93,17 +93,17 @@ export function Navigation(props: NavigationProps) {
             </div>
           </div>
         </div>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/court-cases" element={<CourtCases />} />
-          <Route path="/add-court-case" element={<AddCourtCase />} />
-          <Route path="/calendar" element={<CalendarUi />} />
-          <Route path="/file-management" element={<FileManagement />} />
-          <Route path="/invoices" element={<Invoice />} />
-          <Route path="/" element={<Invoice />} />
-        </Routes>
       </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/court-cases" element={<CourtCases />} />
+        <Route path="/add-court-case" element={<AddCourtCase />} />
+        <Route path="/calendar" element={<CalendarUi />} />
+        <Route path="/file-management" element={<FileManagement />} />
+        <Route path="/invoices" element={<Invoice />} />
+        <Route path="/" element={<Login />} />
+      </Routes>
     </BrowserRouter>
   );
 }

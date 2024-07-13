@@ -22,7 +22,7 @@ export function Invoice() {
         accessToken: sessionStorage.getItem('access_token') || '',
       })
       .then((response: AxiosResponse) => {
-        setCourtCases(response.data);
+        if (response) setCourtCases(response.data);
       });
   }, []);
 
@@ -70,7 +70,7 @@ export function Invoice() {
     console.log(event?.target.value);
   };
 
-  const invoiceFooter = () =>{
+  const invoiceFooter = () => {
     return (
       <div className={styles['container-footer']}>
         <div className={styles['signature']}>
@@ -92,7 +92,7 @@ export function Invoice() {
         </div>
       </div>
     );
-  }
+  };
 
   const handleCaseNumberClick = async (value: string) => {
     console.log(value);
@@ -127,21 +127,21 @@ export function Invoice() {
 
   const showCourtCasesComponent = () => {
     return (
-        <div>
-          {courtCases?.map((courtCase: CourtCaseDto) => {
-            return (
-              <div
-                className={styles['invoice-menus']}
-                onClick={() => {
-                  handleCaseNumberClick(courtCase.caseNumber);
-                }}
-              >
-                {courtCase.caseNumber} - {courtCase.plaintiff} vs{' '}
-                {courtCase.defendant}
-              </div>
-            );
-          })}
-        </div>
+      <div>
+        {courtCases?.map((courtCase: CourtCaseDto) => {
+          return (
+            <div
+              className={styles['invoice-menus']}
+              onClick={() => {
+                handleCaseNumberClick(courtCase.caseNumber);
+              }}
+            >
+              {courtCase.caseNumber} - {courtCase.plaintiff} vs{' '}
+              {courtCase.defendant}
+            </div>
+          );
+        })}
+      </div>
     );
   };
 
@@ -163,7 +163,7 @@ export function Invoice() {
             className="form-control mt-2"
             onChange={handleCaseNumberChange}
           >
-            <option defaultChecked >---Select a Case Number---</option>
+            <option defaultChecked>---Select a Case Number---</option>
             {courtCases?.map((courtCase, index) => {
               return (
                 <option key={index} value={courtCase.caseNumber}>
@@ -205,7 +205,10 @@ export function Invoice() {
           />
         </div>
         <div className={styles['add-invoice-button-container']}>
-          <button className="btn btn-outline-dark" onClick={addCourtCasesButtonClick}>
+          <button
+            className="btn btn-outline-dark"
+            onClick={addCourtCasesButtonClick}
+          >
             Add Invoice Item
           </button>
           <button className="btn btn-outline-dark" onClick={handleChangeView}>
