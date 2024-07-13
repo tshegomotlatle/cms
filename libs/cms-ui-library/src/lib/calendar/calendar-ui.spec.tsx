@@ -1,13 +1,11 @@
 import { render } from '@testing-library/react';
 
 import CalendarUi from './calendar-ui';
-import React from 'react';
-import axios from 'axios';
-import { vi } from 'vitest';
 
+import axios from 'axios';
 describe('CalendarUi', () => {
   it('should render successfully', () => {
-    vi.spyOn(axios, 'post').mockResolvedValue([]);
+    jest.spyOn(axios, 'post').mockResolvedValue([]);
     const { baseElement } = render(<CalendarUi />);
     expect(baseElement).toBeTruthy();
   });
