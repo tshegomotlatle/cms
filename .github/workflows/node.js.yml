@@ -47,6 +47,9 @@ jobs:
       - name: Running nx run-many e2e
         run: npx nx run-many --target=e2e
 
+      - name: Merge Reports
+        run: node tools/scripts/merge.js
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
