@@ -1,5 +1,6 @@
 # Cms
 [![codecov](https://codecov.io/github/tshegomotlatle/cms/graph/badge.svg?token=CQJAN9NVEO)](https://codecov.io/github/tshegomotlatle/cms)
+[![CI](https://github.com/tshegomotlatle/cms/actions/workflows/node.js.yml/badge.svg)](https://github.com/tshegomotlatle/cms/actions/workflows/node.js.yml)
 
 ![Repo Size](https://img.shields.io/github/repo-size/tshegomotlatle/cms)
 
