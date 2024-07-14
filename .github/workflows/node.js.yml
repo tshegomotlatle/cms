@@ -36,13 +36,13 @@ jobs:
         run: npm add vitest --global
 
       - name: Running nx run-many lint
-        run: npx nx run-many --target=lint
+        run: npx nx run-many --target=lint --parallel=3
 
-      - name: Running nx run-many test
-        run: npx nx run-many --target=test --coverage
+      - name: Running nx api test
+        run: npx nx run-many --target=test --all=true --verbose=true --coverage=true --coverageReporters=lcov && node tools/scripts/merge.js
 
       - name: Running nx run-many build
-        run: npx nx run-many --target=build
+        run: npx nx run-many --target=build --parallel=3
 
       - name: Running nx run-many e2e
         run: npx nx run-many --target=e2e
@@ -50,4 +50,5 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
+          files: ./coverage/lcov.info
           token: ${{ secrets.CODECOV_TOKEN }}

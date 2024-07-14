@@ -6,30 +6,28 @@ import { useEffect, useState } from 'react';
 export interface CourtCasesProps {}
 
 export function CourtCases(props: CourtCasesProps) {
-
   const [courtCases, setCourtCases] = useState<CourtCaseDto[]>([]);
   const [searchBarInput, setSearchBarInput] = useState('');
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     axios
       .post('/court-cases/getAllCases', {
         accessToken: sessionStorage.getItem('access_token') || '',
       })
       .then((response) => {
-        setCourtCases(response.data);
+        if (response) setCourtCases(response.data);
         return;
       })
       .catch((response) => {
         throw response;
       });
-  },[])
+  }, []);
 
   const searchCases = (e: { target: { value: string } }) => {
     setSearchBarInput(e.target.value);
     console.log(searchBarInput);
   };
-  
+
   return (
     <div className={styles['container']}>
       <div className={styles['courtCasesHeader']}>
@@ -87,7 +85,7 @@ export function CourtCases(props: CourtCasesProps) {
               <td>{courtCase.plaintiff}</td>
               <td>{courtCase.status}</td>
               <td>{courtCase.type}</td>
-              <td>{"INSERT NEXT DATE HERE"}</td>
+              <td>{'INSERT NEXT DATE HERE'}</td>
               <td>{courtCase.dateCreated.toLocaleString().split('T')[0]}</td>
               <td>{courtCase.outcome}</td>
             </tr>

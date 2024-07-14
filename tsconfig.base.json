@@ -55,6 +55,7 @@
       ],
       "@cms-models": ["libs/models/src/index.ts"],
       "@cms-ui-library": ["libs/cms-ui-library/src/index.ts"],
+      "@cms/cms-ui-library": ["libs/cms-ui-library/src/index.ts"],
       "@cms/common": ["libs/cms-api-library/common/src/index.ts"],
       "@cms/lawyer-api": [
         "libs/cms-api-library/lawyer/lawyer-api/src/index.ts"

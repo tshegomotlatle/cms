@@ -6,7 +6,6 @@ export default defineConfig({
   e2e: {
     ...nxE2EPreset(__filename, {
       cypressDir: 'src',
-      bundler: 'vite',
       webServerCommands: {
         default: 'nx run cms:serve',
         production: 'nx run cms:preview',
