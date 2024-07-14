@@ -39,16 +39,13 @@ jobs:
         run: npx nx run-many --target=lint --parallel=3
 
       - name: Running nx api test
-        run: npx nx run-many --target=test --all=true --verbose=true --coverage=true
+        run: npx nx run-many --target=test --all=true --verbose=true --coverage=true --coverageReporters=lcov && node tools/scripts/merge.js
 
       - name: Running nx run-many build
         run: npx nx run-many --target=build --parallel=3
 
       - name: Running nx run-many e2e
         run: npx nx run-many --target=e2e
-
-      - name: Merge Reports
-        run: node tools/scripts/merge.js
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
