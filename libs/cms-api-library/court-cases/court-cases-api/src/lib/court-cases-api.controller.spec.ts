@@ -1,13 +1,13 @@
-import { Test } from '@nestjs/testing';
-import { CourtCasesApiController } from './court-cases-api.controller';
-import { CourtCasesService } from '@cms-court-cases-service';
-import { CourtCaseRepository } from '@cms-court-cases-repository';
-import { PrismaClient } from '@prisma/client';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { CurrentUserService } from '@cms-authetication-api';
+import { CourtCaseRepository } from '@cms-court-cases-repository';
+import { CourtCasesService } from '@cms-court-cases-service';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
+import { PrismaClient } from '@prisma/client';
+import { CourtCasesApiController } from './court-cases-api.controller';
 
-import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 import { JwtService } from '@nestjs/jwt';
+import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 
 describe('CourtCasesApiController', () => {
   let controller: CourtCasesApiController;
@@ -35,15 +35,15 @@ describe('CourtCasesApiController', () => {
       id: "1234",
       caseNumber: "1234",
       dateCreated: date,
-      defendant : "Tshego",
-      location : "Motlatle",
-      plaintiff : "Tshego",
-      status : "Pending",
-      type : "Trial",
-      outcome : "Pending",
+      defendant: "Tshego",
+      location: "Motlatle",
+      plaintiff: "Tshego",
+      status: "Pending",
+      type: "Trial",
+      outcome: "Pending",
     }]);
 
-    const result = await controller.GetAllCases({authorization: "1234"});
+    const result = await controller.GetAllCases({ authorization: "1234" });
 
     currentUserService.GetUserToken.mockReturnValue({
       userId: '123456',
@@ -54,18 +54,18 @@ describe('CourtCasesApiController', () => {
       id: "1234",
       caseNumber: "1234",
       dateCreated: date,
-      defendant : "Tshego",
-      location : "Motlatle",
-      plaintiff : "Tshego",
-      status : "Pending",
-      type : "Trial",
-      outcome : "Pending",
+      defendant: "Tshego",
+      location: "Motlatle",
+      plaintiff: "Tshego",
+      status: "Pending",
+      type: "Trial",
+      outcome: "Pending",
     }]);
   });
 
   it('should return not found when no court cases exist', async () => {
     jest.spyOn(service, 'GetAllCases').mockResolvedValue(new NotFoundException());
-    const result = await controller.GetAllCases({authorization: "1234"});
+    const result = await controller.GetAllCases({ authorization: "1234" });
     expect(result).toEqual(new NotFoundException());
   });
 
@@ -75,31 +75,31 @@ describe('CourtCasesApiController', () => {
       id: "1234",
       caseNumber: "1234",
       dateCreated: date,
-      defendant : "Tshego",
-      location : "Motlatle",
-      plaintiff : "Tshego",
-      status : "Pending",
-      type : "Trial",
-      outcome : "Pending",
+      defendant: "Tshego",
+      location: "Motlatle",
+      plaintiff: "Tshego",
+      status: "Pending",
+      type: "Trial",
+      outcome: "Pending",
     });
 
-    const result = await controller.GetCaseById({id:"1234"}, {authorization: "1234"});
+    const result = await controller.GetCaseById({ id: "1234" }, { authorization: "1234" });
     expect(result).toEqual({
       id: "1234",
       caseNumber: "1234",
       dateCreated: date,
-      defendant : "Tshego",
-      location : "Motlatle",
-      plaintiff : "Tshego",
-      status : "Pending",
-      type : "Trial",
-      outcome : "Pending",
+      defendant: "Tshego",
+      location: "Motlatle",
+      plaintiff: "Tshego",
+      status: "Pending",
+      type: "Trial",
+      outcome: "Pending",
     });
   });
 
   it('should return not found when no court case exists', async () => {
     jest.spyOn(service, 'GetCaseById').mockResolvedValue(new NotFoundException());
-    const result = await controller.GetCaseById({id:"1234"}, {authorization: "1234"});
+    const result = await controller.GetCaseById({ id: "1234" }, { authorization: "1234" });
     expect(result).toEqual(new NotFoundException());
   });
 
@@ -108,14 +108,14 @@ describe('CourtCasesApiController', () => {
     jest.spyOn(service, 'AddCase').mockResolvedValue(true);
     const result = await controller.Add(
       {
-      caseNumber: "1234",
-      dateCreated: date,
-      defendant : "Tshego",
-      location : "Motlatle",
-      plaintiff : "Tshego",
-      status : "Pending",
-      type : "Trial",
-      outcome : "Pending",
+        caseNumber: "1234",
+        dateCreated: date,
+        defendant: "Tshego",
+        location: "Motlatle",
+        plaintiff: "Tshego",
+        status: "Pending",
+        type: "Trial",
+        outcome: "Pending",
       },
       { authorization: "1234" });
 
@@ -127,14 +127,14 @@ describe('CourtCasesApiController', () => {
     jest.spyOn(service, 'AddCase').mockResolvedValue(new BadRequestException());
     const result = await controller.Add(
       {
-      caseNumber: "1234",
-      dateCreated: date,
-      defendant : "Tshego",
-      location : "Motlatle",
-      plaintiff : "Tshego",
-      status : "Pending",
-      type : "Trial",
-      outcome : "Pending",
+        caseNumber: "1234",
+        dateCreated: date,
+        defendant: "Tshego",
+        location: "Motlatle",
+        plaintiff: "Tshego",
+        status: "Pending",
+        type: "Trial",
+        outcome: "Pending",
       },
       { authorization: "1234" });
     expect(result).toEqual(new BadRequestException());
@@ -145,15 +145,15 @@ describe('CourtCasesApiController', () => {
     jest.spyOn(service, 'EditCase').mockResolvedValue(true);
     const result = await controller.Edit(
       {
-      id: "1234",
-      caseNumber: "1234",
-      dateCreated: date,
-      defendant : "Tshego",
-      location : "Motlatle",
-      plaintiff : "Tshego",
-      status : "Pending",
-      type : "Trial",
-      outcome : "Pending",
+        id: "1234",
+        caseNumber: "1234",
+        dateCreated: date,
+        defendant: "Tshego",
+        location: "Motlatle",
+        plaintiff: "Tshego",
+        status: "Pending",
+        type: "Trial",
+        outcome: "Pending",
       },
       { authorization: "1234" });
 
@@ -165,15 +165,15 @@ describe('CourtCasesApiController', () => {
     jest.spyOn(service, 'EditCase').mockResolvedValue(new BadRequestException());
     const result = await controller.Edit(
       {
-      id: "1234",
-      caseNumber: "1234",
-      dateCreated: date,
-      defendant : "Tshego",
-      location : "Motlatle",
-      plaintiff : "Tshego",
-      status : "Pending",
-      type : "Trial",
-      outcome : "Pending",
+        id: "1234",
+        caseNumber: "1234",
+        dateCreated: date,
+        defendant: "Tshego",
+        location: "Motlatle",
+        plaintiff: "Tshego",
+        status: "Pending",
+        type: "Trial",
+        outcome: "Pending",
       },
       { authorization: "1234" });
     expect(result).toEqual(new BadRequestException());
@@ -205,31 +205,31 @@ describe('CourtCasesApiController', () => {
       id: "1234",
       caseNumber: "1234",
       dateCreated: date,
-      defendant : "Tshego",
-      location : "Motlatle",
-      plaintiff : "Tshego",
-      status : "Pending",
-      type : "Trial",
-      outcome : "Pending",
+      defendant: "Tshego",
+      location: "Motlatle",
+      plaintiff: "Tshego",
+      status: "Pending",
+      type: "Trial",
+      outcome: "Pending",
     });
 
-    const result = await controller.GetCaseByCaseNumber({caseNumber: "1234"}, {authorization: "1234"});
+    const result = await controller.GetCaseByCaseNumber({ caseNumber: "1234" }, { authorization: "1234" });
     expect(result).toEqual({
       id: "1234",
       caseNumber: "1234",
       dateCreated: date,
-      defendant : "Tshego",
-      location : "Motlatle",
-      plaintiff : "Tshego",
-      status : "Pending",
-      type : "Trial",
-      outcome : "Pending",
+      defendant: "Tshego",
+      location: "Motlatle",
+      plaintiff: "Tshego",
+      status: "Pending",
+      type: "Trial",
+      outcome: "Pending",
     });
   });
 
   it('should return not found when no court case exists', async () => {
     jest.spyOn(service, 'GetByCaseNumber').mockResolvedValue(new NotFoundException());
-    const result = await controller.GetCaseByCaseNumber({caseNumber: "1234"}, {authorization: "1234"});
+    const result = await controller.GetCaseByCaseNumber({ caseNumber: "1234" }, { authorization: "1234" });
     expect(result).toEqual(new NotFoundException());
   });
 
@@ -239,7 +239,7 @@ describe('CourtCasesApiController', () => {
       caseNumbers: ["1234"],
     });
 
-    const result = await controller.GetAllCaseNumbers({authorization: "1234"});
+    const result = await controller.GetAllCaseNumbers({ authorization: "1234" });
     expect(result).toEqual({
       caseNumbers: ["1234"],
     });

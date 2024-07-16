@@ -1,76 +1,98 @@
+import { CurrentUserService } from '@cms-authetication-api';
 import { InvoicesRespository } from '@cms-invoices-repository';
-import { Invoice } from '@cms-models';
-import { Injectable, Logger } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { EditInvoice, Invoice, UserToken } from '@cms-models';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class InvoicesService {
 
-    constructor(private invoiceRepository : InvoicesRespository,
-        private jwtService : JwtService
-    )
-    {
+    constructor(
+        private invoiceRepository: InvoicesRespository,
+        private currentUserService: CurrentUserService
+    ) {
 
     }
 
-    public async AddInvoice(invoice: Invoice): Promise<Invoice | null> {
-        if (!this.ValidateInvoice(invoice))
-            return null;
+    public async AddInvoice(newInvoice: Invoice, accessToken: string): Promise<boolean | BadRequestException> {
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
-        Logger.log(invoice);
-        return await this.invoiceRepository.AddInvoice(invoice);
+        if (await this.InvoiceExists(newInvoice.invoiceNumber!, user?.userId!))
+            return new BadRequestException()
+
+
+        newInvoice.date = new Date();
+        const invoice = await this.invoiceRepository.AddInvoice(newInvoice);
+        if (invoice) {
+            return true
+        }
+        else {
+            return new BadRequestException()
+        }
     }
 
-    public async EditInvoice(invoice: Invoice): Promise<Invoice | null> {
-        if (!this.ValidateInvoice(invoice))
-            return null;
+    public async EditInvoice(newInvoice: EditInvoice, accessToken: string): Promise<boolean | BadRequestException> {
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
-        return await this.invoiceRepository.EditInvoice(invoice);
+        if (await this.InvoiceExists(newInvoice.invoiceNumber!, user?.userId!))
+            return new BadRequestException()
+
+        const invoice = await this.invoiceRepository.EditInvoice(newInvoice);
+        if (invoice) {
+            return true
+        }
+        else {
+            return new BadRequestException()
+        }
     }
 
-    public async GetInvoiceById(id: string, accessToken: string): Promise<Invoice | null> {
-        if (accessToken === "" || id === "")
-            return null
+    public async GetInvoiceById(id: string, accessToken: string): Promise<Invoice | BadRequestException> {
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
-        const user: { userId: string, email: string } = this.jwtService.decode(accessToken);
-
-        return this.invoiceRepository.GetInvoiceById(id, user.userId);
+        const invoice = await this.invoiceRepository.GetInvoiceById(id, user?.userId!);
+        if (invoice) {
+            return invoice
+        }
+        else {
+            return new BadRequestException()
+        }
     }
 
-    public async GetInvoiceByInvoiceNumber(invoiceNumber: string, accessToken: string): Promise<Invoice[] | null> {
-        if (accessToken === "" || invoiceNumber === "")
-            return null
+    public async GetInvoiceByInvoiceNumber(invoiceNumber: string, accessToken: string): Promise<Invoice[] | BadRequestException> {
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
-        const user: { userId: string, email: string } = this.jwtService.decode(accessToken);
-
-        return this.invoiceRepository.GetInvoiceByInvoiceNumber(invoiceNumber, user.userId);
+        const invoice = await this.invoiceRepository.GetInvoiceByInvoiceNumber(invoiceNumber, user?.userId!);
+        if (invoice) {
+            return invoice
+        }
+        else {
+            return new BadRequestException()
+        }
     }
 
-    public async DeleteInvoice(id: string, accessToken: string): Promise<Invoice | null> {
-        if (id === "" || accessToken === "")
-            return null
+    public async DeleteInvoice(id: string, accessToken: string): Promise<boolean | BadRequestException> {
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
-        const user: { userId: string, email: string } = this.jwtService.decode(accessToken);
+        if (await this.GetInvoiceById(id, user?.userId!))
+            return new BadRequestException()
 
-        return this.invoiceRepository.DeleteInvoice(id, user.userId);
+        const invoice = await this.invoiceRepository.DeleteInvoice(id, user?.userId!);
+        if (invoice) {
+            return true
+        }
+        else {
+            return new BadRequestException()
+        }
     }
 
+    public async InvoiceExists(invoiceNumber: string, userId: string): Promise<boolean> {
+        const invoice = await this.invoiceRepository.GetInvoiceByInvoiceNumber(invoiceNumber, userId);
 
-    private ValidateInvoice(invoice : Invoice) : boolean
-    {
-        if (invoice === null)
-            return false;
-        if (invoice.caseId === "")
-            return false;
-        if (invoice.name === "")
-            return false;
-        if (invoice.hours === 0)
-            return false;
-        if (invoice.date === null)
-            return false;
-        if (invoice.userId === "")
-            return false;
+        return invoice ? true : false
+    }
 
-        return true;
+    public async InvoiceExistsId(id: string, userId: string): Promise<boolean> {
+        const invoice = await this.invoiceRepository.GetInvoiceById(id, userId);
+
+        return invoice ? true : false
     }
 }

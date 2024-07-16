@@ -1,7 +1,7 @@
 import { CurrentUserService } from '@cms-authetication-api';
 import { CourtCaseRepository } from '@cms-court-cases-repository';
 import { CourtCase, UserToken } from '@cms-models';
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class CourtCasesService {
@@ -74,14 +74,13 @@ export class CourtCasesService {
 
         if (!await this.CaseExists(caseNumber, user?.userId || ""))
             return new NotFoundException()
-        
+
         const courtcases = await this.courtCaseRepository.DeleteCase(caseNumber, user?.userId || "");
 
         return true
     }
 
-    public async GetAllCaseNumbers(accessToken: string): Promise<{ caseNumbers: string[] } | NotFoundException>
-    {
+    public async GetAllCaseNumbers(accessToken: string): Promise<{ caseNumbers: string[] } | NotFoundException> {
 
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
@@ -94,18 +93,15 @@ export class CourtCasesService {
             return courtCase.caseNumber;
         })
 
-        if (caseNumbers)
-        {
-            return {caseNumbers : caseNumbers};
+        if (caseNumbers) {
+            return { caseNumbers: caseNumbers };
         }
-        else
-        {
-            return {caseNumbers: []};
+        else {
+            return { caseNumbers: [] };
         }
     }
 
-    public async GetByCaseNumber(caseNumber: string, accessToken: string): Promise<CourtCase | NotFoundException>
-    {
+    public async GetByCaseNumber(caseNumber: string, accessToken: string): Promise<CourtCase | NotFoundException> {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
         const courtcases = await this.courtCaseRepository.GetByCaseNumber(caseNumber, user?.userId || "");
@@ -118,8 +114,7 @@ export class CourtCasesService {
         }
     }
 
-    public async CaseExists(caseNumber: string, userId: string): Promise<boolean>
-    {
+    public async CaseExists(caseNumber: string, userId: string): Promise<boolean> {
         const courtCase = await this.courtCaseRepository.GetByCaseNumber(caseNumber, userId);
 
         return courtCase ? true : false

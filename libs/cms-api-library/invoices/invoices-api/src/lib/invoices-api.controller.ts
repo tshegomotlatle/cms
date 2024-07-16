@@ -1,35 +1,54 @@
+import { AccessTokenGuard } from '@cms-authetication-api';
 import { InvoicesService } from '@cms-invoices-service';
-import { GetInvoicesByCaseNumberRequest, GetInvoicesByIdRequest, GetInvoicesByInvoiceNumberRequest, Invoice } from '@cms-models';
-import { Body, Controller, Logger, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { EditInvoice, GetInvoicesByIdRequest, GetInvoicesByInvoiceNumberRequest, IdRequest, Invoice } from '@cms-models';
+import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiFoundResponse, ApiNotFoundResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 @ApiTags("invoices")
 @Controller('invoices')
+@ApiBearerAuth()
 export class InvoicesApiController {
 
-    constructor(private invoiceService : InvoicesService){}
+    constructor(private invoiceService: InvoicesService) { }
 
-    @Post('add')
-    add(@Body() body : Invoice) : Promise<Invoice | null>{
-        return this.invoiceService.AddInvoice(body);
+    @UseGuards(AccessTokenGuard)
+    @Get('')
+    @ApiFoundResponse({ type: Invoice, description: 'The invoice with the specified id' })
+    @ApiNotFoundResponse({ description: 'The invoice with the specified ID was not found.' })
+    @ApiQuery({ name: 'id', type: String })
+    Get(@Query() query: IdRequest, @Headers() headers: { authorization: string }): Promise<Invoice | NotFoundException> {
+        return this.invoiceService.GetInvoiceById(query.id, headers.authorization);
     }
 
-    @Post('delete')
-    delete(@Body() body: GetInvoicesByIdRequest) : Promise<Invoice | null>{
-        return this.invoiceService.DeleteInvoice(body.id, body.accessToken);
+    @UseGuards(AccessTokenGuard)
+    @Get('invoice-number')
+    @ApiFoundResponse({ type: Invoice, description: 'The invoice with the specified invoice number' })
+    @ApiNotFoundResponse({ description: 'The invoice with the specified invoice number was not found.' })
+    @ApiQuery({ name: 'invoice-number', type: String })
+    GetByInvoiceNumber(@Body() body: GetInvoicesByInvoiceNumberRequest, @Headers() headers: { authorization: string }): Promise<Invoice[] | NotFoundException> {
+        return this.invoiceService.GetInvoiceByInvoiceNumber(body.invoiceNumber, headers.authorization);
     }
 
-    @Post('edit')
-    edit(@Body() body: Invoice) : Promise<Invoice | null>{
-        return this.invoiceService.EditInvoice(body);
+    @UseGuards(AccessTokenGuard)
+    @Post()
+    @ApiFoundResponse({ type: Boolean, description: 'The invoice has been added' })
+    @ApiBadRequestResponse({ description: 'An error occured while adding the invoice' })
+    Add(@Body() body: Invoice, @Headers() headers: { authorization: string }): Promise<boolean | BadRequestException> {
+        return this.invoiceService.AddInvoice(body, headers.authorization);
     }
 
-    @Post('getInvoiceById')
-    getInvoiceById(@Body() body: GetInvoicesByIdRequest) : Promise<Invoice | null>{
-        return this.invoiceService.GetInvoiceById(body.id, body.accessToken);
+    @UseGuards(AccessTokenGuard)
+    @Delete()
+    @ApiFoundResponse({ type: Boolean, description: 'The invoice has been deleted' })
+    @ApiBadRequestResponse({ description: 'The invoice doesnt not exist' })
+    Delete(@Body() body: IdRequest, @Headers() headers: { authorization: string }): Promise<boolean | BadRequestException> {
+        return this.invoiceService.DeleteInvoice(body.id, headers.authorization);
     }
 
-    @Post('getInvoiceByInvoiceNumber')
-    getInvoiceByInvoiceNumber(@Body() body: GetInvoicesByInvoiceNumberRequest) : Promise<Invoice[] | null>{
-        return this.invoiceService.GetInvoiceByInvoiceNumber(body.invoiceNumber, body.accessToken);
+    @UseGuards(AccessTokenGuard)
+    @Put()
+    @ApiFoundResponse({ type: Boolean, description: 'The invoice has been deleted' })
+    @ApiBadRequestResponse({ description: 'The invoice doesnt not exist' })
+    Edit(@Body() body: EditInvoice, @Headers() headers: { authorization: string }): Promise<boolean | BadRequestException> {
+        return this.invoiceService.EditInvoice(body, headers.authorization);
     }
 }
