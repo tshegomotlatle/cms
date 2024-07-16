@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { CourtCaseDto } from '../../data-transfer-object/court-case/court-case.dto';
 import styles from './court-cases.module.scss';
 import axios from 'axios';
@@ -11,7 +12,7 @@ export function CourtCases(props: CourtCasesProps) {
 
   useEffect(() => {
     axios
-      .post('/court-cases/getAllCases', {
+      .post('/court-cases/all', {
         accessToken: sessionStorage.getItem('access_token') || '',
       })
       .then((response) => {
@@ -41,14 +42,14 @@ export function CourtCases(props: CourtCasesProps) {
           />
         </div>
         <div className={styles['addCase']}>
-          <a href="/add-court-case">
+          <Link to="/add-court-case">
             <span
               className="material-symbols-outlined"
               id={styles['addButton']}
             >
               add
             </span>
-          </a>
+          </Link>
         </div>
         <div className={styles['filter']}>
           <span

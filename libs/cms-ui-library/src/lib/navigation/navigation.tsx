@@ -46,7 +46,7 @@ export function Navigation(props: NavigationProps) {
                 calendar_month
               </span>
               <div className={styles['naviagtion-item-text']}>
-                <a href="/calendar">Calendar</a>
+                <Link to="/calendar">Calendar</Link>
               </div>
             </div>
             <div className={styles['navigation-item']}>
@@ -57,7 +57,7 @@ export function Navigation(props: NavigationProps) {
                 folder
               </span>
               <div className={styles['naviagtion-item-text']}>
-                <a href="/file-management">Document Management</a>
+                <Link to="/file-management">Document Management</Link>
               </div>
             </div>
             <div className={styles['navigation-item']}>
@@ -68,7 +68,7 @@ export function Navigation(props: NavigationProps) {
                 payments
               </span>
               <div className={styles['naviagtion-item-text']}>
-                <a href="invoices">Invoices</a>
+                <Link to="invoices">Invoices</Link>
               </div>
             </div>
             <div className={styles['navigation-item']}>
@@ -79,7 +79,7 @@ export function Navigation(props: NavigationProps) {
                 person
               </span>
               <div className={styles['naviagtion-item-text']}>
-                <a href="invoices">Profile</a>
+                <Link to="invoices">Profile</Link>
               </div>
             </div>
             <div className={styles['navigation-item']}>
@@ -87,23 +87,23 @@ export function Navigation(props: NavigationProps) {
                 className="material-symbols-outlined"
                 style={{ fontSize: '50px', paddingRight: '1vw' }}
               >
-                <a href="/login">Logout</a>
+                <Link to="/login">Logout</Link>
               </span>
               <div className={styles['naviagtion-item-text']}>Logout</div>
             </div>
           </div>
         </div>
+        <Routes>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="court-cases" element={<CourtCases />} />
+          <Route path="add-court-case" element={<AddCourtCase />} />
+          <Route path="calendar" element={<CalendarUi />} />
+          <Route path="file-management" element={<FileManagement />} />
+          <Route path="invoices" element={<Invoice />} />
+          <Route path="/" element={<Login />} />
+        </Routes>
       </div>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/court-cases" element={<CourtCases />} />
-        <Route path="/add-court-case" element={<AddCourtCase />} />
-        <Route path="/calendar" element={<CalendarUi />} />
-        <Route path="/file-management" element={<FileManagement />} />
-        <Route path="/invoices" element={<Invoice />} />
-        <Route path="/" element={<Login />} />
-      </Routes>
     </BrowserRouter>
   );
 }
