@@ -8,7 +8,7 @@ export class InvoicesRespository {
     constructor(private prisma: PrismaClient) {
     }
 
-    public async AddInvoice(invoice: Invoice): Promise<Invoice | null> {
+    public async AddInvoice(invoice: Invoice, userId: string): Promise<Invoice | null> {
         try {
             return await this.prisma.invoiceItem.create({
                 data: {
@@ -23,7 +23,7 @@ export class InvoicesRespository {
                     },
                     user: {
                         connect: {
-                            id: invoice.userId
+                            id: userId
                         }
                     }
                 }
@@ -33,11 +33,12 @@ export class InvoicesRespository {
         }
     }
 
-    public async EditInvoice(invoice: EditInvoice): Promise<Invoice | null> {
+    public async EditInvoice(invoice: EditInvoice, userId: string): Promise<Invoice | null> {
         try {
             return await this.prisma.invoiceItem.update({
                 where: {
-                    id: invoice.id
+                    id: invoice.id,
+                    userId: userId,
                 },
                 data: {
                     costPerHour: invoice.costPerHour,

@@ -3,9 +3,8 @@ import { InvoicesApiController } from './invoices-api.controller';
 import { InvoicesService } from '@cms-invoices-service';
 import { InvoicesRespository } from '@cms-invoices-repository';
 import { PrismaClient } from '@prisma/client';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 import { CurrentUserService } from '@cms-authetication-api';
-import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { EditInvoice } from '@cms-models';
 
@@ -13,7 +12,6 @@ import { EditInvoice } from '@cms-models';
 describe('InvoicesApiController', () => {
   let controller: InvoicesApiController;
   let service: InvoicesService;
-  let currentUserService: DeepMockProxy<CurrentUserService>;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -23,7 +21,6 @@ describe('InvoicesApiController', () => {
 
     controller = module.get<InvoicesApiController>(InvoicesApiController);
     service = module.get<InvoicesService>(InvoicesService);
-    currentUserService = mockDeep<CurrentUserService>();
   });
 
 

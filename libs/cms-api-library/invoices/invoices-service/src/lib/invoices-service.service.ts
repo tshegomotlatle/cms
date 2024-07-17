@@ -17,7 +17,7 @@ export class InvoicesService {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
         newInvoice.date = new Date();
-        const invoice = await this.invoiceRepository.AddInvoice(newInvoice);
+        const invoice = await this.invoiceRepository.AddInvoice(newInvoice, user?.userId || "");
         if (invoice) {
             return true
         }
@@ -29,7 +29,7 @@ export class InvoicesService {
     public async EditInvoice(newInvoice: EditInvoice, accessToken: string): Promise<boolean | BadRequestException | NotFoundException> {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
-        const invoice = await this.invoiceRepository.EditInvoice(newInvoice);
+        const invoice = await this.invoiceRepository.EditInvoice(newInvoice, user?.userId || "");
         if (invoice) {
             return true
         }
@@ -41,7 +41,7 @@ export class InvoicesService {
     public async GetInvoiceById(id: string, accessToken: string): Promise<Invoice | NotFoundException> {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
-        const invoice = await this.invoiceRepository.GetInvoiceById(id, user?.userId!);
+        const invoice = await this.invoiceRepository.GetInvoiceById(id, user?.userId || "");
         if (invoice) {
             return invoice
         }
@@ -53,7 +53,7 @@ export class InvoicesService {
     public async GetInvoiceByInvoiceNumber(invoiceNumber: string, accessToken: string): Promise<Invoice[] | NotFoundException> {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
-        const invoice = await this.invoiceRepository.GetInvoiceByInvoiceNumber(invoiceNumber, user?.userId!);
+        const invoice = await this.invoiceRepository.GetInvoiceByInvoiceNumber(invoiceNumber, user?.userId || "");
         if (invoice) {
             return invoice
         }
@@ -65,7 +65,7 @@ export class InvoicesService {
     public async DeleteInvoice(id: string, accessToken: string): Promise<boolean | BadRequestException> {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
-        const invoice = await this.invoiceRepository.DeleteInvoice(id, user?.userId!);
+        const invoice = await this.invoiceRepository.DeleteInvoice(id, user?.userId || "");
         if (invoice) {
             return true
         }

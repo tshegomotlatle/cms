@@ -1,6 +1,6 @@
 import { AccessTokenGuard } from '@cms-authetication-api';
 import { InvoicesService } from '@cms-invoices-service';
-import { EditInvoice, GetInvoicesByIdRequest, GetInvoicesByInvoiceNumberRequest, IdRequest, Invoice } from '@cms-models';
+import { EditInvoice, GetInvoicesByInvoiceNumberRequest, IdRequest, Invoice } from '@cms-models';
 import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiFoundResponse, ApiNotFoundResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 @ApiTags("invoices")
