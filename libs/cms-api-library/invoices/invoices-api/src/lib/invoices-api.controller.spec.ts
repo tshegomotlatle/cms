@@ -7,6 +7,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { CurrentUserService } from '@cms-authetication-api';
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { EditInvoice } from '@cms-models';
 
 
 describe('InvoicesApiController', () => {
@@ -179,4 +180,18 @@ describe('InvoicesApiController', () => {
     expect(result).toEqual(new NotFoundException());
   });
 
+  it('should throw not found exception edit', async () => {
+    const editInvoice: EditInvoice = {
+      id: "1234",
+      invoiceNumber: "1234",
+      name: "Tshego",
+      date: new Date(),
+      hours: 10,
+      costPerHour: 10,
+    }
+    jest.spyOn(service, 'EditInvoice').mockResolvedValue(new NotFoundException());
+    const result = await controller.Edit(editInvoice, { authorization: "1234" });
+    expect(result).toBeDefined();
+    expect(result).toEqual(new NotFoundException());
+  });
 });

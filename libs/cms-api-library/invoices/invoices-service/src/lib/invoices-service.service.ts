@@ -1,7 +1,7 @@
 import { CurrentUserService } from '@cms-authetication-api';
 import { InvoicesRespository } from '@cms-invoices-repository';
 import { EditInvoice, Invoice, UserToken } from '@cms-models';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class InvoicesService {
@@ -16,10 +16,6 @@ export class InvoicesService {
     public async AddInvoice(newInvoice: Invoice, accessToken: string): Promise<boolean | BadRequestException> {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
-        if (await this.InvoiceExists(newInvoice.invoiceNumber!, user?.userId!))
-            return new BadRequestException()
-
-
         newInvoice.date = new Date();
         const invoice = await this.invoiceRepository.AddInvoice(newInvoice);
         if (invoice) {
@@ -30,11 +26,8 @@ export class InvoicesService {
         }
     }
 
-    public async EditInvoice(newInvoice: EditInvoice, accessToken: string): Promise<boolean | BadRequestException> {
+    public async EditInvoice(newInvoice: EditInvoice, accessToken: string): Promise<boolean | BadRequestException | NotFoundException> {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
-
-        if (await this.InvoiceExists(newInvoice.invoiceNumber!, user?.userId!))
-            return new BadRequestException()
 
         const invoice = await this.invoiceRepository.EditInvoice(newInvoice);
         if (invoice) {
@@ -45,7 +38,7 @@ export class InvoicesService {
         }
     }
 
-    public async GetInvoiceById(id: string, accessToken: string): Promise<Invoice | BadRequestException> {
+    public async GetInvoiceById(id: string, accessToken: string): Promise<Invoice | NotFoundException> {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
         const invoice = await this.invoiceRepository.GetInvoiceById(id, user?.userId!);
@@ -53,11 +46,11 @@ export class InvoicesService {
             return invoice
         }
         else {
-            return new BadRequestException()
+            return new NotFoundException()
         }
     }
 
-    public async GetInvoiceByInvoiceNumber(invoiceNumber: string, accessToken: string): Promise<Invoice[] | BadRequestException> {
+    public async GetInvoiceByInvoiceNumber(invoiceNumber: string, accessToken: string): Promise<Invoice[] | NotFoundException> {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
         const invoice = await this.invoiceRepository.GetInvoiceByInvoiceNumber(invoiceNumber, user?.userId!);
@@ -65,15 +58,12 @@ export class InvoicesService {
             return invoice
         }
         else {
-            return new BadRequestException()
+            return new NotFoundException()
         }
     }
 
     public async DeleteInvoice(id: string, accessToken: string): Promise<boolean | BadRequestException> {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
-
-        if (await this.GetInvoiceById(id, user?.userId!))
-            return new BadRequestException()
 
         const invoice = await this.invoiceRepository.DeleteInvoice(id, user?.userId!);
         if (invoice) {
@@ -84,15 +74,4 @@ export class InvoicesService {
         }
     }
 
-    public async InvoiceExists(invoiceNumber: string, userId: string): Promise<boolean> {
-        const invoice = await this.invoiceRepository.GetInvoiceByInvoiceNumber(invoiceNumber, userId);
-
-        return invoice ? true : false
-    }
-
-    public async InvoiceExistsId(id: string, userId: string): Promise<boolean> {
-        const invoice = await this.invoiceRepository.GetInvoiceById(id, userId);
-
-        return invoice ? true : false
-    }
 }

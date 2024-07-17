@@ -48,7 +48,8 @@ export class InvoicesApiController {
     @Put()
     @ApiFoundResponse({ type: Boolean, description: 'The invoice has been deleted' })
     @ApiBadRequestResponse({ description: 'The invoice doesnt not exist' })
-    Edit(@Body() body: EditInvoice, @Headers() headers: { authorization: string }): Promise<boolean | BadRequestException> {
+    @ApiNotFoundResponse({ description: 'The invoice with the specified ID was not found.' })
+    Edit(@Body() body: EditInvoice, @Headers() headers: { authorization: string }): Promise<boolean | BadRequestException | NotFoundException> {
         return this.invoiceService.EditInvoice(body, headers.authorization);
     }
 }
