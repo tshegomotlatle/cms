@@ -22,6 +22,7 @@ module.exports = {
       enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
       bundleName: 'cms-api',
       uploadToken: process.env.CODECOV_TOKEN,
+      apiUrl: 'https://codecov.io',
     }),
   ],
 };
