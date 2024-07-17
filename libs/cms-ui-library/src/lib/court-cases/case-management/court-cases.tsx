@@ -42,14 +42,14 @@ export function CourtCases(props: CourtCasesProps) {
           />
         </div>
         <div className={styles['addCase']}>
-          <Link to="/add-court-case">
+          <a href="/add-court-case">
             <span
               className="material-symbols-outlined"
               id={styles['addButton']}
             >
               add
             </span>
-          </Link>
+          </a>
         </div>
         <div className={styles['filter']}>
           <span

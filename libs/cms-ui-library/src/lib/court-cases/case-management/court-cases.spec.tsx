@@ -7,7 +7,7 @@ import { CourtCaseDto } from '../../data-transfer-object/court-case/court-case.d
 
 describe('CourtCases', () => {
   it('should render successfully', () => {
-    jest.spyOn(axios, 'post').mockResolvedValue(new CourtCaseDto());
+    jest.spyOn(axios, 'post').mockResolvedValue([] as CourtCaseDto[]);
     const { baseElement } = render(<CourtCases />);
     expect(baseElement).toBeTruthy();
   });
