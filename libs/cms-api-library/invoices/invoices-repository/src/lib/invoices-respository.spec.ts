@@ -38,7 +38,7 @@ describe('InvoicesRespositoryTs', () => {
       caseId: "test",
       costPerHour: 100,
       userId: "test",
-    });
+    }, "test");
 
     expect(result).toEqual({
       invoiceNumber: "test",
@@ -72,7 +72,7 @@ describe('InvoicesRespositoryTs', () => {
       hours: 100,
       name: "test",
       costPerHour: 100,
-    });
+    }, "test");
 
     expect(result).toEqual({
       invoiceNumber: "test",
