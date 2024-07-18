@@ -5,7 +5,8 @@ import { DocumentsRepository } from '@cms-documents-repository';
 import { PrismaClient } from '@prisma/client';
 import { CommonFunctionsService } from '@cms-common-functions';
 import { JwtService } from '@nestjs/jwt';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, UploadedFile } from '@nestjs/common';
+import { UploadDocumentRequest } from '@cms-models';
 
 describe('DocumentsApiController', () => {
   let controller: DocumentsApiController;
@@ -46,6 +47,26 @@ describe('DocumentsApiController', () => {
       path: "https://example.com/test.pdf",
       id: "DOC-001"
     }]);
+  });
+
+  it('should upload a document', async () => {
+    jest.spyOn(service, 'UploadDocument').mockResolvedValue(true);
+
+    var uploadRequest: UploadDocumentRequest = {
+      path: "https://example.com/test.pdf",
+      fileName: "test.pdf",
+      caseId: "CASE-001",
+      dateCreated: new Date()
+    }
+
+    const result = await controller.UploadDocuments({ authorization: "1234" }, new File([], "test.pdf") as unknown as Express.Multer.File, { caseNumber: "CASE-001" });
+    expect(result).toBe(true);
+  });
+
+  it('should return not found when uploading a document', async () => {
+    jest.spyOn(service, 'UploadDocument').mockResolvedValue(new NotFoundException());
+    const result = await controller.UploadDocuments({ authorization: "1234" }, new File([], "test.pdf") as unknown as Express.Multer.File, { caseNumber: "CASE-001" });
+    expect(result).toEqual(new NotFoundException());
   });
 
   it('should return not found when getting documents by id', async () => {
