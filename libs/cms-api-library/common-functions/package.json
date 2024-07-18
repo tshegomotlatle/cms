@@ -1,12 +1,11 @@
 {
-  "name": "@cms-invoices-service",
+  "name": "@cms-common-functions",
   "version": "0.0.1",
   "dependencies": {
     "tslib": "^2.3.0",
     "@nestjs/common": "^10.0.2",
-    "@cms-invoices-repository": "0.0.1",
     "@cms-models": "0.0.1",
-    "@cms-common-functions": "0.0.1"
+    "@nestjs/jwt": "^10.2.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",

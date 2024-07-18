@@ -1,7 +1,5 @@
 export * from './lib/authentication-api.module';
 
-export *  from './lib/Guard/access-token.guard';
+export * from './lib/Guard/access-token.guard';
 
-export *  from './lib/Guard/refresh-token.guard';
-
-export * from './lib/CurrentUser/current-user.service';
+export * from './lib/Guard/refresh-token.guard';

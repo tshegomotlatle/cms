@@ -6,106 +6,104 @@ import * as bcrypt from 'bcryptjs';
 @Injectable()
 export class AutheticationRepostiory {
 
-    constructor(private prisma: PrismaClient) {
-    }
+    constructor(private prisma: PrismaClient) { }
 
-    async RegisterUser(user: UserRegisterRequest): Promise<User> {
+    async RegisterUser(user: UserRegisterRequest): Promise<User | null> {
+        try {
+            const salt = await bcrypt.genSalt();
+            const hashPassword = await bcrypt.hash(user.password, salt);
 
-        const salt = await bcrypt.genSalt();
-        const hashPassword = await bcrypt.hash(user.password, salt);
-
-        this.prisma.$connect();
-        const result = await this.prisma.user.create({
-            data: {
-                email: user.email,
-                name: user.name,
-                surname: user.surname,
-                mobileNumber: user.mobileNumber,
-                password: hashPassword,
-                passwordSalt: salt,
-                refreshToken: ""
-            }
-        });
-
-        this.prisma.$disconnect();
-        return result;
+            return await this.prisma.user.create({
+                data: {
+                    email: user.email,
+                    name: user.name,
+                    surname: user.surname,
+                    mobileNumber: user.mobileNumber,
+                    password: hashPassword,
+                    passwordSalt: salt,
+                    refreshToken: ""
+                }
+            });
+        } catch (error) {
+            return null;
+        }
     }
 
     async GetUser(email: string): Promise<User | null> {
-        this.prisma.$connect();
-        const user = await this.prisma.user.findUnique({
-            where: {
-                email: email
-            },
-            include:{
-                courtCases: true
-            }
-        })
-        Logger.log(user)
-        this.prisma.$disconnect();
-        return user;
+        try {
+            return await this.prisma.user.findUnique({
+                where: {
+                    email: email
+                },
+                include: {
+                    courtCases: true
+                }
+            })
+        } catch (error) {
+            return null;
+        }
     }
 
-    async EditUser(user: UserEditRequest): Promise<User> {
-        this.prisma.$connect();
-        const result = await this.prisma.user.update({
-            where: {
-                id: user.id,
-            },
-            data: {
-                name: user.name,
-                surname: user.surname,
-                mobileNumber: user.mobileNumber,
-            }
-        });
-
-        this.prisma.$disconnect();
-        return result;
+    async EditUser(user: UserEditRequest): Promise<User | null> {
+        try {
+            return await this.prisma.user.update({
+                where: {
+                    id: user.id,
+                },
+                data: {
+                    name: user.name,
+                    surname: user.surname,
+                    mobileNumber: user.mobileNumber,
+                }
+            });
+        } catch (error) {
+            return null;
+        }
     }
 
-    async UpdatePassword(password: string, userId: string): Promise<User> {
-        const salt = await bcrypt.genSalt();
-        const hashPassword = await bcrypt.hash(password, salt);
+    async UpdatePassword(password: string, userId: string): Promise<User | null> {
+        try {
+            const salt = await bcrypt.genSalt();
+            const hashPassword = await bcrypt.hash(password, salt);
 
-        this.prisma.$connect();
-        const result = await this.prisma.user.update({
-            where: {
-                id: userId,
-            },
-            data: {
-                password: hashPassword,
-                passwordSalt: salt
-            }
-        });
-
-        this.prisma.$disconnect();
-        return result;
+            return await this.prisma.user.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    password: hashPassword,
+                    passwordSalt: salt
+                }
+            });
+        } catch (error) {
+            return null;
+        }
     }
 
-    async UpdateRefreshToken(email: string, refreshToken: string): Promise<User> {
-        this.prisma.$connect()
-        const result = await this.prisma.user.update({
-            where: {
-                email: email,
-            },
-            data: {
-                refreshToken: refreshToken,
-            },
-        })
-
-        this.prisma.$disconnect();
-        return result;
+    async UpdateRefreshToken(email: string, refreshToken: string): Promise<User | null> {
+        try {
+            return await this.prisma.user.update({
+                where: {
+                    email: email,
+                },
+                data: {
+                    refreshToken: refreshToken,
+                },
+            })
+        } catch (error) {
+            return null;
+        }
     }
 
-    async DeleteUser(email: string): Promise<User> {
-        this.prisma.$connect()
-        const result = await this.prisma.user.delete({
-            where: {
-                email: email,
-            }
-        })
-
-        this.prisma.$disconnect();
-        return result;
+    async DeleteUser(email: string): Promise<User | null> {
+        try {
+            return await this.prisma.user.delete({
+                where: {
+                    email: email,
+                }
+            })
+        } catch (error) {
+            return null;
+        }
     }
 }

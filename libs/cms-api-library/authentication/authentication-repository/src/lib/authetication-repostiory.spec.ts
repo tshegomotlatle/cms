@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { AutheticationRepostiory } from './authetication-repostiory';
-import { UserEditRequest, UserRegisterRequest } from '@cms-models';
+import { User, UserEditRequest, UserRegisterRequest } from '@cms-models';
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 
 describe('AutheticationRepostiory', () => {
@@ -58,11 +58,11 @@ describe('AutheticationRepostiory', () => {
 
     const user = await authRepo.RegisterUser(newUser);
     expect(user).toBeDefined();
-    expect(user.email).toEqual("mokgethwamatlala@gmail.com");
-    expect(user.mobileNumber).toEqual("0844121245");
-    expect(user.name).toEqual("Mokgethwa");
-    expect(user.surname).toEqual("Matlala");
-    expect(user.refreshToken).toEqual("REFRESH_TOKEN_TEST_VALUE");
+    expect(user?.email).toEqual("mokgethwamatlala@gmail.com");
+    expect(user?.mobileNumber).toEqual("0844121245");
+    expect(user?.name).toEqual("Mokgethwa");
+    expect(user?.surname).toEqual("Matlala");
+    expect(user?.refreshToken).toEqual("REFRESH_TOKEN_TEST_VALUE");
   });
 
   it('should edit a new user', async () => {
@@ -85,11 +85,11 @@ describe('AutheticationRepostiory', () => {
     })
 
     const editedUser = await authRepo.EditUser(editUserRequest)
-    expect(editedUser.email).toEqual("mokgethwamatlala@gmail.com");
-    expect(editedUser.mobileNumber).toEqual("0855569856");
-    expect(editedUser.name).toEqual("Tshego");
-    expect(editedUser.surname).toEqual("Motlatle");
-    expect(editedUser.refreshToken).toEqual("REFRESH_TOKEN_TEST_VALUE");
+    expect(editedUser?.email).toEqual("mokgethwamatlala@gmail.com");
+    expect(editedUser?.mobileNumber).toEqual("0855569856");
+    expect(editedUser?.name).toEqual("Tshego");
+    expect(editedUser?.surname).toEqual("Motlatle");
+    expect(editedUser?.refreshToken).toEqual("REFRESH_TOKEN_TEST_VALUE");
   });
 
   it('should update a users password', async () => {
@@ -107,10 +107,10 @@ describe('AutheticationRepostiory', () => {
 
     const updatedUser = await authRepo.UpdatePassword("7555", "1234");
     expect(updatedUser).toBeDefined();
-    expect(updatedUser.email).toEqual("mokgethwamatlala@gmail.com");
-    expect(updatedUser.mobileNumber).toEqual("0844121245");
-    expect(updatedUser.name).toEqual("Mokgethwa");
-    expect(updatedUser.surname).toEqual("Matlala");
+    expect(updatedUser?.email).toEqual("mokgethwamatlala@gmail.com");
+    expect(updatedUser?.mobileNumber).toEqual("0844121245");
+    expect(updatedUser?.name).toEqual("Mokgethwa");
+    expect(updatedUser?.surname).toEqual("Matlala");
   });
 
   it('should update a users refresh token', async () => {
@@ -128,7 +128,7 @@ describe('AutheticationRepostiory', () => {
 
     const updatedUser = await authRepo.UpdateRefreshToken("mokgethwamatlala@gmail.com", "new refresh buddy"!);
     expect(updatedUser).toBeDefined();
-    expect(updatedUser.refreshToken).toEqual("new refresh buddy");
+    expect(updatedUser?.refreshToken).toEqual("new refresh buddy");
   });
 
   it('should update a delete a user', async () => {
@@ -144,15 +144,15 @@ describe('AutheticationRepostiory', () => {
       refreshToken: "new refresh buddy",
     })
 
-    const deletedUser = await authRepo.DeleteUser("mokgethwamatlala@gmail.com")
+    const deletedUser = await authRepo.DeleteUser("mokgethwamatlala@gmail.com");
 
     expect(deletedUser).toBeDefined();
-    expect(deletedUser.email).toEqual("mokgethwamatlala@gmail.com");
-    expect(deletedUser.mobileNumber).toEqual("0844121245");
-    expect(deletedUser.name).toEqual("Mokgethwa");
-    expect(deletedUser.surname).toEqual("Matlala");
-    expect(deletedUser.refreshToken).toEqual("new refresh buddy");
-    expect(deletedUser.id).toEqual("1234");
+    expect(deletedUser?.email).toEqual("mokgethwamatlala@gmail.com");
+    expect(deletedUser?.mobileNumber).toEqual("0844121245");
+    expect(deletedUser?.name).toEqual("Mokgethwa");
+    expect(deletedUser?.surname).toEqual("Matlala");
+    expect(deletedUser?.refreshToken).toEqual("new refresh buddy");
+    expect(deletedUser?.id).toEqual("1234");
   });
 
 

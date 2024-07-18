@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { CourtCaseDto } from '../../data-transfer-object/court-case/court-case.dto';
 import styles from './court-cases.module.scss';
 import axios from 'axios';
@@ -11,7 +12,7 @@ export function CourtCases(props: CourtCasesProps) {
 
   useEffect(() => {
     axios
-      .post('/court-cases/getAllCases', {
+      .post('/court-cases/all', {
         accessToken: sessionStorage.getItem('access_token') || '',
       })
       .then((response) => {

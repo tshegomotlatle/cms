@@ -13,7 +13,7 @@ describe('CourtCaseRepository', () => {
   });
 
   it('should be defined', () => {
-    expect(new CourtCaseRepository(new PrismaClient())).toBeDefined();
+    expect(caseRepo).toBeDefined();
   });
 
   it('should add a new court case', async () => {
@@ -192,17 +192,17 @@ describe('CourtCaseRepository', () => {
     };
 
     prisma.courtCase.findUnique.mockResolvedValue({
-        caseNumber: '123',
-        status: 'open',
-        type: 'trial',
-        defendant: 'defendant',
-        plaintiff: 'plaintiff',
-        location: 'location',
-        outcome: 'outcome',
-        dateCreated: date,
-        userId: '123',
-        id: '123',
-      });
+      caseNumber: '123',
+      status: 'open',
+      type: 'trial',
+      defendant: 'defendant',
+      plaintiff: 'plaintiff',
+      location: 'location',
+      outcome: 'outcome',
+      dateCreated: date,
+      userId: '123',
+      id: '123',
+    });
 
     const result = await caseRepo.GetByCaseNumber('123', '123');
     expect(result).toEqual(user);

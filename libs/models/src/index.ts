@@ -43,4 +43,10 @@ export * from './lib/contracts/requests/lawyer/update-lawyer/update-lawyer-reque
 
 export * from './lib/contracts/requests/court-case/case-number-request'
 
+export * from './lib/contracts/requests/authentication/refresh-token-request/refresh-token-request'
+
+export * from './lib/contracts/requests/invoices/edit-invoice/edit-invoice'
+
 export * from './lib/contracts/responses/court-cases/get-all-case-numbers-response'
+
+export * from './lib/contracts/responses/authentication/access-token-respones'

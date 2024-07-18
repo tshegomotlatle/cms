@@ -1,7 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsAlpha, IsAlphanumeric, IsDate, IsNotEmpty, IsNumber, IsUUID } from "class-validator";
 
-export class Invoice {
+export class EditInvoice {
+
+    @IsUUID()
+    @IsNotEmpty()
+    @ApiProperty()
+    id!: string;
 
     @IsNotEmpty()
     @IsAlphanumeric()
@@ -26,14 +31,4 @@ export class Invoice {
     @IsNotEmpty()
     @ApiProperty()
     costPerHour!: number;
-
-    @IsUUID()
-    @IsNotEmpty()
-    @ApiProperty()
-    caseId!: string;
-
-    @IsUUID()
-    @IsNotEmpty()
-    @ApiProperty()
-    userId!: string;
 }

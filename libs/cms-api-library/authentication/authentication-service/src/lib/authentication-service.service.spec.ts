@@ -1,11 +1,10 @@
-import { Test } from '@nestjs/testing';
 import { AuthenticationService } from './authentication-service.service';
 import { AutheticationRepostiory } from '@cms-authentication-repository';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 import { PrismaClient } from '@prisma/client';
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
-import { UserEditRequest, UserLoginRequest, UserRegisterRequest } from '@cms-models';
-import * as bcrypt from "bcrypt";
+import { User, UserEditRequest, UserLoginRequest, UserRegisterRequest } from '@cms-models';
+import { CommonFunctionsService } from '@cms-common-functions';
 
 
 describe('AuthenticationServiceService', () => {
@@ -13,14 +12,19 @@ describe('AuthenticationServiceService', () => {
   let authenticationRepositoryMock: DeepMockProxy<AutheticationRepostiory>;
   let jwtServiceMock: DeepMockProxy<JwtService>;
   let prisma: DeepMockProxy<PrismaClient>;
+  let currentUserService: DeepMockProxy<CommonFunctionsService>;
 
   beforeEach(() => {
     authenticationRepositoryMock = mockDeep<AutheticationRepostiory>();
     jwtServiceMock = mockDeep<JwtService>();
     prisma = mockDeep<PrismaClient>();
+    currentUserService = mockDeep<CommonFunctionsService>();
 
-
-    authenticationService = new AuthenticationService(authenticationRepositoryMock, jwtServiceMock);
+    authenticationService = new AuthenticationService(authenticationRepositoryMock, jwtServiceMock, currentUserService);
+    currentUserService.GetUserToken.mockReturnValue({
+      userId: '123456',
+      email: 'test',
+    });
   });
 
   it('should be defined', () => {
@@ -45,7 +49,7 @@ describe('AuthenticationServiceService', () => {
       password: "2455",
     });
 
-    const user = await authenticationService.RegisterUser(userRegisterRequest);
+    const user = await authenticationService.RegisterUser(userRegisterRequest) as User;
     expect(user).toBeDefined();
     expect(user.email).toEqual("tshegomotlatle.dev@gmail.com");
     expect(user.mobileNumber).toEqual("0812198232");
@@ -63,7 +67,7 @@ describe('AuthenticationServiceService', () => {
       password: "2455",
     })
 
-    const user = await authenticationService.GetUser("tshegomotlatle.dev@gmail.com");
+    const user = await authenticationService.GetUser("tshegomotlatle.dev@gmail.com") as User;
     expect(user).toBeDefined();
     expect(user?.email).toEqual("tshegomotlatle.dev@gmail.com");
     expect(user?.name).toEqual("Tshego");

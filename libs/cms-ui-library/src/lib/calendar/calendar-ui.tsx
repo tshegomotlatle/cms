@@ -28,13 +28,11 @@ export function CalendarUi(props: CalendarUiProps) {
   const [events, setEvents] = useState<CalendarEventInterface[]>([
     { title: 'Meeting', start: new Date() },
   ]);
-  const [newEvent, setNewEvent] = useState<CourtCasesDatesDto>(
-    {
-      caseNumber: "",
-      title: "",
-      lawyerIds: []
-    }
-  );
+  const [newEvent, setNewEvent] = useState<CourtCasesDatesDto>({
+    caseNumber: '',
+    title: '',
+    lawyerIds: [],
+  });
 
   //configuration for event format like '14:30'
   const eventTimeFormat: {
@@ -92,17 +90,9 @@ export function CalendarUi(props: CalendarUiProps) {
       })
       .then((response: AxiosResponse) => {
         console.log(response);
-        setCourtCase(response.data);
+
+        if (response) setCourtCase(response.data);
         const tempEvents: CalendarEventInterface[] = [];
-        courtCases.forEach((courtCase: CourtCaseDto) => {
-          // if (courtCase.date)
-          // {
-          //   tempEvents.push({
-          //     title: courtCase.caseNumber + ' ' + courtCase.defendant + " vs " + courtCase.plaintiff,
-          //     start: courtCase.date,
-          //   });
-          // }
-        });
         setEvents(tempEvents);
       });
   }, []);
@@ -129,15 +119,15 @@ export function CalendarUi(props: CalendarUiProps) {
   };
 
   const handleInviteChange = (event: { target: { value: string } }) => {
-      setNewEvent({
-        ...newEvent,
-        lawyerIds: newEvent.lawyerIds?.concat([event.target.value]),
-      });
+    setNewEvent({
+      ...newEvent,
+      lawyerIds: newEvent.lawyerIds?.concat([event.target.value]),
+    });
   };
 
-  const AddEvent = () =>{
+  const AddEvent = () => {
     console.log(newEvent);
-  }
+  };
 
   return (
     <div className={styles['container']}>
@@ -246,12 +236,14 @@ export function CalendarUi(props: CalendarUiProps) {
           </div>
           <div className={styles['InvitesBadgesContainer']}>
             <div>
-            <span className="badge rounded-pill bg-primary">Primary</span>
+              <span className="badge rounded-pill bg-primary">Primary</span>
             </div>
             {newEvent.lawyerIds?.map((lawyerId) => {
               return (
                 <div>
-                  <span className="badge rounded-pill bg-primary">{lawyerId}</span>
+                  <span className="badge rounded-pill bg-primary">
+                    {lawyerId}
+                  </span>
                 </div>
               );
             })}
