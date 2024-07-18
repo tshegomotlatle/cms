@@ -5,8 +5,7 @@
     "tslib": "^2.3.0",
     "@nestjs/common": "^10.0.2",
     "@cms-invoices-repository": "0.0.1",
-    "@cms-models": "0.0.1",
-    "@cms-authetication-api": "0.0.1"
+    "@cms-models": "0.0.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",

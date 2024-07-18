@@ -12,7 +12,8 @@
     "@cms-authentication-service": "0.0.1",
     "@cms-models": "0.0.1",
     "@nestjs/swagger": "^7.3.1",
-    "@cms-authentication-repository": "0.0.1"
+    "@cms-authentication-repository": "0.0.1",
+    "@cms-common-functions": "0.0.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",

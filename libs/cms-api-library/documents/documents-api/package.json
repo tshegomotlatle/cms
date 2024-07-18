@@ -10,7 +10,8 @@
     "@nestjs/swagger": "^7.3.1",
     "multer": "1.4.4-lts.1",
     "@cms-documents-repository": "0.0.1",
-    "@cms-authetication-api": "0.0.1"
+    "@cms-authetication-api": "0.0.1",
+    "@cms-common-functions": "0.0.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",
