@@ -1,4 +1,4 @@
-import { CurrentUserService } from '@cms-authetication-api';
+import { CommonFunctionsService } from '@cms-common-functions';
 import { CourtCaseRepository } from '@cms-court-cases-repository';
 import { CourtCase, UserToken } from '@cms-models';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
@@ -7,7 +7,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 export class CourtCasesService {
     constructor(
         private courtCaseRepository: CourtCaseRepository,
-        private currentUserService: CurrentUserService
+        private currentUserService: CommonFunctionsService
     ) { }
 
     public async AddCase(newCourtCase: CourtCase, accessToken: string): Promise<boolean | BadRequestException> {

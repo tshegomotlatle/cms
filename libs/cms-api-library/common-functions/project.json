@@ -1,0 +1,20 @@
+{
+  "name": "common-functions",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/cms-api-library/common-functions/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/cms-api-library/common-functions",
+        "tsConfig": "libs/cms-api-library/common-functions/tsconfig.lib.json",
+        "packageJson": "libs/cms-api-library/common-functions/package.json",
+        "main": "libs/cms-api-library/common-functions/src/index.ts",
+        "assets": ["libs/cms-api-library/common-functions/*.md"]
+      }
+    }
+  },
+  "tags": []
+}

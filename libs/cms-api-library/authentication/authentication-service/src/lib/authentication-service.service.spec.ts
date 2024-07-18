@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaClient } from '@prisma/client';
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 import { User, UserEditRequest, UserLoginRequest, UserRegisterRequest } from '@cms-models';
-import { CurrentUserService } from '@cms-authetication-api';
+import { CommonFunctionsService } from '@cms-common-functions';
 
 
 describe('AuthenticationServiceService', () => {
@@ -12,13 +12,13 @@ describe('AuthenticationServiceService', () => {
   let authenticationRepositoryMock: DeepMockProxy<AutheticationRepostiory>;
   let jwtServiceMock: DeepMockProxy<JwtService>;
   let prisma: DeepMockProxy<PrismaClient>;
-  let currentUserService: DeepMockProxy<CurrentUserService>;
+  let currentUserService: DeepMockProxy<CommonFunctionsService>;
 
   beforeEach(() => {
     authenticationRepositoryMock = mockDeep<AutheticationRepostiory>();
     jwtServiceMock = mockDeep<JwtService>();
     prisma = mockDeep<PrismaClient>();
-    currentUserService = mockDeep<CurrentUserService>();
+    currentUserService = mockDeep<CommonFunctionsService>();
 
     authenticationService = new AuthenticationService(authenticationRepositoryMock, jwtServiceMock, currentUserService);
     currentUserService.GetUserToken.mockReturnValue({

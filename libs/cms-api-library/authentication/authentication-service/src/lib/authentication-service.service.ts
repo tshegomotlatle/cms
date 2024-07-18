@@ -4,14 +4,14 @@ import * as bcrypt from 'bcryptjs';
 import { AutheticationRepostiory } from "@cms-authentication-repository";
 import { JwtService } from '@nestjs/jwt';
 import { env } from 'process';
-import { CurrentUserService } from '@cms-authetication-api';
+import { CommonFunctionsService } from '@cms-common-functions';
 
 @Injectable()
 export class AuthenticationService {
     constructor(
         private authenticationRepository: AutheticationRepostiory,
         private jwtService: JwtService,
-        private currentUserService: CurrentUserService) { }
+        private currentUserService: CommonFunctionsService) { }
 
     async RegisterUser(newUser: UserRegisterRequest): Promise<User | BadRequestException> {
         const user = await this.authenticationRepository.RegisterUser(newUser);

@@ -5,7 +5,7 @@ import { AuthenticationService } from '@cms-authentication-service';
 import { AutheticationRepostiory } from '@cms-authentication-repository';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { UpdatePasswordRequest, User, UserEditRequest, UserEmailRequest, UserLoginRequest, UserRegisterRequest } from '@cms-models';
-import { CurrentUserService } from './CurrentUser/current-user.service';
+import { CommonFunctionsService } from '@cms-common-functions';
 
 describe('AuthenticationApiController', () => {
   let controller: AuthenticationApiController;
@@ -14,7 +14,7 @@ describe('AuthenticationApiController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthenticationApiController],
-      providers: [AuthenticationService, AutheticationRepostiory, JwtService, PrismaClient, CurrentUserService],
+      providers: [AuthenticationService, AutheticationRepostiory, JwtService, PrismaClient, CommonFunctionsService],
     }).compile();
 
     controller = module.get<AuthenticationApiController>(AuthenticationApiController);

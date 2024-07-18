@@ -3,7 +3,7 @@ import { DocumentsApiController } from './documents-api.controller';
 import { DocumentsService } from '@cms-documents-service';
 import { DocumentsRepository } from '@cms-documents-repository';
 import { PrismaClient } from '@prisma/client';
-import { CurrentUserService } from '@cms-authetication-api';
+import { CommonFunctionsService } from '@cms-common-functions';
 import { JwtService } from '@nestjs/jwt';
 import { NotFoundException } from '@nestjs/common';
 
@@ -13,7 +13,7 @@ describe('DocumentsApiController', () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [DocumentsService, DocumentsRepository, PrismaClient, CurrentUserService, JwtService],
+      providers: [DocumentsService, DocumentsRepository, PrismaClient, CommonFunctionsService, JwtService],
       controllers: [DocumentsApiController],
       imports: [PrismaClient]
     }).compile();

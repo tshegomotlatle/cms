@@ -5,13 +5,13 @@ import { AuthenticationRepositoryModule } from '@cms-authentication-repository';
 import { JwtModule } from '@nestjs/jwt';
 import { AccessTokenStrategy } from './Strategy/access-token.strategy';
 import { RefreshTokenStrategy } from './Strategy/refresh-token.strategy';
-import { CurrentUserService } from './CurrentUser/current-user.service';
+import { CommonFunctionsService } from '@cms-common-functions';
 
 @Module({
   controllers: [AuthenticationApiController],
-  providers: [AuthenticationService, AccessTokenStrategy, RefreshTokenStrategy],
+  providers: [AuthenticationService, AccessTokenStrategy, RefreshTokenStrategy, CommonFunctionsService],
   exports: [],
-  imports: [AuthenticationServiceModule, CurrentUserService, AuthenticationRepositoryModule, JwtModule.register({
+  imports: [AuthenticationServiceModule, AuthenticationRepositoryModule, JwtModule.register({
     global: true
   }),]
 })

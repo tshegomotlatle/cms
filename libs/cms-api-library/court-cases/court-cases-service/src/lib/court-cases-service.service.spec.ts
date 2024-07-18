@@ -1,4 +1,4 @@
-import { CurrentUserService } from '@cms-authetication-api';
+import { CommonFunctionsService } from '@cms-common-functions';
 import { CourtCaseRepository } from '@cms-court-cases-repository';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
@@ -10,12 +10,12 @@ describe('CourtCasesServiceService', () => {
   let courtCaseService: CourtCasesService;
   let courtCaseRepositoryMock: DeepMockProxy<CourtCaseRepository>;
   let prisma: DeepMockProxy<PrismaClient>;
-  let currentUserService: DeepMockProxy<CurrentUserService>;
+  let currentUserService: DeepMockProxy<CommonFunctionsService>;
 
   beforeEach(async () => {
     courtCaseRepositoryMock = mockDeep<CourtCaseRepository>();
     prisma = mockDeep<PrismaClient>();
-    currentUserService = mockDeep<CurrentUserService>();
+    currentUserService = mockDeep<CommonFunctionsService>();
 
     courtCaseService = new CourtCasesService(courtCaseRepositoryMock, currentUserService);
     currentUserService.GetUserToken.mockReturnValue({

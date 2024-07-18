@@ -4,7 +4,7 @@ import { InvoicesService } from '@cms-invoices-service';
 import { InvoicesRespository } from '@cms-invoices-repository';
 import { PrismaClient } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
-import { CurrentUserService } from '@cms-authetication-api';
+import { CommonFunctionsService } from '@cms-common-functions';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { EditInvoice } from '@cms-models';
 
@@ -15,7 +15,7 @@ describe('InvoicesApiController', () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [InvoicesService, InvoicesRespository, PrismaClient, CurrentUserService, JwtService],
+      providers: [InvoicesService, InvoicesRespository, PrismaClient, CommonFunctionsService, JwtService],
       controllers: [InvoicesApiController],
     }).compile();
 

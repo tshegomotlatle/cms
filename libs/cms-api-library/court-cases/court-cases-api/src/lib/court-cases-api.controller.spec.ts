@@ -1,4 +1,4 @@
-import { CurrentUserService } from '@cms-authetication-api';
+import { CommonFunctionsService } from '@cms-common-functions';
 import { CourtCaseRepository } from '@cms-court-cases-repository';
 import { CourtCasesService } from '@cms-court-cases-service';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
@@ -12,17 +12,17 @@ import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 describe('CourtCasesApiController', () => {
   let controller: CourtCasesApiController;
   let service: CourtCasesService;
-  let currentUserService: DeepMockProxy<CurrentUserService>;
+  let currentUserService: DeepMockProxy<CommonFunctionsService>;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [CourtCasesService, CourtCaseRepository, PrismaClient, CurrentUserService, JwtService],
+      providers: [CourtCasesService, CourtCaseRepository, PrismaClient, CommonFunctionsService, JwtService],
       controllers: [CourtCasesApiController],
     }).compile();
 
     controller = module.get<CourtCasesApiController>(CourtCasesApiController);
     service = module.get<CourtCasesService>(CourtCasesService);
-    currentUserService = mockDeep<CurrentUserService>();
+    currentUserService = mockDeep<CommonFunctionsService>();
   });
 
   it('should be defined', () => {

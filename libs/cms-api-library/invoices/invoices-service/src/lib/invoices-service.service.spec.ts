@@ -2,7 +2,7 @@ import { InvoicesRespository } from '@cms-invoices-repository';
 import { PrismaClient } from '@prisma/client';
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 import { InvoicesService } from './invoices-service.service';
-import { CurrentUserService } from '@cms-authetication-api';
+import { CommonFunctionsService } from '@cms-common-functions';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 
@@ -10,12 +10,12 @@ describe('InvoicesServiceService', () => {
   let invoiceService: InvoicesService;
   let invoiceRepositoryMock: DeepMockProxy<InvoicesRespository>;
   let prisma: DeepMockProxy<PrismaClient>;
-  let currentUserService: DeepMockProxy<CurrentUserService>;
+  let currentUserService: DeepMockProxy<CommonFunctionsService>;
 
   beforeEach(async () => {
     invoiceRepositoryMock = mockDeep<InvoicesRespository>();
     prisma = mockDeep<PrismaClient>();
-    currentUserService = mockDeep<CurrentUserService>();
+    currentUserService = mockDeep<CommonFunctionsService>();
 
     invoiceService = new InvoicesService(invoiceRepositoryMock, currentUserService);
     currentUserService.GetUserToken.mockReturnValue({

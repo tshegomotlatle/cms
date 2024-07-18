@@ -1,4 +1,4 @@
-import { CurrentUserService } from '@cms-authetication-api';
+import { CommonFunctionsService } from '@cms-common-functions';
 import { InvoicesRespository } from '@cms-invoices-repository';
 import { EditInvoice, Invoice, UserToken } from '@cms-models';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
@@ -8,7 +8,7 @@ export class InvoicesService {
 
     constructor(
         private invoiceRepository: InvoicesRespository,
-        private currentUserService: CurrentUserService
+        private currentUserService: CommonFunctionsService
     ) {
 
     }

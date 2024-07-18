@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import { DocumentsService } from './documents-service.service';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { DocumentsRepository } from '@cms-documents-repository';
-import { CurrentUserService } from '@cms-authetication-api';
+import { CommonFunctionsService } from '@cms-common-functions';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 
 describe('DocumentsServiceService', () => {
@@ -10,7 +10,7 @@ describe('DocumentsServiceService', () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [DocumentsService, DocumentsRepository, PrismaClient, CurrentUserService, JwtService],
+      providers: [DocumentsService, DocumentsRepository, PrismaClient, CommonFunctionsService, JwtService],
       imports: [PrismaClient]
     }).compile();
 

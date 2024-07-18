@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { DocumentsRepositoryModule } from '@cms-documents-repository';
-import { CurrentUserService } from '@cms-authetication-api';
+import { CommonFunctionsService } from '@cms-common-functions';
 
 @Module({
   controllers: [],
-  providers: [CurrentUserService],
+  providers: [CommonFunctionsService],
   exports: [],
   imports: [DocumentsRepositoryModule]
 })
