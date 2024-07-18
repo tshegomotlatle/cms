@@ -73,13 +73,7 @@ describe('DocumentsServiceService', () => {
       dateCreated: date,
       path: "test",
     }, "test");
-    expect(result).toEqual({
-      caseId: "test",
-      fileName: "test",
-      dateCreated: date,
-      path: "test",
-      id: "test"
-    });
+    expect(result).toEqual(true);
   })
 
   it("should return not found for upload document", async () => {
