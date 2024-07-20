@@ -1,7 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
 import { useState, useEffect, SetStateAction } from 'react';
 import styles from './file-management.module.scss';
-import { CourtCase, CourtCasesService, DocumentsService } from '../cms-api/v1';
+import {
+  ApiError,
+  CourtCase,
+  CourtCasesService,
+  DocumentsService,
+} from '../cms-api/v1';
 
 /* eslint-disable-next-line */
 export interface FileManagementProps {}
@@ -49,7 +54,7 @@ export function FileManagement(props: FileManagementProps) {
       .then(() => {
         alert('Documents uploaded');
       })
-      .catch((error) => {
+      .catch((error: ApiError) => {
         alert("Documents couldn't be uploaded");
       });
   };

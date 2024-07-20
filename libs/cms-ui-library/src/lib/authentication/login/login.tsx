@@ -1,15 +1,17 @@
 import { useState } from 'react';
+import {
+  AccessTokenResponse,
+  AuthenticationService,
+  UserLoginRequest,
+} from '../../cms-api/v1';
 import styles from './login.module.scss';
-import axios from 'axios';
-import { UserLoginRequestDto } from '../../data-transfer-object/user/user-login-request/user-login-request.dto';
-import { AccessTokenResponse, AuthenticationService } from '../../cms-api/v1';
 
 /* eslint-disable-next-line */
 export interface LoginProps {}
 
 export function Login(props: LoginProps) {
-  const [userLoginRequest, setUserLoginRequest] = useState<UserLoginRequestDto>(
-    new UserLoginRequestDto()
+  const [userLoginRequest, setUserLoginRequest] = useState<UserLoginRequest>(
+    {} as UserLoginRequest
   );
 
   // handle changes in the ui for the email field

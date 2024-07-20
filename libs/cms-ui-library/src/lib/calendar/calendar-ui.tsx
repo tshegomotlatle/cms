@@ -10,7 +10,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { CourtCase, CourtCasesService } from '../cms-api/v1';
+import { ApiError, CourtCase, CourtCasesService } from '../cms-api/v1';
 import styles from './calendar-ui.module.scss';
 
 /* eslint-disable-next-line */
@@ -96,7 +96,7 @@ export function CalendarUi(props: CalendarUiProps) {
         const tempEvents: CalendarEventInterface[] = [];
         setEvents(tempEvents);
       })
-      .catch((error) => {
+      .catch((error: ApiError) => {
         console.log(error);
       });
   }, []);

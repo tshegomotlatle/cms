@@ -1,7 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { ApiError, CourtCase, CourtCasesService } from '../../cms-api/v1';
 import styles from './court-cases.module.scss';
-import { CourtCase, CourtCasesService } from '../../cms-api/v1';
 /* eslint-disable-next-line */
 export interface CourtCasesProps {}
 
@@ -15,7 +14,7 @@ export function CourtCases(props: CourtCasesProps) {
         if (response) setCourtCases(response);
         return;
       })
-      .catch((response) => {
+      .catch((response: ApiError) => {
         throw response;
       });
   }, []);

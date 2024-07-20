@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import styles from './register.module.scss';
-import axios, { AxiosResponse } from 'axios';
-import { UserDto } from '../../data-transfer-object/user/user.dto';
 import {
   AccessTokenResponse,
   AuthenticationService,

@@ -3,7 +3,7 @@ import styles from './add-court-case.module.scss';
 
 import { GetCaseOutcomes, GetCaseTypes } from '../../constants/constants';
 
-import { CourtCase, CourtCasesService } from '../../cms-api/v1';
+import { ApiError, CourtCase, CourtCasesService } from '../../cms-api/v1';
 /* eslint-disable-next-line */
 export interface AddCourtCaseProps {}
 
@@ -18,7 +18,7 @@ export function AddCourtCase(props: AddCourtCaseProps) {
       .then(() => {
         alert('Case Added');
       })
-      .catch((error) => {
+      .catch((error: ApiError) => {
         alert('Case Not Added');
       });
   };

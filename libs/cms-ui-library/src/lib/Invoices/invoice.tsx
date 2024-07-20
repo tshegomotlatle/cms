@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
-import styles from './invoice.module.scss';
-import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from 'react';
 import {
+  ApiError,
   CourtCase,
   CourtCasesService,
-  GetAllCaseNumbersRespone,
   Invoice,
   InvoicesService,
 } from '../cms-api/v1';
+import styles from './invoice.module.scss';
 
 /* eslint-disable-next-line */
 
@@ -98,8 +97,8 @@ export function InvoiceComponent() {
         setInvoices(response);
         await setCourtCaseObject(value);
       })
-      .catch((response) => {
-        console.log(response);
+      .catch((error: ApiError) => {
+        console.log(error);
       });
   };
 
