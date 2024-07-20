@@ -3,8 +3,6 @@ services:
     build:
       context: .
       dockerfile: apps/cms/Dockerfile
-      args:
-        - CODECOV_TOKEN=${CODECOV_TOKEN}
     ports:
       - "80:80"
     depends_on:
