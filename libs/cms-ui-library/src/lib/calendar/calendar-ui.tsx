@@ -1,19 +1,17 @@
-import FullCalendar from '@fullcalendar/react';
-import styles from './calendar-ui.module.scss';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import interactionPlugin from '@fullcalendar/interaction';
+import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import {
-  ReactElement,
   JSXElementConstructor,
+  ReactElement,
   ReactNode,
   ReactPortal,
   useEffect,
   useState,
 } from 'react';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import axios, { AxiosResponse } from 'axios';
-import { CourtCaseDto } from '../data-transfer-object/court-case/court-case.dto';
-import { CourtCasesDatesDto } from '../data-transfer-object/court-case-dates/court-case-dates-dto';
+import { CourtCase, CourtCasesService } from '../cms-api/v1';
+import styles from './calendar-ui.module.scss';
 
 /* eslint-disable-next-line */
 export interface CalendarUiProps {}
@@ -21,6 +19,13 @@ export interface CalendarUiProps {}
 export interface CalendarEventInterface {
   title: string;
   start: Date;
+}
+
+export interface CourtCasesDatesDto {
+  caseNumber: string;
+  title: string;
+  lawyerIds: string[];
+  date: Date;
 }
 
 export function CalendarUi(props: CalendarUiProps) {
@@ -32,6 +37,7 @@ export function CalendarUi(props: CalendarUiProps) {
     caseNumber: '',
     title: '',
     lawyerIds: [],
+    date: new Date(),
   });
 
   //configuration for event format like '14:30'
@@ -46,7 +52,7 @@ export function CalendarUi(props: CalendarUiProps) {
   };
 
   // case numbers to pre-populate add calendar event select
-  const [courtCases, setCourtCase] = useState<CourtCaseDto[]>([]);
+  const [courtCases, setCourtCase] = useState<CourtCase[]>([]);
 
   // a custom render function
   function renderEventContent(eventInfo: {
@@ -84,16 +90,14 @@ export function CalendarUi(props: CalendarUiProps) {
   }
 
   useEffect(() => {
-    axios
-      .post('/court-cases/getAllCases', {
-        accessToken: sessionStorage.getItem('access_token') || '',
-      })
-      .then((response: AxiosResponse) => {
-        console.log(response);
-
-        if (response) setCourtCase(response.data);
+    CourtCasesService.courtCasesApiControllerGetAllCases()
+      .then((response: Array<CourtCase>) => {
+        setCourtCase(response);
         const tempEvents: CalendarEventInterface[] = [];
         setEvents(tempEvents);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }, []);
 

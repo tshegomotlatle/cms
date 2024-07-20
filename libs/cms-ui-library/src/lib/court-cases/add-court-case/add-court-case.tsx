@@ -1,31 +1,26 @@
 import { useState } from 'react';
 import styles from './add-court-case.module.scss';
 
-import { CourtCaseDto } from '../../data-transfer-object/court-case/court-case.dto'
+import { GetCaseOutcomes, GetCaseTypes } from '../../constants/constants';
 
-import axios from 'axios';
-import { GetCaseOutcomes, GetCaseTypes } from '../../data-transfer-object/constants/constants';
-
-import { jwtDecode } from 'jwt-decode';
+import { CourtCase, CourtCasesService } from '../../cms-api/v1';
 /* eslint-disable-next-line */
 export interface AddCourtCaseProps {}
 
 export function AddCourtCase(props: AddCourtCaseProps) {
-
   const caseOutcomes = GetCaseOutcomes();
   const caseTypes = GetCaseTypes();
 
-  const [courtCase, setCourtCase] = useState(new CourtCaseDto());
+  const [courtCase, setCourtCase] = useState<CourtCase>({} as CourtCase);
 
   const addCase = async () => {
-    
-    const user: { userId: string; email: string } = jwtDecode(
-      sessionStorage.getItem('access_token') || ''
-    );
-    courtCase.userId = user.userId;
-    await axios.post('/court-cases/add', courtCase).then((response) => {
-      console.log(response);
-    });
+    CourtCasesService.courtCasesApiControllerAdd(courtCase)
+      .then(() => {
+        alert('Case Added');
+      })
+      .catch((error) => {
+        alert('Case Not Added');
+      });
   };
 
   const handleCaseNumberChange = (event: { target: { value: string } }) => {

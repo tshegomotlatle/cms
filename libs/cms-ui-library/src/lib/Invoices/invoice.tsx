@@ -1,45 +1,43 @@
-import axios, { AxiosResponse } from 'axios';
 import { useState, useEffect } from 'react';
-import { CourtCaseDto } from '../data-transfer-object/court-case/court-case.dto';
 import styles from './invoice.module.scss';
-import { InvoiceDto } from '../data-transfer-object/invoice/invoice.dto';
 import { jwtDecode } from 'jwt-decode';
-import { GetInvoicesByCaseNumberRequestDto } from '../data-transfer-object/documents/get-invoices-by-case-number-request/get-invoices-by-case-number-request.dto';
+import {
+  CourtCase,
+  CourtCasesService,
+  GetAllCaseNumbersRespone,
+  Invoice,
+  InvoicesService,
+} from '../cms-api/v1';
 
 /* eslint-disable-next-line */
 
-export function Invoice() {
-  const [courtCases, setCourtCases] = useState<CourtCaseDto[]>([]);
-  const [courtCase, setCourtCase] = useState<CourtCaseDto>(new CourtCaseDto());
-  const [invoice, setInvoice] = useState<InvoiceDto>(new InvoiceDto());
-  const [invoices, setInvoices] = useState<InvoiceDto[]>([]);
+export function InvoiceComponent() {
+  const [courtCases, setCourtCases] = useState<CourtCase[]>([]);
+  const [courtCaseNumbers, setCourtCaseNumbers] = useState<CourtCase>(
+    {} as CourtCase
+  );
+  const [invoice, setInvoice] = useState<Invoice>({} as Invoice);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [isAddInvoice, setIsAddInvoice] = useState<boolean>(false);
   let sum = 0;
 
   useEffect(() => {
-    axios
-      .post('/court-cases/getAllCases', {
-        accessToken: sessionStorage.getItem('access_token') || '',
-      })
-      .then((response: AxiosResponse) => {
-        if (response) setCourtCases(response.data);
-      });
+    CourtCasesService.courtCasesApiControllerGetAllCases().then(
+      (response: CourtCase[]) => {
+        setCourtCases(response);
+      }
+    );
   }, []);
 
   // Input change handlers
   const handleDateChange = (event: { target: { value: string } }) => {
     setInvoice({
       ...invoice,
-      date: new Date(event.target.value),
+      date: new Date(event.target.value).toDateString(),
     });
   };
 
-  const handleCaseNumberChange = (event: { target: { value: string } }) => {
-    setInvoice({
-      ...invoice,
-      caseNumber: event.target.value,
-    });
-  };
+  const handleCaseNumberChange = (event: { target: { value: string } }) => {};
 
   const handleDescriptionChange = (event: { target: { value: string } }) => {
     setInvoice({
@@ -95,40 +93,28 @@ export function Invoice() {
   };
 
   const handleCaseNumberClick = async (value: string) => {
-    console.log(value);
-    const getInvoiceByCaseNumber: GetInvoicesByCaseNumberRequestDto = {
-      accessToken: sessionStorage.getItem('access_token') || '',
-      caseNumber: value,
-    };
-    await axios
-      .post('/invoices/getInvoiceByCaseNumber', getInvoiceByCaseNumber)
-      .then(async (response: AxiosResponse) => {
-        console.log(response);
-        setInvoices(response.data);
+    InvoicesService.invoicesApiControllerGetByInvoiceNumber(value)
+      .then(async (response: Invoice[]) => {
+        setInvoices(response);
         await setCourtCaseObject(value);
       })
       .catch((response) => {
         console.log(response);
       });
   };
-  /////////////////////////////////
 
   const setCourtCaseObject = async (value: string) => {
-    await axios
-      .post('/court-cases/getCaseByCaseNumber', {
-        caseNumber: value,
-        accessToken: sessionStorage.getItem('access_token') || '',
-      })
-      .then((response: AxiosResponse) => {
-        console.log(response);
-        setCourtCase(response.data);
-      });
+    CourtCasesService.courtCasesApiControllerGetCaseByCaseNumber(value).then(
+      (response: CourtCase) => {
+        setCourtCaseNumbers(response);
+      }
+    );
   };
 
   const showCourtCasesComponent = () => {
     return (
       <div>
-        {courtCases?.map((courtCase: CourtCaseDto) => {
+        {courtCases?.map((courtCase: CourtCase) => {
           return (
             <div
               className={styles['invoice-menus']}
@@ -225,14 +211,12 @@ export function Invoice() {
   };
 
   const addCourtCasesButtonClick = async () => {
-    const user: { userId: string; email: string } = jwtDecode(
-      sessionStorage.getItem('access_token') || ''
-    );
-    invoice.userId = user.userId;
-    await axios
-      .post('/invoices/add', invoice)
-      .then((response: AxiosResponse) => {
-        console.log(response);
+    InvoicesService.invoicesApiControllerAdd(invoice)
+      .then(() => {
+        alert('Invoice Added');
+      })
+      .catch(() => {
+        alert('Invoice Not Added');
       });
   };
 
@@ -346,10 +330,10 @@ export function Invoice() {
       <div className={styles['invoice']}>
         <div className={styles['invoice-container']}>
           {invoiceHeader(
-            courtCase?.defendant,
-            courtCase?.plaintiff,
-            courtCase.caseNumber,
-            courtCase.type
+            courtCaseNumbers?.defendant,
+            courtCaseNumbers?.plaintiff,
+            courtCaseNumbers.caseNumber,
+            courtCaseNumbers.type
           )}
           <div className={styles['table']}>
             <table className="table">

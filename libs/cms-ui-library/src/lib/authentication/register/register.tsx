@@ -2,12 +2,19 @@ import { useState } from 'react';
 import styles from './register.module.scss';
 import axios, { AxiosResponse } from 'axios';
 import { UserDto } from '../../data-transfer-object/user/user.dto';
+import {
+  AccessTokenResponse,
+  AuthenticationService,
+  UserRegisterRequest,
+} from '../../cms-api/v1';
 
 /* eslint-disable-next-line */
 export interface RegisterProps {}
 
 export function Register(props: RegisterProps) {
-  const [user, setUser] = useState<UserDto>(new UserDto());
+  const [user, setUser] = useState<UserRegisterRequest>(
+    new Object() as UserRegisterRequest
+  );
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const handleNameChange = (e: { target: { value: string } }) => {
@@ -51,18 +58,22 @@ export function Register(props: RegisterProps) {
 
   const LoginHandler = async () => {
     if (passwordConfirm !== user.password)
-      return showError("Passwords do not match");
+      return showError('Passwords do not match');
 
-    axios
-      .post('/authentication/register', user)
-      .then((response: AxiosResponse) => {
-        console.log(response);
+    AuthenticationService.authenticationApiControllerRegister(user)
+      .then((response: AccessTokenResponse) => {
+        sessionStorage.setItem('access_token', response.accessToken);
+        sessionStorage.setItem('refresh_token', response.refreshToken);
+        alert('Register Successful');
+      })
+      .catch(() => {
+        alert('Register Failed');
       });
   };
 
-  const showError = (error : string) =>{
-    alert(error)
-  }
+  const showError = (error: string) => {
+    alert(error);
+  };
 
   return (
     <div className={styles['container']}>

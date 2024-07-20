@@ -1,22 +1,18 @@
-import { Link } from 'react-router-dom';
-import { CourtCaseDto } from '../../data-transfer-object/court-case/court-case.dto';
-import styles from './court-cases.module.scss';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import styles from './court-cases.module.scss';
+import { CourtCase, CourtCasesService } from '../../cms-api/v1';
 /* eslint-disable-next-line */
 export interface CourtCasesProps {}
 
 export function CourtCases(props: CourtCasesProps) {
-  const [courtCases, setCourtCases] = useState<CourtCaseDto[]>([]);
+  const [courtCases, setCourtCases] = useState<CourtCase[]>([]);
   const [searchBarInput, setSearchBarInput] = useState('');
 
   useEffect(() => {
-    axios
-      .post('/court-cases/all', {
-        accessToken: sessionStorage.getItem('access_token') || '',
-      })
-      .then((response) => {
-        if (response) setCourtCases(response.data);
+    CourtCasesService.courtCasesApiControllerGetAllCases()
+      .then((response: Array<CourtCase>) => {
+        if (response) setCourtCases(response);
         return;
       })
       .catch((response) => {
@@ -79,7 +75,7 @@ export function CourtCases(props: CourtCasesProps) {
           </tr>
         </thead>
         <tbody>
-          {courtCases.map((courtCase: CourtCaseDto, i) => (
+          {courtCases.map((courtCase: CourtCase, i) => (
             <tr key={i}>
               <th scope="row">{courtCase.caseNumber}</th>
               <td>{courtCase.defendant}</td>

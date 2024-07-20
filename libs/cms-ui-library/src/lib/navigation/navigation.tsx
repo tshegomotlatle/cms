@@ -5,7 +5,7 @@ import Register from '../authentication/register/register';
 import CourtCases from '../court-cases/case-management/court-cases';
 import AddCourtCase from '../court-cases/add-court-case/add-court-case';
 import CalendarUi from '../calendar/calendar-ui';
-import Invoice from '../Invoices/invoice';
+import { InvoiceComponent } from '../invoices/invoice';
 import FileManagement from '../file-management/file-management';
 
 /* eslint-disable-next-line */
@@ -100,7 +100,7 @@ export function Navigation(props: NavigationProps) {
           <Route path="add-court-case" element={<AddCourtCase />} />
           <Route path="calendar" element={<CalendarUi />} />
           <Route path="file-management" element={<FileManagement />} />
-          <Route path="invoices" element={<Invoice />} />
+          <Route path="invoices" element={<InvoiceComponent />} />
           <Route path="/" element={<Login />} />
         </Routes>
       </div>

@@ -1,7 +1,8 @@
-import {useState } from 'react';
+import { useState } from 'react';
 import styles from './login.module.scss';
 import axios from 'axios';
 import { UserLoginRequestDto } from '../../data-transfer-object/user/user-login-request/user-login-request.dto';
+import { AccessTokenResponse, AuthenticationService } from '../../cms-api/v1';
 
 /* eslint-disable-next-line */
 export interface LoginProps {}
@@ -29,16 +30,14 @@ export function Login(props: LoginProps) {
 
   // handle login button being clicked
   const LoginHandler = async () => {
-    console.log(userLoginRequest);
-    axios
-      .post('/authentication/login', userLoginRequest)
-      .then(function (response) {
-        console.log(response.data);
-        sessionStorage.setItem('access_token', response.data.accessToken);
-        sessionStorage.setItem('refresh_token', response.data.refreshToken);
+    AuthenticationService.authenticationApiControllerLogin(userLoginRequest)
+      .then((response: AccessTokenResponse) => {
+        sessionStorage.setItem('access_token', response.accessToken);
+        sessionStorage.setItem('refresh_token', response.refreshToken);
+        alert('Login Successful');
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(() => {
+        alert('Login Failed');
       });
   };
 
