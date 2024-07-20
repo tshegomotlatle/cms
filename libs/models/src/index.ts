@@ -1,17 +1,15 @@
 
 export * from './lib/models.module';
 
-export * from './lib/user/user'
+export * from './lib/contracts/requests/authentication/user'
 
-export * from './lib/user/user-token'
+export * from './lib/contracts/requests/lawyer/lawyer'
 
-export * from './lib/lawyer/lawyer'
+export * from './lib/contracts/requests/court-case/court-case'
 
-export * from './lib/court-case/court-case'
+export * from './lib/contracts/requests/documents/documents'
 
-export * from './lib/documents/documents'
-
-export * from './lib/invoice/invoice'
+export * from './lib/contracts/requests/invoices/invoice'
 
 export * from './lib/contracts/requests/authentication/user-email-request/user-email-request'
 
@@ -41,7 +39,7 @@ export * from './lib/contracts/requests/lawyer/add-lawyer/add-lawyer-request'
 
 export * from './lib/contracts/requests/lawyer/update-lawyer/update-lawyer-request'
 
-export * from './lib/contracts/requests/court-case/case-number-request'
+export * from './lib/contracts/requests/court-case/case-number/case-number-request'
 
 export * from './lib/contracts/requests/authentication/refresh-token-request/refresh-token-request'
 
@@ -50,3 +48,7 @@ export * from './lib/contracts/requests/invoices/edit-invoice/edit-invoice'
 export * from './lib/contracts/responses/court-cases/get-all-case-numbers-response'
 
 export * from './lib/contracts/responses/authentication/access-token-respones'
+
+export * from './lib/contracts/responses/authentication/user-response'
+
+export * from './lib/authentication/user-token'

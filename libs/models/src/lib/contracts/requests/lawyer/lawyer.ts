@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { CourtCasesDates } from "../court-case-dates/court-case-dates";
 import { CourtCase } from "../court-case/court-case";
-import { User } from "../user/user";
 import { IS_ALPHA, IsAlpha, IsArray, IsEmail, IsNotEmpty, IsPhoneNumber, isArray } from 'class-validator';
+import { User } from "@cms-models";
 
 export class Lawyer {
     @ApiProperty()
