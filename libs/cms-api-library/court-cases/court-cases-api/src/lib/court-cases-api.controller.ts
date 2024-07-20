@@ -1,8 +1,8 @@
 import { AccessTokenGuard } from '@cms-authetication-api';
 import { CourtCasesService } from '@cms-court-cases-service';
 import { CaseNumberRequest, CourtCase, GetAllCaseNumbersRespone, IdRequest } from '@cms-models';
-import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Post, Put, Query, UseGuards } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiFoundResponse, ApiNotFoundResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiFoundResponse, ApiNotFoundResponse, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("court-cases")
 @Controller('court-cases')
@@ -11,13 +11,13 @@ export class CourtCasesApiController {
     constructor(private _courtCaseService: CourtCasesService) { }
 
     @UseGuards(AccessTokenGuard)
-    @Get()
+    @Get(':id')
     @ApiFoundResponse({ type: CourtCase, description: 'The court case with the specified ID.' })
     @ApiNotFoundResponse({ description: 'The court case with the specified ID was not found.' })
-    @ApiQuery({ name: 'id', type: String })
-    GetCaseById(@Query() query: IdRequest, @Headers() headers: { authorization: string }): Promise<CourtCase | NotFoundException> {
+    @ApiParam({ name: 'id', type: String })
+    GetCaseById(@Param() param: IdRequest, @Headers() headers: { authorization: string }): Promise<CourtCase | NotFoundException> {
         // Call the court cases service to get the court case by ID.
-        return this._courtCaseService.GetCaseById(query.id, headers.authorization);
+        return this._courtCaseService.GetCaseById(param.id, headers.authorization);
     }
 
     @UseGuards(AccessTokenGuard)
@@ -29,12 +29,12 @@ export class CourtCasesApiController {
     }
 
     @UseGuards(AccessTokenGuard)
-    @Get('caseNumbers')
+    @Get('case-number/:caseNumber')
     @ApiFoundResponse({ type: GetAllCaseNumbersRespone, description: 'The court case with the specified case number.' })
     @ApiNotFoundResponse({ description: 'The case with the case number was not found' })
-    @ApiQuery({ name: 'caseNumber', type: String })
-    GetCaseByCaseNumber(@Query() query: CaseNumberRequest, @Headers() headers: { authorization: string }): Promise<CourtCase | NotFoundException> {
-        return this._courtCaseService.GetByCaseNumber(query.caseNumber, headers.authorization);
+    @ApiParam({ name: 'caseNumber', type: String, required: true, description: 'The case number of the court case.' })
+    GetCaseByCaseNumber(@Param() param: CaseNumberRequest, @Headers() headers: { authorization: string }): Promise<CourtCase | NotFoundException> {
+        return this._courtCaseService.GetByCaseNumber(param.caseNumber, headers.authorization);
     }
 
     @UseGuards(AccessTokenGuard)
@@ -62,10 +62,11 @@ export class CourtCasesApiController {
     }
 
     @UseGuards(AccessTokenGuard)
-    @Delete()
+    @Delete(':caseNumber')
     @ApiFoundResponse({ type: Boolean, description: 'True if the court case was deleted successfully.' })
     @ApiBadRequestResponse({ description: 'The specified case number does not exist.' })
-    Delete(@Body() body: CaseNumberRequest, @Headers() headers: { authorization: string }): Promise<boolean | BadRequestException> {
-        return this._courtCaseService.DeleteCase(body.caseNumber, headers.authorization);
+    @ApiParam({ name: 'caseNumber', type: String, required: true, description: 'The case number of the court case.' })
+    Delete(@Param() param: CaseNumberRequest, @Headers() headers: { authorization: string }): Promise<boolean | BadRequestException> {
+        return this._courtCaseService.DeleteCase(param.caseNumber, headers.authorization);
     }
 }

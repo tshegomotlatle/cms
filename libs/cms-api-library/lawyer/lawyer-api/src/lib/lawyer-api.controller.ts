@@ -1,7 +1,7 @@
 import { Lawyer, IdRequest, EmailRequest, AddLawyerRequest, UpdateLawyerRequest } from '@cms-models';
 import { LawyerService } from '@cms/lawyer-service';
-import {  BadRequestException, Body, Controller, Delete, Get, NotFoundException, Post, Put, Query} from '@nestjs/common';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiFoundResponse, ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiFoundResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("lawyer")
 @Controller('lawyer')
@@ -12,25 +12,25 @@ export class LawyerApiController {
         private lawyerService: LawyerService
     ) { }
 
-    @Get()
+    @Get(':id')
     @ApiFoundResponse({ type: Lawyer })
-    @ApiNotFoundResponse({description: "Lawyer not found"})
-    @ApiQuery({ name: 'id', type: String })
+    @ApiNotFoundResponse({ description: "Lawyer not found" })
+    @ApiParam({ name: 'id', type: String, required: true, description: "Lawyer id" })
     GetLawyerById(@Query() query: IdRequest): Promise<Lawyer | NotFoundException> {
         return this.lawyerService.GetLawyerById(query.id);
     }
 
-    @Get('email')
+    @Get('email/:email')
     @ApiFoundResponse({ type: Lawyer })
-    @ApiNotFoundResponse({description: "Lawyer not found"})
-    @ApiQuery({ name: 'email', type: String })
+    @ApiNotFoundResponse({ description: "Lawyer not found" })
+    @ApiParam({ name: 'email', type: String, required: true, description: "Lawyer email" })
     GetLawyerByEmail(@Query() query: { email: string }): Promise<Lawyer | NotFoundException> {
         return this.lawyerService.GetLawyerByEmail(query.email);
     }
 
     @Get('all')
-    @ApiFoundResponse({ type: [Lawyer], isArray: true })
-    @ApiNotFoundResponse({description: "Lawyers not found"})
+    @ApiFoundResponse({ type: Lawyer, isArray: true })
+    @ApiNotFoundResponse({ description: "Lawyers not found" })
     GetAllLawyers(): Promise<Lawyer[] | NotFoundException> {
         return this.lawyerService.GetAllLawyers();
     }
@@ -49,10 +49,11 @@ export class LawyerApiController {
         return this.lawyerService.UpdateLawyer(body);
     }
 
-    @Delete()
+    @Delete(':id')
     @ApiOkResponse({ type: Boolean })
     @ApiNotFoundResponse({ description: "Lawyer not found" })
-    DeleteLawyer(@Body() body: IdRequest): Promise<boolean | NotFoundException> {
-        return this.lawyerService.DeleteLawyer(body.id);
+    @ApiParam({ name: 'id', type: String, required: true, description: "Lawyer id" })
+    DeleteLawyer(@Param() param: IdRequest): Promise<boolean | NotFoundException> {
+        return this.lawyerService.DeleteLawyer(param.id);
     }
 }
