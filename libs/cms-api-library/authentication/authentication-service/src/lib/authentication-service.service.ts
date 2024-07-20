@@ -13,24 +13,21 @@ export class AuthenticationService {
         private jwtService: JwtService,
         private currentUserService: CommonFunctionsService) { }
 
-    async RegisterUser(newUser: UserRegisterRequest): Promise<User | BadRequestException> {
+    async RegisterUser(newUser: UserRegisterRequest): Promise<boolean | BadRequestException> {
         const user = await this.authenticationRepository.RegisterUser(newUser);
 
         if (user) {
-            return user;
+            return true;
         }
         else {
             throw new BadRequestException();
         }
     }
 
-    async UserLogin(email: string, password: string): Promise<AccessTokenResponse> {
+    async UserLogin(email: string, password: string): Promise<AccessTokenResponse | BadRequestException> {
 
         if (email === "" || email === undefined || password === "" || password === undefined) {
-            return {
-                accessToken: "",
-                refreshToken: ""
-            };
+            return new BadRequestException();
         }
 
         const user = await this.authenticationRepository.GetUser(email);
@@ -54,10 +51,7 @@ export class AuthenticationService {
             }
         }
 
-        return {
-            accessToken: "",
-            refreshToken: ""
-        };
+        return new BadRequestException();
     }
 
     async CheckEmailExists(email: string): Promise<boolean> {
@@ -109,14 +103,11 @@ export class AuthenticationService {
         }
     }
 
-    async RefreshToken(email: string, refreshToken: string): Promise<AccessTokenResponse> {
+    async RefreshToken(email: string, refreshToken: string): Promise<AccessTokenResponse | BadRequestException> {
         const user = await this.GetUser(email) as User;
 
         if (!user || !user.refreshToken) {
-            return {
-                accessToken: "",
-                refreshToken: "",
-            };
+            return new BadRequestException();
         }
 
         if (refreshToken != user.refreshToken) {
@@ -132,9 +123,6 @@ export class AuthenticationService {
             expiresIn: env['JWT_SECRET_TIME']
         });
 
-        return {
-            accessToken: accessToken,
-            refreshToken: refreshToken
-        };
+        return new BadRequestException();
     }
 }

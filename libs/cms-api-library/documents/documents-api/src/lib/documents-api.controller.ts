@@ -1,8 +1,9 @@
 import { DocumentsService } from '@cms-documents-service';
-import { Documents, GetDocumentRequest, IdRequest, UploadDocumentRequest } from '@cms-models';
+import { CaseNumberRequest, Documents, GetDocumentRequest, IdRequest, UploadDocumentRequest } from '@cms-models';
 import { Body, Controller, Logger, Post, UploadedFile, UseInterceptors, Headers, Get, Query, NotFoundException, Delete, Param } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiFoundResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiFoundResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { File } from 'buffer';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
@@ -14,7 +15,7 @@ export class DocumentsApiController {
     constructor(private _documentsService: DocumentsService) { }
 
     @Get(':id')
-    @ApiFoundResponse({ type: Documents, isArray: true })
+    @ApiOkResponse({ type: Documents, isArray: true })
     @ApiNotFoundResponse({ description: 'Documents not found' })
     @ApiParam({ name: 'id', type: String, description: 'Document id', required: true })
     GetDocumentsByCaseNumber(@Param() param: IdRequest, @Headers() headers: { authorization: string }): Promise<Documents[] | NotFoundException> {
@@ -33,9 +34,22 @@ export class DocumentsApiController {
         })
     }))
     @Post()
-    @ApiFoundResponse({ type: Boolean, description: 'Document uploaded' })
+    @ApiOkResponse({ type: Boolean, description: 'Document uploaded' })
     @ApiNotFoundResponse({ description: 'Documents not found' })
-    UploadDocuments(@Headers() headers: { authorization: string }, @UploadedFile() file: Express.Multer.File, @Body() body: { caseNumber: string }): Promise<boolean | NotFoundException> {
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({
+        schema: {
+            type: 'object',
+            properties: {
+                caseNumber: { type: 'string' },
+                file: {
+                    type: 'string',
+                    format: 'binary',
+                },
+            },
+        },
+    })
+    UploadDocuments(@Headers() headers: { authorization: string }, @UploadedFile() file: Express.Multer.File, @Body() body: CaseNumberRequest): Promise<boolean | NotFoundException> {
         const uploadFileRequest: UploadDocumentRequest = {
             caseId: body.caseNumber,
             fileName: file.originalname,

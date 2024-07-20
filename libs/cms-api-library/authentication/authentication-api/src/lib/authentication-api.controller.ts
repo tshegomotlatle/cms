@@ -1,8 +1,8 @@
 import { AuthenticationService } from '@cms-authentication-service';
 import { Body, Controller, Get, Logger, Post, Put, UseGuards, Headers, NotFoundException, BadRequestException, Param } from '@nestjs/common';
-import { AccessTokenResponse, EmailRequest, RefreshTokenRequest, UpdatePasswordRequest, User, UserEditRequest, UserLoginRequest, UserRegisterRequest } from '@cms-models';
+import { AccessTokenResponse, EmailRequest, RefreshTokenRequest, UpdatePasswordRequest, User, UserEditRequest, UserLoginRequest, UserRegisterRequest, UserResponse } from '@cms-models';
 import { AuthenticationGuard } from './Guard/authentication.guard';
-import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { RefreshTokenGuard } from './Guard/refresh-token.guard';
 
 @ApiTags("authentication")
@@ -17,19 +17,21 @@ export class AuthenticationApiController {
     @ApiOkResponse({ type: User, description: 'Returns user' })
     @ApiNotFoundResponse({ description: 'User not found' })
     @ApiParam({ name: 'email', type: String, description: 'User email', required: true })
-    async getUser(@Param() body: EmailRequest): Promise<User | NotFoundException> {
+    async getUser(@Param() body: EmailRequest): Promise<UserResponse | NotFoundException> {
         return await this.authenticationService.GetUser(body.email);
     }
 
     @Post('login')
     @ApiOkResponse({ type: AccessTokenResponse, description: 'Returns access token and refresh token' })
-    async login(@Body() user: UserLoginRequest): Promise<AccessTokenResponse> {
+    @ApiBadRequestResponse({ description: 'Invalid credentials' })
+    async login(@Body() user: UserLoginRequest): Promise<AccessTokenResponse | BadRequestException> {
         return await this.authenticationService.UserLogin(user.email, user.password);
     }
 
     @Post('register')
     @ApiCreatedResponse({ type: AccessTokenResponse, description: 'Returns access token and refresh token' })
-    async register(@Body() user: UserRegisterRequest): Promise<User | BadRequestException> {
+    @ApiBadRequestResponse({ description: 'User already exists' })
+    async register(@Body() user: UserRegisterRequest): Promise<boolean | BadRequestException> {
         return await this.authenticationService.RegisterUser(user)
     }
 
@@ -37,7 +39,8 @@ export class AuthenticationApiController {
     @UseGuards(RefreshTokenGuard)
     @Post('refresh-token')
     @ApiOkResponse({ type: AccessTokenResponse, description: 'Returns access token and refresh token' })
-    async refreshToken(@Body() body: RefreshTokenRequest): Promise<AccessTokenResponse> {
+    @ApiBadRequestResponse({ description: 'Invalid refresh token' })
+    async refreshToken(@Body() body: RefreshTokenRequest): Promise<AccessTokenResponse | BadRequestException> {
         return await this.authenticationService.RefreshToken(body.email, body.refreshToken);
     }
 
