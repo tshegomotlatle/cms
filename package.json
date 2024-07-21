@@ -6,8 +6,8 @@
     "migrate": "npx prisma db push",
     "seed-db": "ts-node prisma/seed.ts",
     "build": "npx nx run cms:build & npx nx run cms-api:build",
-    "generate-api": "npx nx run cms-api:serve & npx openapi -c axios -i http://localhost:3000/api-json -o .libs/cms-ui-library/src/lib/cms-api",
-    "app": "docker-compose up --build"
+    "generate-api": "npx openapi -c axios -i http://localhost:3000/api-json -o libs/cms-ui-library/src/lib/cms-api/v1",
+    "app": "docker compose up --build --watch"
   },
   "private": true,
   "dependencies": {

@@ -9,7 +9,13 @@ services:
       - cms-api
     networks:
       - app-network
-
+    develop:
+      watch:
+        - action: rebuild
+          path: libs/cms-ui-library
+        - action: rebuild
+          path: apps/cms
+      
   cms-api:
     build:
       context: .
@@ -22,6 +28,12 @@ services:
       - .env
     networks:
       - app-network
+    develop:
+      watch:
+          - action: rebuild
+            path: libs/cms-api-library
+          - action: rebuild
+            path: apps/cms-api
 
   cms-db:
     image: postgres
