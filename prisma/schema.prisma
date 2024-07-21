@@ -33,9 +33,10 @@ model Lawyer {
   name           String
   surname        String
   mobileNumber   String          @unique
+  userId         String
   courtCaseDates CourtCaseDate[] @relation("CourtCaseDateToLawyer")
   courtCase      CourtCase[]     @relation("CourtCaseToLawyer")
-  users          User[]          @relation("LawyerToUser")
+  users          User            @relation(fields: [userId], references: [id])
 
   @@map("lawyers")
 }
@@ -52,7 +53,7 @@ model User {
   courtCases   CourtCase[]
   documents    Document[]
   invoiceItems InvoiceItem[]
-  lawyers      Lawyer[]      @relation("LawyerToUser")
+  lawyers      Lawyer[]
 
   @@map("users")
 }
