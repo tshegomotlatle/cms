@@ -5,7 +5,7 @@
 export type Invoice = {
     invoiceNumber: string;
     name: string;
-    date: string;
+    date: Date;
     hours: number;
     costPerHour: number;
     caseId: string;

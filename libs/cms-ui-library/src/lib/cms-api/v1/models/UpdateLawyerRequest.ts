@@ -3,10 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UpdateLawyerRequest = {
+    id: string;
     email: string;
     name: string;
     surname: string;
     mobileNumber: string;
-    id: string;
 };
 

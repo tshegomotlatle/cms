@@ -1,7 +1,7 @@
 import { CommonFunctionsService } from '@cms-common-functions';
 import { InvoicesRespository } from '@cms-invoices-repository';
 import { EditInvoice, Invoice, UserToken } from '@cms-models';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class InvoicesService {
@@ -16,7 +16,8 @@ export class InvoicesService {
     public async AddInvoice(newInvoice: Invoice, accessToken: string): Promise<boolean | BadRequestException> {
         const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
 
-        newInvoice.date = new Date();
+        newInvoice.userId = user?.userId || "";
+        Logger.log(newInvoice);
         const invoice = await this.invoiceRepository.AddInvoice(newInvoice, user?.userId || "");
         if (invoice) {
             return true

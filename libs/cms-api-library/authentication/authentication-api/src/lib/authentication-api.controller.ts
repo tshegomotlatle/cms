@@ -41,7 +41,7 @@ export class AuthenticationApiController {
     @ApiOkResponse({ type: AccessTokenResponse, description: 'Returns access token and refresh token' })
     @ApiBadRequestResponse({ description: 'Invalid refresh token' })
     async refreshToken(@Body() body: RefreshTokenRequest): Promise<AccessTokenResponse | BadRequestException> {
-        return await this.authenticationService.RefreshToken(body.email, body.refreshToken);
+        return await this.authenticationService.RefreshToken(body.refreshToken);
     }
 
     @Post('check-email')

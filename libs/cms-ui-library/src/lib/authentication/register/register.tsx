@@ -58,6 +58,8 @@ export function Register(props: RegisterProps) {
     if (passwordConfirm !== user.password)
       return showError('Passwords do not match');
 
+    console.log(user);
+
     AuthenticationService.authenticationApiControllerRegister(user)
       .then((response: AccessTokenResponse) => {
         sessionStorage.setItem('access_token', response.accessToken);

@@ -7,5 +7,6 @@ export type AddLawyerRequest = {
     name: string;
     surname: string;
     mobileNumber: string;
+    caseId: string;
 };
 

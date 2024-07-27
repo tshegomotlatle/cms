@@ -2,7 +2,7 @@ import styles from './cms-ui-library.module.scss';
 import Navigation from './navigation/navigation';
 import axios, { AxiosRequestConfig } from 'axios';
 import 'core-js/stable/atob';
-import { jwtDecode } from 'jwt-decode';
+import { AccessTokenResponse, AuthenticationService } from './cms-api/v1';
 
 /* eslint-disable-next-line */
 export interface CmsUiLibraryProps {}
@@ -50,32 +50,17 @@ export function CmsUiLibrary(props: CmsUiLibraryProps) {
 
       const originalRequest: AxiosRequestConfig = error.config;
 
-      const token = sessionStorage.getItem('refresh_token');
+      const refreshToken = sessionStorage.getItem('refresh_token');
       if (!isRefreshing) {
         isRefreshing = true;
-        if (token) {
-          const user: { userId: string; email: string } = jwtDecode(token);
-          console.log(user);
-          await axios
-            .post(
-              '/authentication/refreshToken',
-              {
-                email: user.email,
-                refreshToken: token,
-              },
-              {
-                headers: {
-                  isRetryRequest: true,
-                },
-              }
-            )
-            .then((response) => {
+        if (refreshToken) {
+          AuthenticationService.authenticationApiControllerRefreshToken({
+            refreshToken: refreshToken,
+          })
+            .then((response: AccessTokenResponse) => {
               isRefreshing = false;
-              if (response.data.accessToken !== '') {
-                sessionStorage.setItem(
-                  'access_token',
-                  response.data.accessToken
-                );
+              if (response.accessToken !== '') {
+                sessionStorage.setItem('access_token', response.accessToken);
                 refreshAndRetryQueue.forEach(({ config, resolve, reject }) => {
                   axios
                     .request(config)

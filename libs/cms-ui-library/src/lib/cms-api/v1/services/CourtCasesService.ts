@@ -34,7 +34,7 @@ export class CourtCasesService {
     public static courtCasesApiControllerGetAllCaseNumbers(): CancelablePromise<GetAllCaseNumbersRespone> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/court-cases/all/caseNumbers',
+            url: '/api/court-cases/caseNumbers/all',
             errors: {
                 404: `The list of case numbers is empty.`,
             },
@@ -66,7 +66,7 @@ export class CourtCasesService {
     public static courtCasesApiControllerGetAllCases(): CancelablePromise<Array<CourtCase>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/court-cases/all',
+            url: '/api/court-cases/cases/all',
             errors: {
                 404: `The list of court cases is empty.`,
             },

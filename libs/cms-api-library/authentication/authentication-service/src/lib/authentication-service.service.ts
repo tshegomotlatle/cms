@@ -103,18 +103,18 @@ export class AuthenticationService {
         }
     }
 
-    async RefreshToken(email: string, refreshToken: string): Promise<AccessTokenResponse | BadRequestException> {
-        const user = await this.GetUser(email) as User;
+    async RefreshToken(refreshToken: string): Promise<AccessTokenResponse | BadRequestException> {
+
+        const userToken: UserToken | null = await this.currentUserService.GetUserToken(refreshToken);
+
+        const user = await this.GetUser(userToken?.email || "") as User;
 
         if (!user || !user.refreshToken) {
             return new BadRequestException();
         }
 
         if (refreshToken != user.refreshToken) {
-            return {
-                accessToken: "",
-                refreshToken: "",
-            };
+            return new BadRequestException();
         }
 
         const payload: UserToken = { userId: user.id!, email: user.email! };
@@ -123,6 +123,9 @@ export class AuthenticationService {
             expiresIn: env['JWT_SECRET_TIME']
         });
 
-        return new BadRequestException();
+        return {
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        };
     }
 }

@@ -32,11 +32,16 @@ export function InvoiceComponent() {
   const handleDateChange = (event: { target: { value: string } }) => {
     setInvoice({
       ...invoice,
-      date: new Date(event.target.value).toDateString(),
+      date: new Date(event.target.value),
     });
   };
 
-  const handleCaseNumberChange = (event: { target: { value: string } }) => {};
+  const handleCaseNumberChange = (event: { target: { value: string } }) => {
+    setInvoice({
+      ...invoice,
+      caseId: event.target.value,
+    });
+  };
 
   const handleDescriptionChange = (event: { target: { value: string } }) => {
     setInvoice({
@@ -151,7 +156,7 @@ export function InvoiceComponent() {
             <option defaultChecked>---Select a Case Number---</option>
             {courtCases?.map((courtCase, index) => {
               return (
-                <option key={index} value={courtCase.caseNumber}>
+                <option key={index} value={courtCase.id}>
                   {courtCase.caseNumber} - {courtCase.plaintiff} vs{' '}
                   {courtCase.defendant}
                 </option>
@@ -210,6 +215,7 @@ export function InvoiceComponent() {
   };
 
   const addCourtCasesButtonClick = async () => {
+    console.log(invoice);
     InvoicesService.invoicesApiControllerAdd(invoice)
       .then(() => {
         alert('Invoice Added');
@@ -382,4 +388,4 @@ export function InvoiceComponent() {
   );
 }
 
-export default Invoice;
+export default InvoiceComponent;

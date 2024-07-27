@@ -1,8 +1,8 @@
 import { AccessTokenGuard } from '@cms-authetication-api';
 import { CourtCasesService } from '@cms-court-cases-service';
 import { CaseNumberRequest, CourtCase, GetAllCaseNumbersRespone, IdRequest } from '@cms-models';
-import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiFoundResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("court-cases")
 @Controller('court-cases')
@@ -11,7 +11,7 @@ export class CourtCasesApiController {
     constructor(private _courtCaseService: CourtCasesService) { }
 
     @UseGuards(AccessTokenGuard)
-    @Get(':id')
+    @Get('/:id')
     @ApiOkResponse({ type: CourtCase, description: 'The court case with the specified ID.' })
     @ApiNotFoundResponse({ description: 'The court case with the specified ID was not found.' })
     @ApiParam({ name: 'id', type: String })
@@ -21,7 +21,7 @@ export class CourtCasesApiController {
     }
 
     @UseGuards(AccessTokenGuard)
-    @Get('all/caseNumbers')
+    @Get('caseNumbers/all')
     @ApiOkResponse({ type: GetAllCaseNumbersRespone, description: 'The list of case numbers.' })
     @ApiNotFoundResponse({ description: 'The list of case numbers is empty.' })
     GetAllCaseNumbers(@Headers() headers: { authorization: string }): Promise<GetAllCaseNumbersRespone | NotFoundException> {
@@ -38,7 +38,7 @@ export class CourtCasesApiController {
     }
 
     @UseGuards(AccessTokenGuard)
-    @Get('all')
+    @Get('cases/all')
     @ApiOkResponse({ type: CourtCase, isArray: true, description: 'The list of court cases.' })
     @ApiNotFoundResponse({ description: 'The list of court cases is empty.' })
     GetAllCases(@Headers() headers: { authorization: string }): Promise<CourtCase[] | NotFoundException> {

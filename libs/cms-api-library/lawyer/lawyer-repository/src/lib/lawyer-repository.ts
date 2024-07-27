@@ -7,11 +7,12 @@ import { UUID } from "crypto";
 export class LawyerRepository {
     constructor(private prisma: PrismaClient) { }
 
-    public async GetLawyerByEmail(email: string): Promise<Lawyer | null> {
+    public async GetLawyerByEmail(email: string, userId: string): Promise<Lawyer | null> {
         try {
             const result = await this.prisma.lawyer.findUnique({
                 where: {
-                    email: email
+                    email: email,
+                    userId: userId
                 }
             })
             return result;
@@ -20,11 +21,12 @@ export class LawyerRepository {
         }
     }
 
-    public async GetLawyerById(id: string): Promise<Lawyer | null> {
+    public async GetLawyerById(id: string, userId: string): Promise<Lawyer | null> {
         try {
             const result = await this.prisma.lawyer.findUnique({
                 where: {
-                    id: id
+                    id: id,
+                    userId: userId
                 }
             })
             return result;
@@ -40,8 +42,14 @@ export class LawyerRepository {
                     email: lawyer.email,
                     name: lawyer.name,
                     surname: lawyer.surname,
-                    mobileNumber: lawyer.mobileNumber
+                    mobileNumber: lawyer.mobileNumber,
+                    users: {
+                        connect: {
+                            id: lawyer.userId
+                        }
+                    }
                 }
+
             })
             return result;
         } catch {
@@ -49,11 +57,39 @@ export class LawyerRepository {
         }
     }
 
-    public async UpdateLawyer(lawyer: UpdateLawyerRequest): Promise<Lawyer | null> {
+    public async AddLawyerWithCase(lawyer: AddLawyerRequest): Promise<Lawyer | null> {
+        try {
+            const result = await this.prisma.lawyer.create({
+                data: {
+                    email: lawyer.email,
+                    name: lawyer.name,
+                    surname: lawyer.surname,
+                    mobileNumber: lawyer.mobileNumber,
+                    courtCase: {
+                        connect: {
+                            id: lawyer.caseId
+                        }
+                    },
+                    users: {
+                        connect: {
+                            id: lawyer.userId
+                        }
+                    }
+                }
+
+            })
+            return result;
+        } catch {
+            return null;
+        }
+    }
+
+    public async UpdateLawyer(lawyer: UpdateLawyerRequest, userId: string): Promise<Lawyer | null> {
         try {
             const result = await this.prisma.lawyer.update({
                 where: {
-                    id: lawyer.id
+                    id: lawyer.id,
+                    userId: userId
                 },
                 data: {
                     email: lawyer.email,
@@ -68,11 +104,12 @@ export class LawyerRepository {
         }
     }
 
-    public async DeleteLawyer(id: string): Promise<Lawyer | null> {
+    public async DeleteLawyer(id: string, userId: string): Promise<Lawyer | null> {
         try {
             const result = await this.prisma.lawyer.delete({
                 where: {
-                    id: id
+                    id: id,
+                    userId: userId
                 }
             })
             return result;

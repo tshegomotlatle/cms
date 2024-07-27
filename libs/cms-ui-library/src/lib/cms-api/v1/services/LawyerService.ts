@@ -42,7 +42,7 @@ export class LawyerService {
                 'id': id,
             },
             errors: {
-                404: `Lawyer not found`,
+                400: `Lawyer not found`,
             },
         });
     }
@@ -72,7 +72,7 @@ export class LawyerService {
     public static lawyerApiControllerGetAllLawyers(): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/lawyer/all',
+            url: '/api/lawyer/lawyers/all',
             errors: {
                 404: `Lawyers not found`,
             },

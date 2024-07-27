@@ -25,6 +25,7 @@ export class AutheticationRepostiory {
                 }
             });
         } catch (error) {
+            Logger.error(error)
             return null;
         }
     }
@@ -40,6 +41,7 @@ export class AutheticationRepostiory {
                 }
             })
         } catch (error) {
+            Logger.error(error)
             return null;
         }
     }
@@ -57,6 +59,7 @@ export class AutheticationRepostiory {
                 }
             });
         } catch (error) {
+            Logger.error(error)
             return null;
         }
     }
@@ -76,6 +79,7 @@ export class AutheticationRepostiory {
                 }
             });
         } catch (error) {
+            Logger.error(error)
             return null;
         }
     }
@@ -91,6 +95,7 @@ export class AutheticationRepostiory {
                 },
             })
         } catch (error) {
+            Logger.error(error)
             return null;
         }
     }
@@ -103,6 +108,7 @@ export class AutheticationRepostiory {
                 }
             })
         } catch (error) {
+            Logger.error(error)
             return null;
         }
     }

@@ -18,12 +18,11 @@ export class RefreshTokenStrategy extends PassportStrategy(
     }
 
     validate(req: Request, payload: { userId: string, email: string }) {
-        let refreshToken : string | undefined = "";
-        if (req.get('Authorization') !== undefined)
-        {
+        let refreshToken: string | undefined = "";
+        if (req.get('Authorization') !== undefined) {
             refreshToken = req.get('Authorization')?.replace('Bearer', '').trim();
         }
-        
+
         return { ...payload, refreshToken };
     }
 }
