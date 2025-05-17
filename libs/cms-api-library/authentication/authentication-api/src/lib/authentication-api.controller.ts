@@ -49,6 +49,14 @@ export class AuthenticationApiController {
     async checkEmail(@Body() body: EmailRequest): Promise<boolean> {
         return await this.authenticationService.CheckEmailExists(body.email);
     }
+    
+    @Post('post-register')
+    @ApiOkResponse({ type: Boolean, description: 'Returns true if email exists' })
+    async postRegister(@Body() body: any): Promise<boolean> {
+        console.log(body);
+        return true;
+    }
+    
     @Put('user')
     @ApiOkResponse({ type: Boolean, description: 'Returns true if user is edited' })
     async editUser(@Body() user: UserEditRequest): Promise<boolean> {

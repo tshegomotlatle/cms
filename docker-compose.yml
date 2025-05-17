@@ -51,8 +51,9 @@ services:
 
   cms-keyclock:
     container_name: cms-keyclock
-    image: quay.io/keycloak/keycloak:25.0.2
-    command: start-dev
+    build:
+      context: .
+      dockerfile: apps/cms-keyclock/Dockerfile
     depends_on:
       - cms-db
     ports:
