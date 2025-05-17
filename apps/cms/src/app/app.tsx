@@ -9,6 +9,7 @@ export function App() {
 
   const showApp = () => {
     if (login.isLogin) {
+      console.log(login.isLogin);
       return <CmsUiLibrary />;
     }
   };

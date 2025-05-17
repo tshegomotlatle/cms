@@ -10,6 +10,8 @@ const useAuth = () => {
       realm: process.env.NX_KEYCLOCK_REALM!,
     });
 
+    console.log(client);
+
     client
       .init({
         onLoad: 'login-required',

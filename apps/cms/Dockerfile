@@ -15,7 +15,7 @@ RUN npm ci
 COPY . .
 
 # Build the React application
-RUN npm run build 
+RUN npx nx run cms:build --prod
 
 # Use Nginx to serve the built application
 FROM nginx
