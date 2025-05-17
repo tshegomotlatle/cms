@@ -12,7 +12,11 @@ export class LawyerRepository {
             const result = await this.prisma.lawyer.findUnique({
                 where: {
                     email: email,
-                    userId: userId
+                    users: {
+                        every:{
+                            id: userId
+                        }
+                    }
                 }
             })
             return result;
@@ -26,7 +30,11 @@ export class LawyerRepository {
             const result = await this.prisma.lawyer.findUnique({
                 where: {
                     id: id,
-                    userId: userId
+                    users: {
+                        every:{
+                            id: userId
+                        }
+                    }
                 }
             })
             return result;
@@ -89,7 +97,11 @@ export class LawyerRepository {
             const result = await this.prisma.lawyer.update({
                 where: {
                     id: lawyer.id,
-                    userId: userId
+                    users: {
+                        every:{
+                            id: userId
+                        }
+                    }
                 },
                 data: {
                     email: lawyer.email,
@@ -109,7 +121,11 @@ export class LawyerRepository {
             const result = await this.prisma.lawyer.delete({
                 where: {
                     id: id,
-                    userId: userId
+                    users: {
+                        every:{
+                            id: userId
+                        }
+                    }
                 }
             })
             return result;
