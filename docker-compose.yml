@@ -53,6 +53,8 @@ services:
     container_name: cms-keyclock
     image: quay.io/keycloak/keycloak:25.0.2
     command: start-dev
+    depends_on:
+      - cms-db
     ports:
       - "8080:8080"
     env_file:
@@ -67,4 +69,3 @@ volumes:
 networks:
   app-network:
     driver: bridge
-
