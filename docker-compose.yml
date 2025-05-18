@@ -27,9 +27,11 @@ services:
     environment:
       - NODE_ENV=production
     env_file:
-      - .env
+      - .env.docker
     networks:
       - app-network
+    depends_on:
+      - cms-db
     develop:
       watch:
           - action: rebuild
@@ -41,7 +43,7 @@ services:
     container_name: cms-db
     image: postgres
     env_file:
-      - .env
+      - .env.docker
     ports:
       - "5432:5432"
     volumes:
@@ -59,7 +61,7 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      - .env
+      - .env.docker
     networks:
       - app-network
 

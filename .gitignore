@@ -45,3 +45,4 @@ uploads
 .env
 http
 /.rest
+.env.docker
