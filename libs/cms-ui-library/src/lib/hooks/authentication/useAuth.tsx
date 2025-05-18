@@ -1,30 +1,30 @@
-import { useEffect, useState } from 'react';
-import Keyclock from 'keycloak-js';
+import React, { useEffect, useState, createContext, ReactNode } from 'react';
+import keycloak, { initKeycloak } from './keyclock';
 
-const useAuth = () => {
-  const [isLogin, setLogin] = useState(false);
+export const AuthContext = createContext({
+  isAuthenticated: false,
+  token: '',
+});
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [isAuthenticated, setAuthenticated] = useState(false);
+  const [token, setToken] = useState('');
+
   useEffect(() => {
-    const client = new Keyclock({
-      url: process.env.NX_KEYCLOCK_URL,
-      clientId: process.env.NX_KEYCLOCK_CLIENTID!,
-      realm: process.env.NX_KEYCLOCK_REALM!,
-    });
-
-    console.log(client);
-
-    client
-      .init({
-        onLoad: 'login-required',
+    initKeycloak()
+      .then((kc) => {
+        console.log(kc.token);
+        if (kc.token)
+          sessionStorage.setItem('access_token', kc.token);
+        setAuthenticated(kc.authenticated ?? false);
+        setToken(kc.token ?? '');
       })
-      .then((response) => {
-        setLogin(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(console.error);
   }, []);
 
-  return { isLogin };
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, token }}>
+      {isAuthenticated ? children : <div>Loading...</div>}
+    </AuthContext.Provider>
+  );
 };
-
-export default useAuth;
