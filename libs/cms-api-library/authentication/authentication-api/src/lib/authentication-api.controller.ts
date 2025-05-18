@@ -1,9 +1,7 @@
 import { AuthenticationService } from '@cms-authentication-service';
 import { Body, Controller, Get, Logger, Post, Put, UseGuards, Headers, NotFoundException, BadRequestException, Param } from '@nestjs/common';
 import { AccessTokenResponse, EmailRequest, RefreshTokenRequest, UpdatePasswordRequest, User, UserEditRequest, UserLoginRequest, UserRegisterRequest, UserResponse } from '@cms-models';
-import { AuthenticationGuard } from './Guard/authentication.guard';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
-import { RefreshTokenGuard } from './Guard/refresh-token.guard';
 
 @ApiTags("authentication")
 @Controller('authentication')
@@ -12,7 +10,6 @@ export class AuthenticationApiController {
 
     constructor(private authenticationService: AuthenticationService) { }
 
-    @UseGuards(AuthenticationGuard)
     @Get('user/:email')
     @ApiOkResponse({ type: User, description: 'Returns user' })
     @ApiNotFoundResponse({ description: 'User not found' })
@@ -35,8 +32,6 @@ export class AuthenticationApiController {
         return await this.authenticationService.RegisterUser(user)
     }
 
-
-    @UseGuards(RefreshTokenGuard)
     @Post('refresh-token')
     @ApiOkResponse({ type: AccessTokenResponse, description: 'Returns access token and refresh token' })
     @ApiBadRequestResponse({ description: 'Invalid refresh token' })

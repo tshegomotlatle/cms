@@ -1,4 +1,3 @@
-import { AccessTokenGuard } from '@cms-authetication-api';
 import { InvoicesService } from '@cms-invoices-service';
 import { EditInvoice, GetInvoicesByInvoiceNumberRequest, IdRequest, Invoice } from '@cms-models';
 import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
@@ -10,7 +9,6 @@ export class InvoicesApiController {
 
     constructor(private invoiceService: InvoicesService) { }
 
-    @UseGuards(AccessTokenGuard)
     @Get(':id')
     @ApiOkResponse({ type: Invoice, description: 'The invoice with the specified id' })
     @ApiNotFoundResponse({ description: 'The invoice with the specified ID was not found.' })
@@ -19,7 +17,6 @@ export class InvoicesApiController {
         return this.invoiceService.GetInvoiceById(param.id, headers.authorization);
     }
 
-    @UseGuards(AccessTokenGuard)
     @Get('invoice-number/:invoiceNumber')
     @ApiOkResponse({ type: Invoice, isArray: true, description: 'The invoice with the specified invoice number' })
     @ApiNotFoundResponse({ description: 'The invoice with the specified invoice number was not found.' })
@@ -28,7 +25,6 @@ export class InvoicesApiController {
         return this.invoiceService.GetInvoiceByInvoiceNumber(param.invoiceNumber, headers.authorization);
     }
 
-    @UseGuards(AccessTokenGuard)
     @Post()
     @ApiOkResponse({ type: Boolean, description: 'The invoice has been added' })
     @ApiBadRequestResponse({ description: 'An error occured while adding the invoice' })
@@ -36,7 +32,6 @@ export class InvoicesApiController {
         return this.invoiceService.AddInvoice(body, headers.authorization);
     }
 
-    @UseGuards(AccessTokenGuard)
     @Put()
     @ApiOkResponse({ type: Boolean, description: 'The invoice has been deleted' })
     @ApiBadRequestResponse({ description: 'The invoice doesnt not exist' })
@@ -45,7 +40,6 @@ export class InvoicesApiController {
         return this.invoiceService.EditInvoice(body, headers.authorization);
     }
 
-    @UseGuards(AccessTokenGuard)
     @Delete(':id')
     @ApiOkResponse({ type: Boolean, description: 'The invoice has been deleted' })
     @ApiBadRequestResponse({ description: 'The invoice doesnt not exist' })

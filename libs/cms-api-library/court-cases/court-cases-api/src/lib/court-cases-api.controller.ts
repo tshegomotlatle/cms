@@ -1,4 +1,3 @@
-import { AccessTokenGuard } from '@cms-authetication-api';
 import { CourtCasesService } from '@cms-court-cases-service';
 import { CaseNumberRequest, CourtCase, GetAllCaseNumbersRespone, IdRequest } from '@cms-models';
 import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
@@ -10,7 +9,6 @@ import { ApiBadRequestResponse, ApiBearerAuth, ApiNotFoundResponse, ApiOkRespons
 export class CourtCasesApiController {
     constructor(private _courtCaseService: CourtCasesService) { }
 
-    @UseGuards(AccessTokenGuard)
     @Get('/:id')
     @ApiOkResponse({ type: CourtCase, description: 'The court case with the specified ID.' })
     @ApiNotFoundResponse({ description: 'The court case with the specified ID was not found.' })
@@ -20,7 +18,6 @@ export class CourtCasesApiController {
         return this._courtCaseService.GetCaseById(param.id, headers.authorization);
     }
 
-    @UseGuards(AccessTokenGuard)
     @Get('caseNumbers/all')
     @ApiOkResponse({ type: GetAllCaseNumbersRespone, description: 'The list of case numbers.' })
     @ApiNotFoundResponse({ description: 'The list of case numbers is empty.' })
@@ -28,7 +25,6 @@ export class CourtCasesApiController {
         return this._courtCaseService.GetAllCaseNumbers(headers.authorization);
     }
 
-    @UseGuards(AccessTokenGuard)
     @Get('case-number/:caseNumber')
     @ApiOkResponse({ type: CourtCase, description: 'The court case with the specified case number.' })
     @ApiNotFoundResponse({ description: 'The case with the case number was not found' })
@@ -37,7 +33,6 @@ export class CourtCasesApiController {
         return this._courtCaseService.GetByCaseNumber(param.caseNumber, headers.authorization);
     }
 
-    @UseGuards(AccessTokenGuard)
     @Get('cases/all')
     @ApiOkResponse({ type: CourtCase, isArray: true, description: 'The list of court cases.' })
     @ApiNotFoundResponse({ description: 'The list of court cases is empty.' })
@@ -45,7 +40,6 @@ export class CourtCasesApiController {
         return this._courtCaseService.GetAllCases(headers.authorization);
     }
 
-    @UseGuards(AccessTokenGuard)
     @Post()
     @ApiOkResponse({ type: Boolean, description: 'True if the court case was added successfully.' })
     @ApiBadRequestResponse({ description: 'The specified case number already exists.' })
@@ -53,7 +47,6 @@ export class CourtCasesApiController {
         return this._courtCaseService.AddCase(courtCase, headers.authorization);
     }
 
-    @UseGuards(AccessTokenGuard)
     @Put()
     @ApiOkResponse({ type: Boolean, description: 'True if the court case was edited successfully.' })
     @ApiBadRequestResponse({ description: 'The specified case number does not exist.' })
@@ -61,7 +54,6 @@ export class CourtCasesApiController {
         return this._courtCaseService.EditCase(courtCase, headers.authorization);
     }
 
-    @UseGuards(AccessTokenGuard)
     @Delete(':caseNumber')
     @ApiOkResponse({ type: Boolean, description: 'True if the court case was deleted successfully.' })
     @ApiBadRequestResponse({ description: 'The specified case number does not exist.' })
