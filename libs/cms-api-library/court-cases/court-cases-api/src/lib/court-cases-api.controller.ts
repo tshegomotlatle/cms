@@ -2,10 +2,12 @@ import { CourtCasesService } from '@cms-court-cases-service';
 import { CaseNumberRequest, CourtCase, GetAllCaseNumbersRespone, IdRequest } from '@cms-models';
 import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
+import { AuthenticatedUser, AuthGuard, Resource, Roles } from 'nest-keycloak-connect';
 
 @ApiTags("court-cases")
 @Controller('court-cases')
 @ApiBearerAuth()
+@Resource('cms-api') // This should match your client ID in Keycloak
 export class CourtCasesApiController {
     constructor(private _courtCaseService: CourtCasesService) { }
 
@@ -13,7 +15,7 @@ export class CourtCasesApiController {
     @ApiOkResponse({ type: CourtCase, description: 'The court case with the specified ID.' })
     @ApiNotFoundResponse({ description: 'The court case with the specified ID was not found.' })
     @ApiParam({ name: 'id', type: String })
-    GetCaseById(@Param() param: IdRequest, @Headers() headers: { authorization: string }): Promise<CourtCase | NotFoundException> {
+    GetCaseById(@AuthenticatedUser() user : any, @Param() param: IdRequest, @Headers() headers: { authorization: string }): Promise<CourtCase | NotFoundException> {
         // Call the court cases service to get the court case by ID.
         return this._courtCaseService.GetCaseById(param.id, headers.authorization);
     }
@@ -34,9 +36,11 @@ export class CourtCasesApiController {
     }
 
     @Get('cases/all')
+    @UseGuards(AuthGuard)
     @ApiOkResponse({ type: CourtCase, isArray: true, description: 'The list of court cases.' })
     @ApiNotFoundResponse({ description: 'The list of court cases is empty.' })
-    GetAllCases(@Headers() headers: { authorization: string }): Promise<CourtCase[] | NotFoundException> {
+    GetAllCases(@AuthenticatedUser() user : any, @Headers() headers: { authorization: string }): Promise<CourtCase[] | NotFoundException> {
+        console.log(user);
         return this._courtCaseService.GetAllCases(headers.authorization);
     }
 
@@ -60,5 +64,15 @@ export class CourtCasesApiController {
     @ApiParam({ name: 'caseNumber', type: String, required: true, description: 'The case number of the court case.' })
     Delete(@Param() param: CaseNumberRequest, @Headers() headers: { authorization: string }): Promise<boolean | BadRequestException> {
         return this._courtCaseService.DeleteCase(param.caseNumber, headers.authorization);
+    }
+
+    
+    @Get('cases/test')
+    @Roles({ roles: ['user'] })
+    @ApiOkResponse({ type: CourtCase, isArray: true, description: 'The list of court cases.' })
+    @ApiNotFoundResponse({ description: 'The list of court cases is empty.' })
+    Test(@AuthenticatedUser() user : any): string {
+        console.log(user);
+        return "This is working"
     }
 }

@@ -10,7 +10,7 @@ import { CommonFunctionsService } from '@cms-common-functions';
   controllers: [CourtCasesApiController],
   providers: [CourtCasesService, CommonFunctionsService, CourtCaseRepository, PrismaClient],
   exports: [],
-  imports: [CourtCasesServiceModule, CourtCasesRepositoryModule, AuthenticationApiModule]
+  imports: [CourtCasesServiceModule, CourtCasesRepositoryModule, AuthenticationApiModule, ]
 })
 export class CourtCasesApiModule { }
 

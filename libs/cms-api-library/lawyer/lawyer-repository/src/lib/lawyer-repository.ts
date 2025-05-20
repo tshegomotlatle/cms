@@ -13,9 +13,7 @@ export class LawyerRepository {
                 where: {
                     email: email,
                     users: {
-                        every:{
-                            id: userId
-                        }
+                        id: userId
                     }
                 }
             })
@@ -31,9 +29,7 @@ export class LawyerRepository {
                 where: {
                     id: id,
                     users: {
-                        every:{
-                            id: userId
-                        }
+                        id: userId
                     }
                 }
             })
@@ -98,9 +94,7 @@ export class LawyerRepository {
                 where: {
                     id: lawyer.id,
                     users: {
-                        every:{
-                            id: userId
-                        }
+                        id: userId
                     }
                 },
                 data: {
@@ -122,9 +116,7 @@ export class LawyerRepository {
                 where: {
                     id: id,
                     users: {
-                        every:{
-                            id: userId
-                        }
+                        id: userId
                     }
                 }
             })
