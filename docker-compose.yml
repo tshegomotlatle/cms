@@ -51,19 +51,19 @@ services:
     networks:
       - app-network
 
-  # cms-keycloak:
-  #   container_name: cms-keycloak
-  #   build:
-  #     context: .
-  #     dockerfile: apps/cms-keycloak/Dockerfile
-  #   depends_on:
-  #     - cms-db
-  #   ports:
-  #     - "8080:8080"
-  #   env_file:
-  #     - .env.docker
-  #   networks:
-  #     - app-network
+  cms-keycloak:
+    container_name: cms-keycloak
+    build:
+      context: .
+      dockerfile: apps/cms-keycloak/Dockerfile
+    depends_on:
+      - cms-db
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.docker
+    networks:
+      - app-network
 
 volumes:
   node_modules:
