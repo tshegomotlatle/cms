@@ -6,16 +6,9 @@ import { AccessTokenResponse, AuthenticationService } from './cms-api/v1';
 
 /* eslint-disable-next-line */
 export interface CmsUiLibraryProps {}
-interface RetryQueueItem {
-  resolve: (value?: any) => void;
-  reject: (error?: any) => void;
-  config: AxiosRequestConfig;
-}
 
 export function CmsUiLibrary(props: CmsUiLibraryProps) {
   axios.defaults.baseURL = 'http://localhost:3000';
-  const refreshAndRetryQueue: RetryQueueItem[] = [];
-  let isRefreshing = false;
 
   axios.interceptors.request.use(
     function (config) {

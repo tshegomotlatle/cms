@@ -11,15 +11,41 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState('');
 
   useEffect(() => {
+    let refreshInterval: NodeJS.Timeout;
+
     initKeycloak()
       .then((kc) => {
-        console.log(kc.token);
-        if (kc.token)
+        if (kc.token) {
           sessionStorage.setItem('access_token', kc.token);
+          setToken(kc.token);
+        }
         setAuthenticated(kc.authenticated ?? false);
-        setToken(kc.token ?? '');
+
+        // Refresh token every 60s (adjust based on token expiry)
+        refreshInterval = setInterval(() => {
+          kc.updateToken(60) // Try to refresh if token expires in 60s
+            .then((refreshed) => {
+              if (refreshed) {
+                console.log('Token refreshed', kc.token);
+                sessionStorage.setItem('access_token', kc.token as string);
+                setToken(kc.token as string);
+              } else {
+                console.log('Token still valid');
+              }
+            })
+            .catch(() => {
+              console.error('Failed to refresh token, logging out');
+              kc.logout();
+            });
+        }, 60000); // 60s interval
       })
       .catch(console.error);
+
+    return () => {
+      if (refreshInterval) {
+        clearInterval(refreshInterval);
+      }
+    };
   }, []);
 
   return (
