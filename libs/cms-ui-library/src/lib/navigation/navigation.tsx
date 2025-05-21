@@ -1,17 +1,22 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import styles from './navigation.module.scss';
-import Login from '../authentication/login/login';
-import Register from '../authentication/register/register';
 import CourtCases from '../court-cases/case-management/court-cases';
 import AddCourtCase from '../court-cases/add-court-case/add-court-case';
 import CalendarUi from '../calendar/calendar-ui';
 import { InvoiceComponent } from '../invoices/invoice';
 import FileManagement from '../file-management/file-management';
+import keycloak from '../hooks/authentication/keyclock';
 
 /* eslint-disable-next-line */
 export interface NavigationProps {}
 
 export function Navigation(props: NavigationProps) {
+
+  const handleLogout = async () =>
+  {
+    await keycloak.logout();
+  }
+
   return (
     <BrowserRouter>
       <div className={styles['container']}>
@@ -86,22 +91,21 @@ export function Navigation(props: NavigationProps) {
               <span
                 className="material-symbols-outlined"
                 style={{ fontSize: '50px', paddingRight: '1vw' }}
+                onClick={handleLogout}
               >
-                <Link to="/login">Logout</Link>
+                Logout
               </span>
               <div className={styles['naviagtion-item-text']}>Logout</div>
             </div>
           </div>
         </div>
         <Routes>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
           <Route path="court-cases" element={<CourtCases />} />
           <Route path="add-court-case" element={<AddCourtCase />} />
           <Route path="calendar" element={<CalendarUi />} />
           <Route path="file-management" element={<FileManagement />} />
           <Route path="invoices" element={<InvoiceComponent />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<CourtCases />} />
         </Routes>
       </div>
     </BrowserRouter>

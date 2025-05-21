@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ApiError, CourtCase, CourtCasesService } from '../../cms-api/v1';
 import styles from './court-cases.module.scss';
+import { Link } from 'react-router-dom';
 /* eslint-disable-next-line */
 export interface CourtCasesProps {}
 
@@ -37,14 +38,14 @@ export function CourtCases(props: CourtCasesProps) {
           />
         </div>
         <div className={styles['addCase']}>
-          <a href="/add-court-case">
+          <Link to="/add-court-case">
             <span
               className="material-symbols-outlined"
               id={styles['addButton']}
             >
               add
             </span>
-          </a>
+          </Link>
         </div>
         <div className={styles['filter']}>
           <span
