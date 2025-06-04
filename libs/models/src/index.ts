@@ -19,6 +19,8 @@ export * from './lib/contracts/requests/authentication/user-login-request/user-l
 
 export * from './lib/contracts/requests/authentication/user-edit-request/user-edit-request'
 
+export * from './lib/contracts/requests/authentication/user-register-request/keycloak-register-request'
+
 export * from './lib/contracts/requests/authentication/user-register-request/user-register-request'
 
 export * from './lib/contracts/requests/documents/get-document-request/get-document-request'
@@ -30,6 +32,8 @@ export * from './lib/contracts/requests/invoices/get-invoices-by-id/get-invoices
 export * from './lib/contracts/requests/invoices/get-invoices-by-invoice-number-request/get-invoices-by-invoice-number-request'
 
 export * from './lib/contracts/requests/invoices/get-invoices-by-case-number-request/get-invoices-by-case-number-request'
+
+export * from './lib/contracts/requests/authentication/user-entity'
 
 export * from './lib/contracts/requests/common/id-request'
 

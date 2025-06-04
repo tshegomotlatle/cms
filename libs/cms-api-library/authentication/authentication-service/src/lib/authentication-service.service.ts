@@ -1,4 +1,4 @@
-import { AccessTokenResponse, User, UserEditRequest, UserRegisterRequest, UserToken } from '@cms-models';
+import { AccessTokenResponse, KeycloakRegisterRequest, User, UserEditRequest, UserRegisterRequest, UserToken } from '@cms-models';
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { AutheticationRepostiory } from "@cms-authentication-repository";
@@ -13,8 +13,15 @@ export class AuthenticationService {
         private jwtService: JwtService,
         private currentUserService: CommonFunctionsService) { }
 
-    async RegisterUser(newUser: UserRegisterRequest): Promise<boolean | BadRequestException> {
-        const user = await this.authenticationRepository.RegisterUser(newUser);
+    async RegisterUser(newUser: KeycloakRegisterRequest): Promise<boolean | BadRequestException> {
+
+        const userDetails = await this.GetKeyCloakUser(newUser)
+
+        if (userDetails instanceof NotFoundException) {
+            return new BadRequestException();
+        }
+
+        const user = await this.authenticationRepository.RegisterUser(userDetails);
 
         if (user) {
             return true;
@@ -128,4 +135,23 @@ export class AuthenticationService {
             refreshToken: refreshToken
         };
     }
+
+    async GetKeyCloakUser(newUser: KeycloakRegisterRequest) : Promise<UserRegisterRequest | NotFoundException> {
+        const user = await this.authenticationRepository.GetKeyCloakUser(newUser);
+        if (user) {
+
+            const returnedUser = new UserRegisterRequest();
+            returnedUser.email = user?.email || "";
+            returnedUser.name = user?.first_name || "";
+            returnedUser.surname = user?.last_name || "";
+            returnedUser.mobileNumber = "";
+            returnedUser.password = "";
+            return returnedUser;
+        } else {
+            throw new NotFoundException();
+        }
+    }
 }
+
+
+ 

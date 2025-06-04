@@ -34,10 +34,10 @@ services:
       - cms-db
     develop:
       watch:
-          - action: rebuild
-            path: libs/cms-api-library
-          - action: rebuild
-            path: apps/cms-api
+        - action: rebuild
+          path: libs/cms-api-library
+        - action: rebuild
+          path: apps/cms-api
 
   cms-db:
     container_name: cms-db
@@ -47,6 +47,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
+      - ./prisma/keycloak:/docker-entrypoint-initdb.d
       - postgres_data:/var/lib/postgresql/data/
     networks:
       - app-network
@@ -64,10 +65,13 @@ services:
       - .env.docker
     networks:
       - app-network
+    volumes:
+      - keycloak_data:/opt/keycloak/data
 
 volumes:
   node_modules:
   postgres_data:
+  keycloak_data:
 
 networks:
   app-network:

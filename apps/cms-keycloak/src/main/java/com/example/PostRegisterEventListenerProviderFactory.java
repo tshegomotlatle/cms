@@ -1,10 +1,10 @@
 package com.example;
 
 import org.keycloak.Config;
-import org.keycloak.models.KeycloakSession;
-import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
+import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakSessionFactory;
 
 public class PostRegisterEventListenerProviderFactory implements EventListenerProviderFactory {
 
@@ -14,13 +14,19 @@ public class PostRegisterEventListenerProviderFactory implements EventListenerPr
     }
 
     @Override
-    public void init(Config.Scope config) {}
+    public void init(Config.Scope config) {
+        System.out.println("[PostRegisterEventListener] Factory init");
+    }
 
     @Override
-    public void postInit(KeycloakSessionFactory factory) {}
+    public void postInit(KeycloakSessionFactory factory) {
+        System.out.println("[PostRegisterEventListener] Factory postInit");
+    }
 
     @Override
-    public void close() {}
+    public void close() {
+        // No cleanup needed
+    }
 
     @Override
     public String getId() {

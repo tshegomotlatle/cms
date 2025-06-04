@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { User, UserEditRequest, UserRegisterRequest } from "@cms-models";
+import { KeycloakRegisterRequest, User, UserEditRequest, UserRegisterRequest, UserEntity } from "@cms-models";
 import { Injectable, Logger } from "@nestjs/common";
 import * as bcrypt from 'bcryptjs';
 
@@ -10,8 +10,6 @@ export class AutheticationRepostiory {
 
     async RegisterUser(user: UserRegisterRequest): Promise<User | null> {
         try {
-            const salt = await bcrypt.genSalt();
-            const hashPassword = await bcrypt.hash(user.password, salt);
 
             return await this.prisma.user.create({
                 data: {
@@ -19,11 +17,25 @@ export class AutheticationRepostiory {
                     name: user.name,
                     surname: user.surname,
                     mobileNumber: user.mobileNumber,
-                    password: hashPassword,
-                    passwordSalt: salt,
+                    password: "",
+                    passwordSalt: "",
                     refreshToken: ""
                 }
             });
+        } catch (error) {
+            Logger.error(error)
+            return null;
+        }
+    }
+
+    
+    async GetKeyCloakUser(newUser: KeycloakRegisterRequest) : Promise<UserEntity | null> {
+        try {
+            return await this.prisma.user_entity.findUnique({
+                where: {
+                    id: newUser.userId
+                }
+            })
         } catch (error) {
             Logger.error(error)
             return null;
@@ -112,4 +124,5 @@ export class AutheticationRepostiory {
             return null;
         }
     }
+    
 }

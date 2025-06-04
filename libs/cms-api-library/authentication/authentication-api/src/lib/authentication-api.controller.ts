@@ -1,6 +1,6 @@
 import { AuthenticationService } from '@cms-authentication-service';
 import { Body, Controller, Get, Logger, Post, Put, UseGuards, Headers, NotFoundException, BadRequestException, Param } from '@nestjs/common';
-import { AccessTokenResponse, EmailRequest, RefreshTokenRequest, UpdatePasswordRequest, User, UserEditRequest, UserLoginRequest, UserRegisterRequest, UserResponse } from '@cms-models';
+import { AccessTokenResponse, EmailRequest, KeycloakRegisterRequest, RefreshTokenRequest, UpdatePasswordRequest, User, UserEditRequest, UserLoginRequest, UserRegisterRequest, UserResponse } from '@cms-models';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("authentication")
@@ -25,12 +25,6 @@ export class AuthenticationApiController {
         return await this.authenticationService.UserLogin(user.email, user.password);
     }
 
-    @Post('register')
-    @ApiCreatedResponse({ type: AccessTokenResponse, description: 'Returns access token and refresh token' })
-    @ApiBadRequestResponse({ description: 'User already exists' })
-    async register(@Body() user: UserRegisterRequest): Promise<boolean | BadRequestException> {
-        return await this.authenticationService.RegisterUser(user)
-    }
 
     @Post('refresh-token')
     @ApiOkResponse({ type: AccessTokenResponse, description: 'Returns access token and refresh token' })
@@ -47,9 +41,8 @@ export class AuthenticationApiController {
     
     @Post('post-register')
     @ApiOkResponse({ type: Boolean, description: 'Returns true if email exists' })
-    async postRegister(@Body() body: any): Promise<boolean> {
-        console.log(body);
-        return true;
+    async postRegister(@Body() body: KeycloakRegisterRequest): Promise<boolean | BadRequestException> {
+        return await this.authenticationService.RegisterUser(body);
     }
     
     @Put('user')
