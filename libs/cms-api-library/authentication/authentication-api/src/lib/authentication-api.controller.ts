@@ -42,6 +42,7 @@ export class AuthenticationApiController {
     @Post('post-register')
     @ApiOkResponse({ type: Boolean, description: 'Returns true if email exists' })
     async postRegister(@Body() body: KeycloakRegisterRequest): Promise<boolean | BadRequestException> {
+        Logger.log("Post Register called with body: " + JSON.stringify(body));
         return await this.authenticationService.RegisterUser(body);
     }
     
@@ -55,5 +56,10 @@ export class AuthenticationApiController {
     @ApiOkResponse({ type: Boolean, description: 'Returns true if password is updated' })
     async updatePassword(@Body() body: UpdatePasswordRequest, @Headers() headers: { authorization: string }): Promise<boolean> {
         return await this.authenticationService.UpdatePassword(body.password, headers.authorization);
+    }
+
+    @Post("Test")
+    async test(@Body() body: KeycloakRegisterRequest): Promise<UserRegisterRequest | BadRequestException> {
+        return await this.authenticationService.GetKeyCloakUser(body);
     }
 }

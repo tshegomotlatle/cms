@@ -40,7 +40,6 @@ export class CourtCasesApiController {
     @ApiOkResponse({ type: CourtCase, isArray: true, description: 'The list of court cases.' })
     @ApiNotFoundResponse({ description: 'The list of court cases is empty.' })
     GetAllCases(@AuthenticatedUser() user : any, @Headers() headers: { authorization: string }): Promise<CourtCase[] | NotFoundException> {
-        console.log(user);
         return this._courtCaseService.GetAllCases(headers.authorization);
     }
 
@@ -64,15 +63,5 @@ export class CourtCasesApiController {
     @ApiParam({ name: 'caseNumber', type: String, required: true, description: 'The case number of the court case.' })
     Delete(@Param() param: CaseNumberRequest, @Headers() headers: { authorization: string }): Promise<boolean | BadRequestException> {
         return this._courtCaseService.DeleteCase(param.caseNumber, headers.authorization);
-    }
-
-    
-    @Get('cases/test')
-    @Roles({ roles: ['user'] })
-    @ApiOkResponse({ type: CourtCase, isArray: true, description: 'The list of court cases.' })
-    @ApiNotFoundResponse({ description: 'The list of court cases is empty.' })
-    Test(@AuthenticatedUser() user : any): string {
-        console.log(user);
-        return "This is working"
     }
 }

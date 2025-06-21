@@ -31,6 +31,9 @@ export class AutheticationRepostiory {
     
     async GetKeyCloakUser(newUser: KeycloakRegisterRequest) : Promise<UserEntity | null> {
         try {
+
+            Logger.log(this.prisma.$executeRawUnsafe("Select * from user_entity"));
+
             return await this.prisma.user_entity.findUnique({
                 where: {
                     id: newUser.userId

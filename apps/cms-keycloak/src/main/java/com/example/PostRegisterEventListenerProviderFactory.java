@@ -10,7 +10,7 @@ public class PostRegisterEventListenerProviderFactory implements EventListenerPr
 
     @Override
     public EventListenerProvider create(KeycloakSession session) {
-        return new PostRegisterEventListenerProvider();
+        return new PostRegisterEventListenerProvider(session);
     }
 
     @Override

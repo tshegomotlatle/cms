@@ -5,6 +5,7 @@ import { AutheticationRepostiory } from "@cms-authentication-repository";
 import { JwtService } from '@nestjs/jwt';
 import { env } from 'process';
 import { CommonFunctionsService } from '@cms-common-functions';
+import { log } from 'console';
 
 @Injectable()
 export class AuthenticationService {
@@ -15,14 +16,14 @@ export class AuthenticationService {
 
     async RegisterUser(newUser: KeycloakRegisterRequest): Promise<boolean | BadRequestException> {
 
-        const userDetails = await this.GetKeyCloakUser(newUser)
-
-        if (userDetails instanceof NotFoundException) {
-            return new BadRequestException();
-        }
+        const userDetails = new UserRegisterRequest();
+        userDetails.email = newUser.email;
+        userDetails.name = newUser.name;
+        userDetails.surname = newUser.surname;
+        userDetails.mobileNumber = newUser.mobileNumber || "";
+        userDetails.password = newUser.password || "";
 
         const user = await this.authenticationRepository.RegisterUser(userDetails);
-
         if (user) {
             return true;
         }
@@ -138,6 +139,8 @@ export class AuthenticationService {
 
     async GetKeyCloakUser(newUser: KeycloakRegisterRequest) : Promise<UserRegisterRequest | NotFoundException> {
         const user = await this.authenticationRepository.GetKeyCloakUser(newUser);
+        Logger.error("User details from Keycloak: ");
+        Logger.error(user);
         if (user) {
 
             const returnedUser = new UserRegisterRequest();
