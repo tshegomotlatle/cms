@@ -14,7 +14,7 @@ RUN npm ci
 COPY . .
 
 # Build the NestJS API
-RUN npx nx build cms-api --prod
+RUN npx nx build cms-api
 
 # Create a smaller image for running the application
 FROM node:latest
