@@ -52,7 +52,7 @@ describe('DocumentsApiController', () => {
   it('should upload a document', async () => {
     jest.spyOn(service, 'UploadDocument').mockResolvedValue(true);
 
-    var uploadRequest: UploadDocumentRequest = {
+    const uploadRequest: UploadDocumentRequest = {
       path: "https://example.com/test.pdf",
       fileName: "test.pdf",
       caseId: "CASE-001",

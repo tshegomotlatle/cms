@@ -10,7 +10,8 @@
     "@cms-authetication-api": "0.0.1",
     "@cms-court-cases-repository": "0.0.1",
     "@prisma/client": "^5.12.1",
-    "@cms-common-functions": "0.0.1"
+    "@cms-common-functions": "0.0.1",
+    "nest-keycloak-connect": "^1.10.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",
