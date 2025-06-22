@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from 'axios';
 import { useState, useEffect, SetStateAction } from 'react';
 import styles from './file-management.module.scss';
 import {

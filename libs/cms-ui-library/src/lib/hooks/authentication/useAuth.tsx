@@ -1,5 +1,5 @@
-import React, { useEffect, useState, createContext, ReactNode } from 'react';
-import keycloak, { initKeycloak } from './keyclock';
+import { useEffect, useState, createContext, ReactNode } from 'react';
+import { initKeycloak } from './keyclock';
 
 export const AuthContext = createContext({
   isAuthenticated: false,

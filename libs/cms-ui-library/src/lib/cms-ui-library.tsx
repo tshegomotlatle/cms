@@ -13,8 +13,7 @@ export function CmsUiLibrary(props: CmsUiLibraryProps) {
   axios.interceptors.request.use(
     function (config) {
       // Do something before request is sent
-      let token: string | null;
-      token = sessionStorage.getItem('access_token');
+      const token = sessionStorage.getItem('access_token');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }

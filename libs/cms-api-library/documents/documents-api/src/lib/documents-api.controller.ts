@@ -1,15 +1,17 @@
 import { DocumentsService } from '@cms-documents-service';
 import { CaseNumberRequest, Documents, GetDocumentRequest, IdRequest, UploadDocumentRequest } from '@cms-models';
-import { Body, Controller, Logger, Post, UploadedFile, UseInterceptors, Headers, Get, Query, NotFoundException, Delete, Param } from '@nestjs/common';
+import { Body, Controller, Logger, Post, UploadedFile, UseInterceptors, Headers, Get, Query, NotFoundException, Delete, Param, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiFoundResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { File } from 'buffer';
 import { diskStorage } from 'multer';
+import { AuthGuard } from 'nest-keycloak-connect';
 import { extname } from 'path';
 
 @ApiTags('documents')
 @Controller('documents')
 @ApiBearerAuth()
+@UseGuards(AuthGuard)
 export class DocumentsApiController {
 
     constructor(private _documentsService: DocumentsService) { }

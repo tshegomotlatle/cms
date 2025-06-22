@@ -8,6 +8,7 @@ import { AuthenticatedUser, AuthGuard, Resource, Roles } from 'nest-keycloak-con
 @Controller('court-cases')
 @ApiBearerAuth()
 @Resource('cms-api') // This should match your client ID in Keycloak
+@UseGuards(AuthGuard)
 export class CourtCasesApiController {
     constructor(private _courtCaseService: CourtCasesService) { }
 
@@ -36,7 +37,6 @@ export class CourtCasesApiController {
     }
 
     @Get('cases/all')
-    @UseGuards(AuthGuard)
     @ApiOkResponse({ type: CourtCase, isArray: true, description: 'The list of court cases.' })
     @ApiNotFoundResponse({ description: 'The list of court cases is empty.' })
     GetAllCases(@AuthenticatedUser() user : any, @Headers() headers: { authorization: string }): Promise<CourtCase[] | NotFoundException> {

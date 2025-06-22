@@ -1,11 +1,13 @@
 import { AddLawyerRequest, EmailRequest, IdRequest, Lawyer, UpdateLawyerRequest } from '@cms-models';
 import { LawyerService } from '@cms/lawyer-service';
-import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiFoundResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'nest-keycloak-connect';
 
 @ApiTags("lawyer")
 @Controller('lawyer')
 @ApiBearerAuth()
+@UseGuards(AuthGuard)
 export class LawyerApiController {
 
     constructor(

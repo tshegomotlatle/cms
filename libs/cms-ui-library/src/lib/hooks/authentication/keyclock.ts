@@ -1,11 +1,26 @@
+import { co } from '@fullcalendar/core/internal-common';
 import Keycloak from 'keycloak-js';
 
-const keycloak = new Keycloak({
-  url: process.env['NX_KEYCLOCK_URL']!,
-  realm: process.env['NX_KEYCLOCK_REALM']!,
-  clientId: process.env['NX_KEYCLOCK_CLIENTID']!,
-});
+const keycloakUrl = process.env['NX_KEYCLOCK_URL'];
+if (!keycloakUrl) {
+  throw new Error("NX_KEYCLOCK_URL is not defined");
+}
 
+const keycloakRealm = process.env['NX_KEYCLOCK_REALM'];
+if (!keycloakRealm) {
+  throw new Error("NX_KEYCLOCK_REALM is not defined");
+}
+const keycloakClientId = process.env['NX_KEYCLOCK_CLIENTID'];
+if (!keycloakClientId) {
+  throw new Error("NX_KEYCLOCK_CLIENTID is not defined");
+}
+
+const keycloak = new Keycloak({
+  url: keycloakUrl,
+  realm: keycloakRealm,
+  clientId: keycloakClientId,
+});
+export type KeycloakInstance = typeof keycloak;
 let initialized = false;
 
 export const initKeycloak = async () => {

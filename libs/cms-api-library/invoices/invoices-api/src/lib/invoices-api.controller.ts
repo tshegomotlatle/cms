@@ -2,9 +2,11 @@ import { InvoicesService } from '@cms-invoices-service';
 import { EditInvoice, GetInvoicesByInvoiceNumberRequest, IdRequest, Invoice } from '@cms-models';
 import { BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'nest-keycloak-connect';
 @ApiTags("invoices")
 @Controller('invoices')
 @ApiBearerAuth()
+@UseGuards(AuthGuard)
 export class InvoicesApiController {
 
     constructor(private invoiceService: InvoicesService) { }
