@@ -1,14 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.scss';
 
-import { CmsUiLibrary } from '@cms-ui-library';
+import { AuthProvider, CmsUiLibrary } from '@cms-ui-library';
 
 export function App() {
-  return (
-    <div>
-      <CmsUiLibrary />
-    </div>
-  );
+  return(
+  <AuthProvider>
+    <CmsUiLibrary />
+  </AuthProvider>
+  )
 }
 
 export default App;
+
+<CmsUiLibrary />;

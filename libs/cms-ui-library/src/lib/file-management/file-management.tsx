@@ -1,21 +1,27 @@
-import axios, { AxiosResponse } from 'axios';
 import { useState, useEffect, SetStateAction } from 'react';
 import styles from './file-management.module.scss';
-import { CourtCaseDto } from '../data-transfer-object/court-case/court-case.dto';
+import {
+  ApiError,
+  CourtCase,
+  CourtCasesService,
+  DocumentsService,
+} from '../cms-api/v1';
 
 /* eslint-disable-next-line */
 export interface FileManagementProps {}
 
 export function FileManagement(props: FileManagementProps) {
-  const [file, setFile] = useState<Blob | null>(null);
+  const [file, setFile] = useState<Blob | undefined>(undefined);
   const [fileName, setFileName] = useState('');
   const [caseNumber, setCaseNumber] = useState('');
-  const [courtCases, setCourtCases] = useState<CourtCaseDto[]>([]);
+  const [courtCases, setCourtCases] = useState<CourtCase[]>([]);
 
   useEffect(() => {
-    axios.post('/court-cases/getAllCases').then((response: AxiosResponse) => {
-      if (response) setCourtCases(response.data);
-    });
+    CourtCasesService.courtCasesApiControllerGetAllCases().then(
+      (response: CourtCase[]) => {
+        if (response) setCourtCases(response);
+      }
+    );
   }, []);
 
   const handleFileNameChange = (event: {
@@ -40,19 +46,16 @@ export function FileManagement(props: FileManagementProps) {
   };
 
   const handleFileUploadSubmit = async () => {
-    if (file != null && fileName !== '') {
-      const fileExtension =
-        file.name.split('.')[file.name.split('.').length - 1];
-      const newName = `${fileName}.${fileExtension}`;
-
-      const formData = new FormData();
-      formData.append('file', file, newName);
-      formData.append('caseNumber', caseNumber);
-
-      axios.post('/documents/UploadDocuments', formData).then((response) => {
-        console.log(response);
+    DocumentsService.documentsApiControllerUploadDocuments({
+      caseNumber: caseNumber,
+      file: file,
+    })
+      .then(() => {
+        alert('Documents uploaded');
+      })
+      .catch((error: ApiError) => {
+        alert("Documents couldn't be uploaded");
       });
-    }
   };
 
   return (

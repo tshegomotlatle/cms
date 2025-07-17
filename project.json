@@ -1,0 +1,16 @@
+{
+  "name": "cms-app",
+  "$schema": "./node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": ".",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project cms --web",
+  "targets": {
+    "docker-compose": {
+      "command": "docker compose up --build"
+    },
+    "docker-compose-watch": {
+      "command": "docker compose up --build --watch"
+    }
+  }
+}

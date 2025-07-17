@@ -1,50 +1,59 @@
-import { Lawyer, AddLawyerRequest, UpdateLawyerRequest } from '@cms-models';
+import { CommonFunctionsService } from '@cms-common-functions';
+import { AddLawyerRequest, Lawyer, UpdateLawyerRequest, UserToken } from '@cms-models';
 import { LawyerRepository } from '@cms/lawyer-repository';
-import { BadRequestException, ConflictException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
-import { UUID } from 'crypto';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class LawyerService {
 
     constructor(
-        private lawyerRepository: LawyerRepository
+        private lawyerRepository: LawyerRepository,
+        private currentUserService: CommonFunctionsService
     ) {
 
     }
 
-    public async GetLawyerById(id: string): Promise<Lawyer | HttpException> {
-        const lawyer = await this.lawyerRepository.GetLawyerById(id);
+    public async GetLawyerById(id: string, accessToken: string): Promise<Lawyer | BadRequestException> {
+
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
+
+        const lawyer = await this.lawyerRepository.GetLawyerById(id, user?.userId || "");
 
         if (!lawyer) {
-            return new NotFoundException();
+            return new BadRequestException();
         }
 
         return lawyer
     }
 
-    public async GetLawyerByEmail(email: string): Promise<Lawyer | HttpException> {
+    public async GetLawyerByEmail(email: string, accessToken: string): Promise<Lawyer | BadRequestException> {
 
-        const lawyer = await this.lawyerRepository.GetLawyerByEmail(email);
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
+
+        const lawyer = await this.lawyerRepository.GetLawyerByEmail(email, user?.userId || "");
 
         if (!lawyer) {
-            return new NotFoundException();
+            return new BadRequestException();
         }
 
         return lawyer
     }
 
-    public async GetAllLawyers(): Promise<Lawyer[] | HttpException> {
+    public async GetAllLawyers(): Promise<Lawyer[] | BadRequestException> {
         const lawyer = await this.lawyerRepository.GetAllLawyers();
 
         if (!lawyer) {
-            return new NotFoundException();
+            return new BadRequestException();
         }
 
         return lawyer
     }
 
-    public async AddLawyer(newLawyer: AddLawyerRequest): Promise<boolean | HttpException> {
-        if (await this.CheckIfExistsEmail(newLawyer.email))
+    public async AddLawyer(newLawyer: AddLawyerRequest, accessToken: string): Promise<boolean | BadRequestException> {
+
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
+
+        if (await this.CheckIfExistsEmail(newLawyer.email, user?.userId || ""))
             return new ConflictException();
 
         const lawyer = await this.lawyerRepository.AddLawyer(newLawyer);
@@ -56,33 +65,41 @@ export class LawyerService {
         return true;
     }
 
-    public async UpdateLawyer(UpdateLawyer: UpdateLawyerRequest): Promise<boolean | HttpException> {
-        if (!await this.CheckIfExists(UpdateLawyer.id))
-            return new NotFoundException();
+    public async UpdateLawyer(UpdateLawyer: UpdateLawyerRequest, accessToken: string): Promise<boolean | BadRequestException> {
 
-        const lawyer = await this.lawyerRepository.UpdateLawyer(UpdateLawyer);
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
+
+        if (!await this.CheckIfExists(UpdateLawyer.id, user?.userId || ""))
+            return new BadRequestException();
+
+        const lawyer = await this.lawyerRepository.UpdateLawyer(UpdateLawyer, user?.userId || "");
+
+        if (lawyer)
+            return true;
+        else
+            return new BadRequestException();
+    }
+
+    public async DeleteLawyer(id: string, accessToken: string): Promise<boolean | BadRequestException> {
+
+        const user: UserToken | null = this.currentUserService.GetUserToken(accessToken);
+
+        if (!await this.CheckIfExists(id, user?.userId || ""))
+            return new BadRequestException();
+
+        await this.lawyerRepository.DeleteLawyer(id, "");
 
         return true;
     }
 
-    public async DeleteLawyer(id: string): Promise<boolean | HttpException> {
-
-        if (!await this.CheckIfExists(id))
-            return new NotFoundException();
-
-        await this.lawyerRepository.DeleteLawyer(id);
-
-        return true;
-    }
-
-    public async CheckIfExists(id : string): Promise<boolean> {
-        const lawyer = await this.lawyerRepository.GetLawyerById(id);
+    public async CheckIfExists(id: string, userId: string): Promise<boolean> {
+        const lawyer = await this.lawyerRepository.GetLawyerById(id, userId);
 
         return lawyer ? true : false
     }
 
-    public async CheckIfExistsEmail(email : string): Promise<boolean> {
-        const lawyer = await this.lawyerRepository.GetLawyerByEmail(email);
+    public async CheckIfExistsEmail(email: string, userId: string): Promise<boolean> {
+        const lawyer = await this.lawyerRepository.GetLawyerByEmail(email, userId);
 
         return lawyer ? true : false
     }

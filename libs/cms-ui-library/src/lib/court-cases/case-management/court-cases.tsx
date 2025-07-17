@@ -1,25 +1,21 @@
-import { Link } from 'react-router-dom';
-import { CourtCaseDto } from '../../data-transfer-object/court-case/court-case.dto';
-import styles from './court-cases.module.scss';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { ApiError, CourtCase, CourtCasesService } from '../../cms-api/v1';
+import styles from './court-cases.module.scss';
+import { Link } from 'react-router-dom';
 /* eslint-disable-next-line */
 export interface CourtCasesProps {}
 
 export function CourtCases(props: CourtCasesProps) {
-  const [courtCases, setCourtCases] = useState<CourtCaseDto[]>([]);
+  const [courtCases, setCourtCases] = useState<CourtCase[]>([]);
   const [searchBarInput, setSearchBarInput] = useState('');
 
   useEffect(() => {
-    axios
-      .post('/court-cases/all', {
-        accessToken: sessionStorage.getItem('access_token') || '',
-      })
-      .then((response) => {
-        if (response) setCourtCases(response.data);
+    CourtCasesService.courtCasesApiControllerGetAllCases()
+      .then((response: Array<CourtCase>) => {
+        if (response) setCourtCases(response);
         return;
       })
-      .catch((response) => {
+      .catch((response: ApiError) => {
         throw response;
       });
   }, []);
@@ -42,14 +38,14 @@ export function CourtCases(props: CourtCasesProps) {
           />
         </div>
         <div className={styles['addCase']}>
-          <a href="/add-court-case">
+          <Link to="/add-court-case">
             <span
               className="material-symbols-outlined"
               id={styles['addButton']}
             >
               add
             </span>
-          </a>
+          </Link>
         </div>
         <div className={styles['filter']}>
           <span
@@ -79,7 +75,7 @@ export function CourtCases(props: CourtCasesProps) {
           </tr>
         </thead>
         <tbody>
-          {courtCases.map((courtCase: CourtCaseDto, i) => (
+          {courtCases.map((courtCase: CourtCase, i) => (
             <tr key={i}>
               <th scope="row">{courtCase.caseNumber}</th>
               <td>{courtCase.defendant}</td>

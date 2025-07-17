@@ -26,6 +26,11 @@
           "buildTarget": "cms-api:build:production"
         }
       }
+    },
+    "build": {
+      "options": {
+        "outputPath": "dist/apps/cms"
+      }
     }
   }
 }

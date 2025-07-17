@@ -1,25 +1,23 @@
 
 export * from './lib/models.module';
 
-export * from './lib/user/user'
+export * from './lib/contracts/requests/authentication/user'
 
-export * from './lib/user/user-token'
+export * from './lib/contracts/requests/lawyer/lawyer'
 
-export * from './lib/lawyer/lawyer'
+export * from './lib/contracts/requests/court-case/court-case'
 
-export * from './lib/court-case/court-case'
+export * from './lib/contracts/requests/documents/documents'
 
-export * from './lib/documents/documents'
-
-export * from './lib/invoice/invoice'
+export * from './lib/contracts/requests/invoices/invoice'
 
 export * from './lib/contracts/requests/authentication/user-email-request/user-email-request'
 
-export * from './lib/contracts/requests/authentication/update-password-request/update-password-request'
-
-export * from './lib/contracts/requests/authentication/user-login-request/user-login-request'
-
 export * from './lib/contracts/requests/authentication/user-edit-request/user-edit-request'
+
+export * from './lib/contracts/requests/authentication/user-mobile-edit-request/user-mobile-edit-request'
+
+export * from './lib/contracts/requests/authentication/user-register-request/keycloak-register-request'
 
 export * from './lib/contracts/requests/authentication/user-register-request/user-register-request'
 
@@ -33,6 +31,8 @@ export * from './lib/contracts/requests/invoices/get-invoices-by-invoice-number-
 
 export * from './lib/contracts/requests/invoices/get-invoices-by-case-number-request/get-invoices-by-case-number-request'
 
+export * from './lib/contracts/requests/authentication/user-entity'
+
 export * from './lib/contracts/requests/common/id-request'
 
 export * from './lib/contracts/requests/common/email-request'
@@ -41,12 +41,14 @@ export * from './lib/contracts/requests/lawyer/add-lawyer/add-lawyer-request'
 
 export * from './lib/contracts/requests/lawyer/update-lawyer/update-lawyer-request'
 
-export * from './lib/contracts/requests/court-case/case-number-request'
-
-export * from './lib/contracts/requests/authentication/refresh-token-request/refresh-token-request'
+export * from './lib/contracts/requests/court-case/case-number/case-number-request'
 
 export * from './lib/contracts/requests/invoices/edit-invoice/edit-invoice'
 
 export * from './lib/contracts/responses/court-cases/get-all-case-numbers-response'
 
 export * from './lib/contracts/responses/authentication/access-token-respones'
+
+export * from './lib/contracts/responses/authentication/user-response'
+
+export * from './lib/authentication/user-token'

@@ -1,7 +1,7 @@
+import { UserEditRequest, UserRegisterRequest } from '@cms-models';
 import { PrismaClient } from '@prisma/client';
+import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 import { AutheticationRepostiory } from './authetication-repostiory';
-import { User, UserEditRequest, UserRegisterRequest } from '@cms-models';
-import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 
 describe('AutheticationRepostiory', () => {
   let authRepo: AutheticationRepostiory;
@@ -92,45 +92,6 @@ describe('AutheticationRepostiory', () => {
     expect(editedUser?.refreshToken).toEqual("REFRESH_TOKEN_TEST_VALUE");
   });
 
-  it('should update a users password', async () => {
-
-    prisma.user.update.mockResolvedValue({
-      id: "1234",
-      email: "mokgethwamatlala@gmail.com",
-      name: "Mokgethwa",
-      surname: "Matlala",
-      mobileNumber: "0844121245",
-      password: "7555",
-      passwordSalt: "1234",
-      refreshToken: "REFRESH_TOKEN_TEST_VALUE",
-    })
-
-    const updatedUser = await authRepo.UpdatePassword("7555", "1234");
-    expect(updatedUser).toBeDefined();
-    expect(updatedUser?.email).toEqual("mokgethwamatlala@gmail.com");
-    expect(updatedUser?.mobileNumber).toEqual("0844121245");
-    expect(updatedUser?.name).toEqual("Mokgethwa");
-    expect(updatedUser?.surname).toEqual("Matlala");
-  });
-
-  it('should update a users refresh token', async () => {
-
-    prisma.user.update.mockResolvedValue({
-      id: "1234",
-      email: "mokgethwamatlala@gmail.com",
-      name: "Mokgethwa",
-      surname: "Matlala",
-      mobileNumber: "0844121245",
-      password: "7555",
-      passwordSalt: "1234",
-      refreshToken: "new refresh buddy",
-    })
-
-    const updatedUser = await authRepo.UpdateRefreshToken("mokgethwamatlala@gmail.com", "new refresh buddy"!);
-    expect(updatedUser).toBeDefined();
-    expect(updatedUser?.refreshToken).toEqual("new refresh buddy");
-  });
-
   it('should update a delete a user', async () => {
 
     prisma.user.delete.mockResolvedValue({
@@ -155,5 +116,6 @@ describe('AutheticationRepostiory', () => {
     expect(deletedUser?.id).toEqual("1234");
   });
 
+  it("should edit a")
 
 });

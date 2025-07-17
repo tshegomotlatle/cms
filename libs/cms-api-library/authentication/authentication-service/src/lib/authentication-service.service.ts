@@ -1,63 +1,29 @@
-import { AccessTokenResponse, User, UserEditRequest, UserRegisterRequest, UserToken } from '@cms-models';
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import * as bcrypt from 'bcryptjs';
 import { AutheticationRepostiory } from "@cms-authentication-repository";
-import { JwtService } from '@nestjs/jwt';
-import { env } from 'process';
-import { CommonFunctionsService } from '@cms-common-functions';
+import { KeycloakRegisterRequest, User, UserEditRequest, UserMobileEditRequest, UserRegisterRequest } from '@cms-models';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class AuthenticationService {
+
     constructor(
-        private authenticationRepository: AutheticationRepostiory,
-        private jwtService: JwtService,
-        private currentUserService: CommonFunctionsService) { }
+        private authenticationRepository: AutheticationRepostiory) { }
 
-    async RegisterUser(newUser: UserRegisterRequest): Promise<User | BadRequestException> {
-        const user = await this.authenticationRepository.RegisterUser(newUser);
+    async RegisterUser(newUser: KeycloakRegisterRequest): Promise<boolean | BadRequestException> {
 
+        const userDetails = new UserRegisterRequest();
+        userDetails.email = newUser.email;
+        userDetails.name = newUser.name;
+        userDetails.surname = newUser.surname;
+        userDetails.mobileNumber = newUser.mobileNumber || "";
+        userDetails.password = newUser.password || "";
+
+        const user = await this.authenticationRepository.RegisterUser(userDetails);
         if (user) {
-            return user;
+            return true;
         }
         else {
             throw new BadRequestException();
         }
-    }
-
-    async UserLogin(email: string, password: string): Promise<AccessTokenResponse> {
-
-        if (email === "" || email === undefined || password === "" || password === undefined) {
-            return {
-                accessToken: "",
-                refreshToken: ""
-            };
-        }
-
-        const user = await this.authenticationRepository.GetUser(email);
-        if (user) {
-            const passwordHash = await bcrypt.hash(password, user.passwordSalt || "");
-            if (passwordHash == user?.password) {
-                const payload = { userId: user.id, email: user.email };
-                const accessToken = await this.jwtService.signAsync(payload, {
-                    secret: env['JWT_SECRET'],
-                    expiresIn: env['JWT_SECRET_TIME']
-                });
-                const refreshToken = await this.jwtService.signAsync(payload, {
-                    secret: env['JWT_SECRET_REFRESH'],
-                    expiresIn: env['JWT_SECRET_TIME_REFRESH']
-                });
-                this.authenticationRepository.UpdateRefreshToken(user.email, refreshToken);
-                return {
-                    accessToken: accessToken,
-                    refreshToken: refreshToken,
-                };
-            }
-        }
-
-        return {
-            accessToken: "",
-            refreshToken: ""
-        };
     }
 
     async CheckEmailExists(email: string): Promise<boolean> {
@@ -84,20 +50,6 @@ export class AuthenticationService {
         }
     }
 
-    async UpdatePassword(password: string, accessToken: string): Promise<boolean> {
-
-        const user: UserToken | null = await this.currentUserService.GetUserToken(accessToken)
-
-        const result = await this.authenticationRepository.UpdatePassword(password, user?.userId || "");
-
-        if (result) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     async GetUser(email: string): Promise<User | NotFoundException> {
         const user = await this.authenticationRepository.GetUser(email);
 
@@ -109,32 +61,18 @@ export class AuthenticationService {
         }
     }
 
-    async RefreshToken(email: string, refreshToken: string): Promise<AccessTokenResponse> {
-        const user = await this.GetUser(email) as User;
+    
+    async EditMobileNumber(user: UserMobileEditRequest): Promise<boolean | NotFoundException> {
+        const result = await this.authenticationRepository.EditMobileNumber(user);
 
-        if (!user || !user.refreshToken) {
-            return {
-                accessToken: "",
-                refreshToken: "",
-            };
+        if (result) {
+            return true;
         }
-
-        if (refreshToken != user.refreshToken) {
-            return {
-                accessToken: "",
-                refreshToken: "",
-            };
+        else {
+            return new NotFoundException();
         }
-
-        const payload: UserToken = { userId: user.id!, email: user.email! };
-        const accessToken = await this.jwtService.signAsync(payload, {
-            secret: env['JWT_SECRET'],
-            expiresIn: env['JWT_SECRET_TIME']
-        });
-
-        return {
-            accessToken: accessToken,
-            refreshToken: refreshToken
-        };
     }
 }
+
+
+ 

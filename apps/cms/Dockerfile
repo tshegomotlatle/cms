@@ -15,7 +15,7 @@ RUN npm ci
 COPY . .
 
 # Build the React application
-RUN npm run build 
+RUN npx nx run cms:build --prod
 
 # Use Nginx to serve the built application
 FROM nginx
@@ -23,8 +23,8 @@ FROM nginx
 # Copy the built files from the builder stage
 COPY --from=builder /app/dist/apps/cms /usr/share/nginx/html
 
-# Copy a custom Nginx configuration if needed
-# COPY nginx.conf /etc/nginx/nginx.conf
+#Copy a custom Nginx configuration if needed
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80

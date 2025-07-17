@@ -1,10 +1,10 @@
-import { AuthenticationService } from './authentication-service.service';
 import { AutheticationRepostiory } from '@cms-authentication-repository';
+import { CommonFunctionsService } from '@cms-common-functions';
+import { KeycloakRegisterRequest, User, UserEditRequest } from '@cms-models';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaClient } from '@prisma/client';
-import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
-import { User, UserEditRequest, UserLoginRequest, UserRegisterRequest } from '@cms-models';
-import { CommonFunctionsService } from '@cms-common-functions';
+import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
+import { AuthenticationService } from './authentication-service.service';
 
 
 describe('AuthenticationServiceService', () => {
@@ -20,7 +20,7 @@ describe('AuthenticationServiceService', () => {
     prisma = mockDeep<PrismaClient>();
     currentUserService = mockDeep<CommonFunctionsService>();
 
-    authenticationService = new AuthenticationService(authenticationRepositoryMock, jwtServiceMock, currentUserService);
+    authenticationService = new AuthenticationService(authenticationRepositoryMock);
     currentUserService.GetUserToken.mockReturnValue({
       userId: '123456',
       email: 'test',
@@ -32,12 +32,14 @@ describe('AuthenticationServiceService', () => {
   });
 
   it('should register a user', async () => {
-    const userRegisterRequest: UserRegisterRequest = {
+    const userRegisterRequest: KeycloakRegisterRequest = {
       email: "tshegomotlatle.dev@gmail.com",
       mobileNumber: "0812198232",
       name: "Tshego",
       surname: "Motlatle",
       password: "2455",
+      realm: "test-realm",
+      userId: "test-client",
     }
 
     authenticationRepositoryMock.RegisterUser.mockResolvedValue({
@@ -49,12 +51,8 @@ describe('AuthenticationServiceService', () => {
       password: "2455",
     });
 
-    const user = await authenticationService.RegisterUser(userRegisterRequest) as User;
-    expect(user).toBeDefined();
-    expect(user.email).toEqual("tshegomotlatle.dev@gmail.com");
-    expect(user.mobileNumber).toEqual("0812198232");
-    expect(user.name).toEqual("Tshego");
-    expect(user.surname).toEqual("Motlatle");
+    const user = await authenticationService.RegisterUser(userRegisterRequest);
+    expect(user).toBeTruthy();
   });
 
   it('should get a user based on email', async () => {
@@ -94,68 +92,5 @@ describe('AuthenticationServiceService', () => {
 
     const result = await authenticationService.EditUser(editUserRequest);
     expect(result).toBeTruthy();
-  });
-
-  it('should update password', async () => {
-    authenticationRepositoryMock.UpdatePassword.mockResolvedValue({
-      id: "1234",
-      email: "tshegomotlatle.dev@gmail.com",
-      name: "Tshego",
-      surname: "Motlatle",
-      mobileNumber: "0812198232",
-      password: "2455",
-    });
-
-    const result = await authenticationService.UpdatePassword("1234", "1234");
-    expect(result).toBeTruthy();
-  });
-
-  it('should login a user', async () => {
-    const loginUserRequest: UserLoginRequest = {
-      email: "tshegomotlatle.dev@gmail.com",
-      password: "2455",
-    }
-
-    authenticationRepositoryMock.GetUser.mockResolvedValue({
-      id: "1234",
-      email: "tshegomotlatle.dev@gmail.com",
-      name: "Tshego",
-      surname: "Motlatle",
-      mobileNumber: "0812198232",
-      password: "2455",
-      passwordSalt: "$2b$10$.PsL4O/JxYPCyL2juX5B/.",
-    });
-
-    authenticationRepositoryMock.UpdateRefreshToken.mockResolvedValue({
-      id: "1234",
-      email: "tshegomotlatle.dev@gmail.com",
-      name: "Tshego",
-      surname: "Motlatle",
-      mobileNumber: "0812198232",
-      password: "2455",
-      passwordSalt: "$2b$10$.PsL4O/JxYPCyL2juX5B/.",
-      refreshToken: "REFRESH_TOKEN_TEST_VALUE",
-    });
-    const result = await authenticationService.UserLogin(loginUserRequest.email, loginUserRequest.password);
-    expect(result).toBeTruthy();
-    expect(result.accessToken).toBeDefined();
-    expect(result.refreshToken).toBeDefined();
-  });
-
-  it('should refresh token', async () => {
-    const email = "tshegomotlatle.dev@gmail.com";
-    const refreshToken = "REFRESH_TOKEN_TEST_VALUE";
-
-    authenticationRepositoryMock.GetUser.mockResolvedValue({
-      id: "1234",
-      email: "tshegomotlatle.dev@gmail.com",
-      name: "Tshego",
-      surname: "Motlatle",
-      mobileNumber: "0812198232",
-      password: "2455",
-      passwordSalt: "$2b$10$.PsL4O/JxYPCyL2juX5B/.",
-      refreshToken: "REFRESH_TOKEN_TEST_VALUE",
-    });
-
   });
 });

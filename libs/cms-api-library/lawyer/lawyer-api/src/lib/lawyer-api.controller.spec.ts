@@ -5,6 +5,7 @@ import { LawyerRepository } from '@cms/lawyer-repository';
 import { PrismaClient } from '@prisma/client';
 import { EmailRequest, IdRequest, Lawyer, AddLawyerRequest, UpdateLawyerRequest } from '@cms-models';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { CommonFunctionsService } from '@cms-common-functions';
 
 describe('LawyerApiController', () => {
   let controller: LawyerApiController;
@@ -12,7 +13,7 @@ describe('LawyerApiController', () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [LawyerService, LawyerRepository, PrismaClient],
+      providers: [LawyerService, LawyerRepository, PrismaClient, CommonFunctionsService],
       controllers: [LawyerApiController],
     }).compile();
 
@@ -67,7 +68,7 @@ describe('LawyerApiController', () => {
       id: "1234"
     }
 
-    const result = await controller.GetLawyerById(idRequest);
+    const result = await controller.GetLawyerById(idRequest, { authorization: "1234" });
     
     expect(result).toBeDefined();
     expect(result).toEqual({
@@ -86,7 +87,7 @@ describe('LawyerApiController', () => {
       id: "1234"
     }
 
-    const result = await controller.GetLawyerById(idRequest);
+    const result = await controller.GetLawyerById(idRequest, { authorization: "1234" });
 
     expect(result).toBeDefined();
     expect(result).toEqual(new NotFoundException());
@@ -106,7 +107,7 @@ describe('LawyerApiController', () => {
       email: "tshegomotlatle.dev@gmail.com"
     }
 
-    const result = await controller.GetLawyerByEmail(emailRequest);
+    const result = await controller.GetLawyerByEmail(emailRequest, { authorization: "1234" });
     
     expect(result).toBeDefined();
     expect(result).toEqual({
@@ -125,7 +126,7 @@ describe('LawyerApiController', () => {
       email: "tshegomotlatle.dev@gmail.com"
     }
 
-    const result = await controller.GetLawyerByEmail(emailRequest);
+    const result = await controller.GetLawyerByEmail(emailRequest, { authorization : "1234" });
 
     expect(result).toBeDefined();
     expect(result).toEqual(new NotFoundException());
@@ -142,7 +143,7 @@ describe('LawyerApiController', () => {
     
     jest.spyOn(service, 'UpdateLawyer').mockResolvedValue(true);
 
-    const result = await controller.UpdateLawyer(lawyerEditRequest);
+    const result = await controller.UpdateLawyer(lawyerEditRequest, { authorization: "1234" });
     
     expect(result).toBeDefined();
     expect(result).toBeTruthy();
@@ -159,7 +160,7 @@ describe('LawyerApiController', () => {
     
     jest.spyOn(service, 'UpdateLawyer').mockResolvedValue(new NotFoundException());
 
-    const result = await controller.UpdateLawyer(lawyerEditRequest);
+    const result = await controller.UpdateLawyer(lawyerEditRequest, { authorization: "1234" });
     
     expect(result).toBeDefined();
     expect(result).toEqual(new NotFoundException());
@@ -173,7 +174,7 @@ describe('LawyerApiController', () => {
       id: "1234"
     }
 
-    const result = await controller.DeleteLawyer(idRequest);
+    const result = await controller.DeleteLawyer(idRequest, { authorization: "1234" });
     
     expect(result).toBeDefined();
     expect(result).toEqual(true);
@@ -187,7 +188,7 @@ describe('LawyerApiController', () => {
       id: "1234"
     }
 
-    const result = await controller.DeleteLawyer(idRequest);
+    const result = await controller.DeleteLawyer(idRequest, { authorization: "1234" });
     
     expect(result).toBeDefined();
     expect(result).toEqual(new NotFoundException());
@@ -200,11 +201,13 @@ describe('LawyerApiController', () => {
       surname: "Motlatle",
       email: "tshegomotlatle.dev@gmail.com",
       mobileNumber: "0812198232",
+      caseId: "CASE-1234",
+      userId: "USER-1234"
     }
     
     jest.spyOn(service, 'AddLawyer').mockResolvedValue(true)
 
-    const result = await controller.AddLawyer(lawyerAddRequest);
+    const result = await controller.AddLawyer(lawyerAddRequest, { authorization: "1234" });
     
     expect(result).toBeDefined();
     expect(result).toBeTruthy();
@@ -216,11 +219,13 @@ describe('LawyerApiController', () => {
       surname: "Motlatle",
       email: "tshegomotlatle.dev@gmail.com",
       mobileNumber: "0812198232",
+      caseId: "CASE-1234",
+      userId: "USER-1234"
     }
     
     jest.spyOn(service, 'AddLawyer').mockResolvedValue(new BadRequestException());
 
-    const result = await controller.AddLawyer(lawyerAddRequest);
+    const result = await controller.AddLawyer(lawyerAddRequest, { authorization: "1234" });
     
     expect(result).toBeDefined();
     expect(result).toEqual(new BadRequestException());

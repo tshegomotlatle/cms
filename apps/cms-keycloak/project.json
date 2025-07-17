@@ -1,0 +1,19 @@
+{
+  "name": "cms-keyclock",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/cms-keyclock",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "maven-build": {
+      "command": "cd apps/cms-keyclock && mvn clean package -e"
+    },
+    "docker-build": {
+      "command": "docker build -f apps/cms-keycloak/Dockerfile . -t cms-keycloak"
+    },
+    "docker-run":{
+      "dependsOn": ["docker-build"],
+      "command": "docker run --env-file .env.docker --rm -p 8080:8080 cms-keycloak"
+    }
+  }
+}
