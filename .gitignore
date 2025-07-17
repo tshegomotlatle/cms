@@ -48,4 +48,4 @@ http
 .cursor\rules\nx-rules.mdc
 .github\instructions\nx.instructions.md
 .env.docker
-rest
+.rest
