@@ -43,7 +43,7 @@ describe('CourtCasesApiController', () => {
       outcome: "Pending",
     }]);
 
-    const result = await controller.GetAllCases({ authorization: "1234" });
+    const result = await controller.GetAllCases({}, { authorization: "1234" });
 
     currentUserService.GetUserToken.mockReturnValue({
       userId: '123456',
@@ -65,7 +65,7 @@ describe('CourtCasesApiController', () => {
 
   it('should return not found when no court cases exist', async () => {
     jest.spyOn(service, 'GetAllCases').mockResolvedValue(new NotFoundException());
-    const result = await controller.GetAllCases({ authorization: "1234" });
+    const result = await controller.GetAllCases({}, { authorization: "1234" });
     expect(result).toEqual(new NotFoundException());
   });
 
@@ -83,7 +83,7 @@ describe('CourtCasesApiController', () => {
       outcome: "Pending",
     });
 
-    const result = await controller.GetCaseById({ id: "1234" }, { authorization: "1234" });
+    const result = await controller.GetCaseById({}, { id: "1234" }, { authorization: "1234" });
     expect(result).toEqual({
       id: "1234",
       caseNumber: "1234",
@@ -99,7 +99,7 @@ describe('CourtCasesApiController', () => {
 
   it('should return not found when no court case exists', async () => {
     jest.spyOn(service, 'GetCaseById').mockResolvedValue(new NotFoundException());
-    const result = await controller.GetCaseById({ id: "1234" }, { authorization: "1234" });
+    const result = await controller.GetCaseById({},{ id: "1234" }, { authorization: "1234" });
     expect(result).toEqual(new NotFoundException());
   });
 

@@ -13,11 +13,9 @@ export * from './lib/contracts/requests/invoices/invoice'
 
 export * from './lib/contracts/requests/authentication/user-email-request/user-email-request'
 
-export * from './lib/contracts/requests/authentication/update-password-request/update-password-request'
-
-export * from './lib/contracts/requests/authentication/user-login-request/user-login-request'
-
 export * from './lib/contracts/requests/authentication/user-edit-request/user-edit-request'
+
+export * from './lib/contracts/requests/authentication/user-mobile-edit-request/user-mobile-edit-request'
 
 export * from './lib/contracts/requests/authentication/user-register-request/keycloak-register-request'
 
@@ -44,8 +42,6 @@ export * from './lib/contracts/requests/lawyer/add-lawyer/add-lawyer-request'
 export * from './lib/contracts/requests/lawyer/update-lawyer/update-lawyer-request'
 
 export * from './lib/contracts/requests/court-case/case-number/case-number-request'
-
-export * from './lib/contracts/requests/authentication/refresh-token-request/refresh-token-request'
 
 export * from './lib/contracts/requests/invoices/edit-invoice/edit-invoice'
 

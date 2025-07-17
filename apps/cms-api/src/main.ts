@@ -37,10 +37,38 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('cms')
     .addBearerAuth()
+    .addOAuth2({
+      type: 'oauth2',
+      flows: {
+        authorizationCode: {
+          authorizationUrl: 'http://localhost:8080/realms/cms-realm/protocol/openid-connect/auth',
+          tokenUrl: 'http://localhost:8080/realms/cms-realm/protocol/openid-connect/token',
+          scopes: {
+            openid: 'OpenID Connect scope',
+            profile: 'Profile scope',
+            email: 'Email scope',
+          },
+        },
+      },
+    })
     .build();
     
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+      oauth2RedirectUrl: 'http://localhost:3000/api/oauth2-redirect.html',
+      initOAuth: {
+        clientId: process.env.KEYCLOAK_CLIENT_ID || '',
+        realm: process.env.KEYCLOAK_REALM || '',
+        appName: 'NestJS CMS API',
+        scopes: ['openid', 'profile', 'email'],
+        usePkceWithAuthorizationCodeGrant: true,
+        clientSecret: process.env.KEYCLOAK_CLIENT_SECRET || '',
+      },
+    },
+  });
 
   //Assign and listen to port
   const port = process.env.PORT || 3000;

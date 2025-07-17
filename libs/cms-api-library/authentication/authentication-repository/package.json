@@ -5,8 +5,7 @@
     "tslib": "^2.3.0",
     "@nestjs/common": "^10.0.2",
     "@prisma/client": "^5.12.1",
-    "@cms-models": "0.0.1",
-    "bcryptjs": "^2.4.3"
+    "@cms-models": "0.0.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",
