@@ -1,6 +1,8 @@
 name: CI
+
 env:
   node-version: 18.x
+
 on:
   push:
     branches:
@@ -12,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Test-All:
+  Test-And-Build:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -22,6 +24,8 @@ jobs:
           fetch-depth: 0
 
       - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
 
       - name: Installing Dependencies
         run: npm install
@@ -49,3 +53,20 @@ jobs:
         with:
           files: ./coverage/lcov.info
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  Deploy:
+    needs: Test-And-Build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Upload dist folder via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: dist/apps/api
+          server-dir: public_html/your-app-folder/
+          protocol: ftp
