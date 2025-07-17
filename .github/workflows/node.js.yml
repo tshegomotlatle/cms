@@ -46,6 +46,12 @@ jobs:
       - name: Running nx run-many build
         run: npx nx run-many --target=build --parallel=3
 
+      - name: Upload dist folder
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
       - name: Running nx run-many e2e
         run: npx nx run-many --target=e2e
 
@@ -61,6 +67,12 @@ jobs:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
     steps:
       - uses: actions/checkout@v2
+
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
 
       - name: Upload dist folder via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
