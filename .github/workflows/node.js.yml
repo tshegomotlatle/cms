@@ -11,6 +11,7 @@ on:
   pull_request:
     branches:
       - prod
+      - master
   workflow_dispatch:
 
 jobs:
