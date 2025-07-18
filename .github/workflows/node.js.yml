@@ -107,5 +107,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: deploy/node_modules/@prisma/client/
-          server-dir: ./nodevenv/domains/api.case-management-system.co.za/public_html/18/lib/node_modules/@prisma/client
+          server-dir: ./nodevenv/domains/api.case-management-system.co.za/public_html/18/lib/node_modules/@prisma/client/
           protocol: ftp
