@@ -66,6 +66,7 @@ jobs:
           name: deploy-files
           path: |
             dist/apps/cms-api/
+            dist/libs/
             prisma/
             node_modules/@prisma/client/
 
@@ -102,6 +103,16 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: deploy/dist/apps/cms-api/
+          server-dir: ./domains/api.case-management-system.co.za/public_html/
+          protocol: ftp
+          
+      - name: Upload CMS API libs
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: deploy/dist/libs/
           server-dir: ./domains/api.case-management-system.co.za/public_html/
           protocol: ftp
 
