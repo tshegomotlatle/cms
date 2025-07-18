@@ -97,7 +97,7 @@ jobs:
             set ftp:ssl-allow no;
             open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST;
             lcd .;
-            cd public_ftp;
-            mv * ../public_html/api/uploads/;
+            cd public_html/your-app-folder/;
+            mv * ../../public_html/api/uploads/;
             bye
           "
