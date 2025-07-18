@@ -13,9 +13,20 @@ on:
       - prod
       - master
   workflow_dispatch:
+    inputs:
+      run-job:
+        description: "Which job do you want to run?"
+        required: false
+        default: "all"
+        type: choice
+        options:
+          - all
+          - test-and-build
+          - deploy
 
 jobs:
   Test-And-Build:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.run-job == 'all' || github.event.inputs.run-job == 'test-and-build'
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -68,9 +79,13 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   Deploy:
+    # run only if:
+    # - on push to master/development
+    # - OR manually triggered with input 'deploy' or 'all'
+    if: (github.event_name != 'workflow_dispatch' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development')) ||
+        (github.event_name == 'workflow_dispatch' && (github.event.inputs.run-job == 'all' || github.event.inputs.run-job == 'deploy'))
     needs: Test-And-Build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
     steps:
       - uses: actions/checkout@v2
 
