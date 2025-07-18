@@ -81,5 +81,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: dist/apps/cms-api/
-          server-dir: .
+          server-dir: ./
           protocol: ftp
