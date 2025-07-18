@@ -113,7 +113,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: deploy/dist/libs/
-          server-dir: ./domains/api.case-management-system.co.za/public_html/
+          server-dir: ./domains/api.case-management-system.co.za/public_html/libs/
           protocol: ftp
 
       - name: Upload Prisma folder
