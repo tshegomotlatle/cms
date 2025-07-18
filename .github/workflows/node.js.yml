@@ -87,7 +87,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: deploy/dist/apps/cms-api/
-          server-dir: ./
+          server-dir: ./domains/api.case-management-system.co.za/public_html
           protocol: ftp
 
       - name: Upload Prisma folder
@@ -97,7 +97,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: deploy/prisma/
-          server-dir: ./prisma/
+          server-dir: ./domains/api.case-management-system.co.za/public_html/prisma/
           protocol: ftp
 
       - name: Upload Prisma Client
@@ -107,5 +107,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: deploy/node_modules/@prisma/client/
-          server-dir: ./node_modules/@prisma/client/
+          server-dir: ./nodevenv/domains/api.case-management-system.co.za/public_html/18/lib/node_modules
           protocol: ftp
